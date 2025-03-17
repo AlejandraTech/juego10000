@@ -4,18 +4,17 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.alejandrapazrivas.juego10000.data.local.entity.GameEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
+/**
+ * DAO para acceder y modificar datos de juegos en la base de datos.
+ */
 @Dao
 interface GameDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGame(game: GameEntity): Long
-
-    @Update
-    suspend fun updateGame(game: GameEntity)
 
     @Query("SELECT * FROM games WHERE gameId = :gameId")
     suspend fun getGameById(gameId: Long): GameEntity?

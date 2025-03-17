@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nombre de la aplicación -->
+    <string name="app_name">Juego 10000</string>
+
+    <!-- Navegación y botones comunes -->
+    <string name="back">Volver</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="add">Añadir</string>
+    <string name="update">Actualizar</string>
+    <string name="delete">Eliminar</string>
+    <string name="save">Guardar</string>
+    <string name="version">Versión %1$s</string>
+    <string name="manage">Gestionar</string>
+    <string name="next">Siguiente</string>
+    <string name="previous">Anterior</string>
+    <string name="finish">Finalizar</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
+    <!-- Pantalla de inicio -->
+    <string name="new_game">Nueva partida</string>
+    <string name="continue_game">Continuar partida</string>
+    <string name="manage_players">Gestionar jugadores</string>
+    <string name="rules">Reglas</string>
+    <string name="statistics">Estadísticas</string>
+    <string name="settings">Configuración</string>
+    <string name="selected_players">Jugadores seleccionados</string>
+    <string name="no_players_selected">No hay jugadores seleccionados.\nAñade jugadores para comenzar una partida.</string>
+    <string name="start_game">Comenzar partida</string>
+    
+    <!-- Modos de juego -->
+    <string name="game_mode">Modo de juego</string>
+    <string name="multiplayer_mode">Multijugador</string>
+    <string name="single_player_mode">Partida Individual</string>
+    <string name="select_bot_difficulty">Selecciona el nivel del Bot</string>
+    <string name="bot_beginner">Principiante</string>
+    <string name="bot_intermediate">Intermedio</string>
+    <string name="bot_expert">Experto</string>
+    <string name="bot_name">Bot</string>
+
+    <!-- Pantalla de juego -->
+    <string name="roll_dice">Lanzar dados</string>
+    <string name="roll_all_dice">Lanzar todos los dados</string>
+    <string name="bank_score">Guardar puntos</string>
+    <string name="pass_turn">Pasar turno</string>
+    <string name="current_turn_score">Puntuación actual</string>
+    <string name="total_score">Total: %1$d</string>
+    <string name="player_turn">Turno de %1$s</string>
+    <string name="scoreboard">Tabla de puntuaciones</string>
+    <string name="round">Ronda %1$d</string>
+    <string name="game_over">¡Fin del juego!</string>
+    <string name="winner">¡%1$s ha ganado!</string>
+    <string name="end_game">Fin de partida</string>
+    <string name="no_score">¡Sin puntuación! Pierdes el turno</string>
+    <string name="select_dice_to_keep">Selecciona dados para mantener</string>
+    <string name="auto_selected_dice">Dados con puntuación seleccionados automáticamente</string>
+    <string name="cannot_deselect_dice">No puedes deseleccionar dados con puntuación</string>
+    <string name="all_dice_locked">Todos los dados bloqueados. Lanzando nuevamente con todos los dados.</string>
+    <string name="minimum_points_required">Necesitas al menos 500 puntos para entrar en juego</string>
+    <string name="score_exceeded">¡Has superado los 10,000 puntos! Para ganar, debes obtener exactamente 10,000 puntos. Pierdes tu turno y los puntos acumulados.</string>
+    <string name="player_needs_minimum_points">%1$s: Necesitas al menos 500 puntos para entrar en juego</string>
+
+    <!-- Gestión de jugadores -->
+    <string name="add_player">Añadir jugador</string>
+    <string name="edit_player">Editar jugador</string>
+    <string name="delete_player">Eliminar jugador</string>
+    <string name="player_name">Nombre del jugador</string>
+    <string name="select_color">Selecciona un color</string>
+    <string name="no_players">No hay jugadores registrados.\nAñade un jugador para comenzar.</string>
+    <string name="player_stats">%1$d partidas · %2$d victorias</string>
+    <string name="delete_player_confirmation">¿Estás seguro de que quieres eliminar a %1$s?</string>
+    <string name="player_deleted">Jugador eliminado</string>
+    <string name="player_added">Jugador añadido</string>
+    <string name="player_updated">Jugador actualizado</string>
+    <string name="player_name_required">El nombre del jugador es obligatorio</string>
+
+    <!-- Reglas del juego -->
+    <string name="game_objective">Objetivo del juego</string>
+    <string name="objective_description">El objetivo del juego es ser el primer jugador en alcanzar 10,000 puntos o más.</string>
+    <string name="game_entry">Entrada en juego</string>
+    <string name="entry_description">Para entrar en juego, un jugador debe obtener al menos 500 puntos en su primer turno.</string>
+    <string name="turn_mechanics">Mecánica de turnos</string>
+    <string name="turn_mechanic_1">Cada jugador lanza 6 dados en su turno.</string>
+    <string name="turn_mechanic_2">Puede apartar dados con puntuación y relanzar los restantes.</string>
+    <string name="turn_mechanic_3">Si no obtiene puntos, pierde el turno y los puntos acumulados.</string>
+    <string name="turn_mechanic_4">Puede plantarse en cualquier momento y sumar los puntos a su total.</string>
+    <string name="turn_mechanic_5">Si usa los 6 dados, obtiene un nuevo tiro con todos los dados.</string>
+    <string name="scoring_system">Sistema de puntuación</string>
+    <string name="individual_dice">Dados individuales</string>
+    <string name="dice_1_score">1 → 100 puntos</string>
+    <string name="dice_5_score">5 → 50 puntos</string>
+    <string name="combinations">Combinaciones</string>
+    <string name="combination">Combinación</string>
+    <string name="points">Puntos</string>
+    <string name="three_ones">Tres 1\'s</string>
+    <string name="three_twos">Tres 2\'s</string>
+    <string name="three_threes">Tres 3\'s</string>
+    <string name="three_fours">Tres 4\'s</string>
+    <string name="three_fives">Tres 5\'s</string>
+    <string name="three_sixes">Tres 6\'s</string>
+    <string name="straight">Escalera (1-2-3-4-5-6)</string>
+    <string name="three_pairs">Tres pares</string>
+    <string name="four_of_a_kind">Cuatro iguales</string>
+    <string name="five_of_a_kind">Cinco iguales</string>
+    <string name="six_of_a_kind">Seis iguales</string>
+    <string name="double_three_of_a_kind">Doble del valor de tres iguales</string>
+    <string name="triple_three_of_a_kind">Triple del valor de tres iguales</string>
+    <string name="quadruple_three_of_a_kind">Cuádruple del valor de tres iguales</string>
+
+    <!-- Estadísticas -->
+    <string name="player_stats_title">Estadísticas de jugadores</string>
+    <string name="game_history">Historial de partidas</string>
+    <string name="top_players">Mejores jugadores</string>
+    <string name="recent_games">Partidas recientes</string>
+    <string name="games_played">Partidas</string>
+    <string name="games_won">Victorias</string>
+    <string name="win_rate">% Victoria</string>
+    <string name="highest_score">Máx. puntuación</string>
+    <string name="no_player_stats">No hay estadísticas de jugadores disponibles</string>
+    <string name="no_game_history">No hay historial de partidas disponible</string>
+    <string name="game_duration">%1$d min</string>
+    <string name="winner_with_score">%1$s ganó con %2$d puntos</string>
+    <string name="players_count">%1$d jugadores</string>
+    <string name="unknown_player">Jugador desconocido</string>
+
+    <!-- Mensajes de error y notificaciones -->
+    <string name="error_loading_data">Error al cargar los datos</string>
+    <string name="error_saving_data">Error al guardar los datos</string>
+    <string name="minimum_players_required">Se necesitan al menos 2 jugadores para comenzar</string>
+    <string name="game_saved">Partida guardada</string>
+    <string name="game_resumed">Partida reanudada</string>
+    <string name="confirm_exit_game">¿Estás seguro de que quieres salir? La partida actual se perderá.</string>
+
+    <!-- Configuración -->
+    <string name="sound_effects">Efectos de sonido</string>
+    <string name="enable_sound_effects">Activar efectos de sonido en el juego</string>
+    <string name="vibration">Vibración</string>
+    <string name="enable_vibration">Activar vibración al lanzar dados</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="enable_dark_mode">Cambiar a tema oscuro</string>
+    <string name="appearance">Apariencia</string>
+    <string name="game_preferences">Preferencias de Juego</string>
+</resources>

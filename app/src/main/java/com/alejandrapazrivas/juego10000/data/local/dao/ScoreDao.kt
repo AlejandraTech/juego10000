@@ -8,6 +8,9 @@ import androidx.room.Transaction
 import com.alejandrapazrivas.juego10000.data.local.entity.ScoreEntity
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * DAO para acceder y modificar datos de puntuaciones en la base de datos.
+ */
 @Dao
 interface ScoreDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

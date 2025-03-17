@@ -3,6 +3,9 @@ package com.alejandrapazrivas.juego10000.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Entidad que representa un jugador en la base de datos.
+ */
 @Entity(tableName = "players")
 data class PlayerEntity(
     @PrimaryKey(autoGenerate = true)

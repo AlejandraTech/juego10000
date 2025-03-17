@@ -4,10 +4,11 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.alejandrapazrivas.juego10000.util.DateConverter
 import java.util.Date
 
+/**
+ * Entidad que representa una puntuación en la base de datos.
+ */
 @Entity(
     tableName = "scores",
     foreignKeys = [
@@ -38,7 +39,5 @@ data class ScoreEntity(
     val turnScore: Int,
     val totalScore: Int,
     val diceRolls: Int = 0,
-
-    @TypeConverters(DateConverter::class)
     val timestamp: Date = Date()
 )

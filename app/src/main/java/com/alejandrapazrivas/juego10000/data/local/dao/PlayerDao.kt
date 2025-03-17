@@ -9,6 +9,9 @@ import androidx.room.Update
 import com.alejandrapazrivas.juego10000.data.local.entity.PlayerEntity
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * DAO para acceder y modificar datos de jugadores en la base de datos.
+ */
 @Dao
 interface PlayerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
