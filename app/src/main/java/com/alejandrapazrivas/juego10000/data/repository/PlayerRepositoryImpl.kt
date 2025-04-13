@@ -20,7 +20,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Crea un nuevo jugador en la base de datos.
-     * 
+     *
      * @param name Nombre del jugador
      * @param avatarResourceId ID del recurso de avatar del jugador
      * @return ID del jugador creado
@@ -35,7 +35,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Actualiza los datos de un jugador existente.
-     * 
+     *
      * @param player Objeto Player con los datos actualizados
      */
     override suspend fun updatePlayer(player: Player) {
@@ -44,7 +44,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Elimina un jugador de la base de datos.
-     * 
+     *
      * @param playerId ID del jugador a eliminar
      */
     override suspend fun deletePlayer(playerId: Long) {
@@ -54,7 +54,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Desactiva un jugador (lo marca como inactivo).
-     * 
+     *
      * @param playerId ID del jugador a desactivar
      */
     override suspend fun deactivatePlayer(playerId: Long) {
@@ -64,7 +64,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene todos los jugadores activos.
-     * 
+     *
      * @return Flujo que emite la lista de jugadores activos
      */
     override fun getAllActivePlayers(): Flow<List<Player>> {
@@ -73,7 +73,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene todos los jugadores (activos e inactivos).
-     * 
+     *
      * @return Flujo que emite la lista de todos los jugadores
      */
     override fun getAllPlayers(): Flow<List<Player>> {
@@ -82,7 +82,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene un jugador por su ID.
-     * 
+     *
      * @param playerId ID del jugador a obtener
      * @return El jugador si existe, o null si no se encuentra
      */
@@ -93,7 +93,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene un jugador por su ID como un flujo observable.
-     * 
+     *
      * @param playerId ID del jugador a obtener
      * @return Flujo que emite el jugador si existe, o null si no se encuentra
      */
@@ -103,7 +103,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene la puntuación media de un jugador.
-     * 
+     *
      * @param playerId ID del jugador
      * @return Puntuación media del jugador
      */
@@ -113,7 +113,7 @@ class PlayerRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene la puntuación más alta de un turno para un jugador.
-     * 
+     *
      * @param playerId ID del jugador
      * @return Puntuación más alta de un turno
      */

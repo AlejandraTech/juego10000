@@ -35,15 +35,12 @@ class CreateGameUseCase @Inject constructor(
         botName: String = "Bot"
     ): Result<Long> {
         return try {
-            // Validar parámetros
             if (playerIds.isEmpty()) {
                 return Result.failure(IllegalArgumentException("Se requiere al menos un jugador"))
             }
 
-            // Preparar lista final de jugadores (añadir bot si es necesario)
             val finalPlayerIds = prepareFinalPlayerList(playerIds, gameMode, includeBotPlayer, botName)
 
-            // Crear la partida
             val gameId = gameRepository.createGame(
                 playerIds = finalPlayerIds,
                 targetScore = targetScore,
@@ -72,19 +69,16 @@ class CreateGameUseCase @Inject constructor(
         includeBotPlayer: Boolean,
         botName: String
     ): List<Long> {
-        // Si es modo individual y se solicita incluir un Bot, crear un jugador real para el Bot en la BD
         if (includeBotPlayer && gameMode == MODE_SINGLE_PLAYER) {
             Log.d("CreateGameUseCase", "Creando juego con Bot")
-            
-            // Crear un jugador real para el Bot en la base de datos
+
             val botPlayerId = playerRepository.createPlayer(
                 name = botName,
                 avatarResourceId = 0
             )
             
             Log.d("CreateGameUseCase", "Bot creado con ID: $botPlayerId")
-            
-            // Añadir el ID del Bot a la lista de jugadores
+
             return playerIds + botPlayerId
         }
         

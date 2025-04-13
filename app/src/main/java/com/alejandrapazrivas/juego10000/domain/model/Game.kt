@@ -27,7 +27,7 @@ data class Game(
     val currentRound: Int = 1,
     val startedAt: Date = Date(),
     val completedAt: Date? = null,
-    val gameMode: String = "MULTIPLAYER",  // MULTIPLAYER, SOLO
+    val gameMode: String = "MULTIPLAYER",
     val gameState: String? = null
 ) {
     /**

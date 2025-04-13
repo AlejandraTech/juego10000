@@ -45,15 +45,13 @@ object DiceUtils {
      */
     fun findScoringOptions(availableDice: List<Dice>): List<List<Dice>> {
         if (availableDice.isEmpty()) return emptyList()
-        
-        // Verificar si hay combinaciones válidas
+
         if (!com.alejandrapazrivas.juego10000.util.GameUtils.hasValidCombination(availableDice)) {
             return emptyList()
         }
         
         val options = mutableListOf<List<Dice>>()
-        
-        // Verificar escalera (1-2-3-4-5-6)
+
         if (availableDice.size == 6) {
             val values = availableDice.map { it.value }.toSet()
             if (values.size == 6 && values.containsAll(listOf(1, 2, 3, 4, 5, 6))) {
@@ -61,8 +59,7 @@ object DiceUtils {
                 return options
             }
         }
-        
-        // Verificar tres pares
+
         if (availableDice.size == 6) {
             val valueCounts = availableDice.groupBy { it.value }
                 .mapValues { it.value.size }
@@ -72,11 +69,9 @@ object DiceUtils {
                 return options
             }
         }
-        
-        // Agrupar dados por valor
+
         val diceByValue = availableDice.groupBy { it.value }
-        
-        // Buscar grupos de dados (6, 5, 4, 3 iguales)
+
         for (count in 6 downTo 3) {
             diceByValue.forEach { (value, diceList) ->
                 if (diceList.size >= count) {
@@ -84,8 +79,7 @@ object DiceUtils {
                 }
             }
         }
-        
-        // Añadir dados individuales que puntúan (1 y 5)
+
         val ones = availableDice.filter { it.value == 1 }
         val fives = availableDice.filter { it.value == 5 }
         

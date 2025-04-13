@@ -42,10 +42,8 @@ class BotTurnHandler @Inject constructor(
         var continueRolling = true
         var turnLost = false
 
-        // Simular tiempo de "pensamiento" del Bot
         delay(getThinkingTime(bot.difficulty))
 
-        // Primer lanzamiento si no hay dados
         if (dice.all { !it.isLocked }) {
             handleFirstRoll(
                 dice = dice,
@@ -57,12 +55,10 @@ class BotTurnHandler @Inject constructor(
                 dice = result.first
                 lockedDice = dice.filter { it.isLocked }
                 currentTurnScore = result.second
-            } ?: return // Si es null, el bot perdió el turno
+            } ?: return
         }
 
-        // Bucle principal del turno
         while (continueRolling && !turnLost) {
-            // Decidir si seguir lanzando o guardar puntos
             val availableDice = dice.count { !it.isLocked }
             continueRolling = bot.shouldContinueRolling(
                 currentTurnScore = currentTurnScore,
@@ -72,16 +68,13 @@ class BotTurnHandler @Inject constructor(
             )
 
             if (!continueRolling) {
-                // El Bot decide guardar puntos
                 delay(getThinkingTime(bot.difficulty))
                 onBankScore(currentTurnScore)
                 return
             }
 
-            // El Bot decide seguir lanzando
             delay(getThinkingTime(bot.difficulty))
-            
-            // Manejar el lanzamiento subsiguiente
+
             val rollResult = handleSubsequentRoll(
                 dice = dice,
                 bot = bot,
@@ -91,7 +84,6 @@ class BotTurnHandler @Inject constructor(
             )
             
             if (rollResult == null) {
-                // El bot perdió el turno
                 turnLost = true
                 continue
             }
@@ -113,37 +105,28 @@ class BotTurnHandler @Inject constructor(
         onDiceSelected: (List<Dice>) -> Unit,
         onTurnLost: () -> Unit
     ): Pair<List<Dice>, Int>? {
-        // Lanzar los dados
         var updatedDice = rollDiceUseCase(dice)
         onDiceRolled(updatedDice)
-        
-        // Simular tiempo para que el usuario vea el lanzamiento
+
         delay(1000)
-        
-        // Verificar si hay dados con puntuación
+
         val hasScoringDice = validateTurnUseCase.hasScoringDice(updatedDice)
         
         if (!hasScoringDice) {
-            // El Bot pierde el turno
             onTurnLost()
             return null
         }
-        
-        // Encontrar la mejor combinación de dados que puntúan
+
         val scoringOptions = DiceUtils.findScoringOptions(updatedDice)
         val selectedDice = bot.selectDice(updatedDice, scoringOptions)
-        
-        // Marcar los dados seleccionados
+
         updatedDice = DiceUtils.updateDiceSelection(updatedDice, selectedDice)
         onDiceSelected(updatedDice)
-        
-        // Calcular puntuación
+
         val (selectionScore, _) = calculateScoreUseCase(selectedDice)
-        
-        // Simular tiempo para que el usuario vea la selección
+
         delay(800)
-        
-        // Bloquear los dados seleccionados
+
         updatedDice = DiceUtils.lockSelectedDice(updatedDice)
         
         return Pair(updatedDice, selectionScore)
@@ -161,18 +144,14 @@ class BotTurnHandler @Inject constructor(
         onTurnLost: () -> Unit
     ): Pair<List<Dice>, Int>? {
         var updatedDice = dice
-        
-        // Lanzar dados no bloqueados
+
         val unlockedDice = updatedDice.filter { !it.isLocked }
         if (unlockedDice.isEmpty()) {
-            // Si todos los dados están bloqueados, crear un nuevo conjunto
             updatedDice = rollDiceUseCase.createNewDiceSet()
             onDiceRolled(updatedDice)
         } else {
-            // Lanzar los dados no bloqueados
             val rolledDice = rollDiceUseCase(unlockedDice)
-            
-            // Actualizar el estado de los dados
+
             updatedDice = updatedDice.map { dice ->
                 val rolledDie = rolledDice.find { it.id == dice.id }
                 if (rolledDie != null) {
@@ -184,35 +163,27 @@ class BotTurnHandler @Inject constructor(
             
             onDiceRolled(updatedDice)
         }
-        
-        // Simular tiempo para que el usuario vea el lanzamiento
+
         delay(1000)
-        
-        // Verificar si hay dados con puntuación
+
         val hasScoringDice = validateTurnUseCase.hasScoringDice(updatedDice.filter { !it.isLocked })
         
         if (!hasScoringDice) {
-            // El Bot pierde el turno
             delay(800)
             onTurnLost()
             return null
         }
-        
-        // Encontrar la mejor combinación de dados que puntúan
+
         val scoringOptions = DiceUtils.findScoringOptions(updatedDice.filter { !it.isLocked })
         val selectedDice = bot.selectDice(updatedDice.filter { !it.isLocked }, scoringOptions)
-        
-        // Marcar los dados seleccionados
+
         updatedDice = DiceUtils.updateDiceSelection(updatedDice, selectedDice)
         onDiceSelected(updatedDice)
-        
-        // Calcular puntuación
+
         val (selectionScore, _) = calculateScoreUseCase(selectedDice)
-        
-        // Simular tiempo para que el usuario vea la selección
+
         delay(800)
-        
-        // Bloquear los dados seleccionados
+
         updatedDice = DiceUtils.lockSelectedDice(updatedDice)
         
         return Pair(updatedDice, selectionScore)

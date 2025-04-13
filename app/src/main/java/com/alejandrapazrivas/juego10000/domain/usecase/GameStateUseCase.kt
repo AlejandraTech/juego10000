@@ -33,10 +33,8 @@ class GameStateUseCase @Inject constructor(
 
         return combine(gameFlow, playersFlow) { game, allPlayers ->
             game?.let {
-                // Obtener los datos del estado del juego
                 val gameStateData = parseGameState(game.gameState)
-                
-                // Lista final de jugadores (incluye jugadores reales y bots)
+
                 val gamePlayers = allPlayers.filter { player ->
                     game.playerIds.contains(player.id)
                 }
@@ -59,11 +57,9 @@ class GameStateUseCase @Inject constructor(
         if (gameState == null) return emptyMap()
         
         return try {
-            // Intentar parsear como JSON primero
             val type = object : TypeToken<Map<String, Any>>() {}.type
             gson.fromJson(gameState, type)
         } catch (e: Exception) {
-            // Si falla, intentar parsear como formato de cadena simple
             gameState.split(";")
                 .filter { it.contains("=") }
                 .associate { 

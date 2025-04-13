@@ -17,10 +17,8 @@ class CalculateScoreUseCase @Inject constructor() {
     operator fun invoke(selectedDice: List<Dice>): Pair<Int, String> {
         if (selectedDice.isEmpty()) return Pair(0, "Sin selección")
 
-        // Utilizar GameUtils para calcular la puntuación
         val score = GameUtils.calculateScore(selectedDice)
-        
-        // Generar descripción de la puntuación
+
         val description = generateScoreDescription(selectedDice)
         
         return Pair(score, description)
@@ -33,17 +31,14 @@ class CalculateScoreUseCase @Inject constructor() {
      */
     private fun generateScoreDescription(selectedDice: List<Dice>): String {
         if (selectedDice.isEmpty()) return "Sin selección"
-        
-        // Contar ocurrencias de cada valor
+
         val valueCounts = selectedDice.groupBy { it.value }
             .mapValues { it.value.size }
 
-        // Verificar escalera (1-2-3-4-5-6)
         if (selectedDice.size == 6 && valueCounts.size == 6) {
             return "Escalera (1-2-3-4-5-6)"
         }
 
-        // Verificar tres pares
         if (selectedDice.size == 6 && valueCounts.size == 3 &&
             valueCounts.values.all { it == 2 }
         ) {
@@ -51,8 +46,7 @@ class CalculateScoreUseCase @Inject constructor() {
         }
         
         val scoreDescriptions = mutableListOf<String>()
-        
-        // Procesar cada grupo de dados
+
         valueCounts.forEach { (value, count) ->
             when {
                 // Seis iguales

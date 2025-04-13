@@ -30,7 +30,7 @@ class GetGameHistoryUseCase @Inject constructor(
 
         return combine(gamesFlow, playersFlow) { games, players ->
             games
-                .filter { game -> game.gameMode != MODE_SINGLE_PLAYER } // Filtrar partidas individuales
+                .filter { game -> game.gameMode != MODE_SINGLE_PLAYER }
                 .map { game ->
                     val winner = game.winnerPlayerId?.let { winnerId ->
                         players.find { it.id == winnerId }
