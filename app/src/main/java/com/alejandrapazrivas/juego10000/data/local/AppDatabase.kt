@@ -14,6 +14,12 @@ import com.alejandrapazrivas.juego10000.data.local.entity.ScoreEntity
 import com.alejandrapazrivas.juego10000.util.DateConverter
 import com.alejandrapazrivas.juego10000.util.ListConverter
 
+/**
+ * Clase principal de la base de datos Room para la aplicación.
+ * 
+ * Define las entidades, versión y convertidores de tipos utilizados en la base de datos.
+ * Proporciona acceso a los DAOs para interactuar con las diferentes tablas.
+ */
 @Database(
     entities = [
         PlayerEntity::class,
@@ -26,8 +32,19 @@ import com.alejandrapazrivas.juego10000.util.ListConverter
 @TypeConverters(DateConverter::class, ListConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
+    /**
+     * Proporciona acceso al DAO de jugadores.
+     */
     abstract fun playerDao(): PlayerDao
+    
+    /**
+     * Proporciona acceso al DAO de juegos.
+     */
     abstract fun gameDao(): GameDao
+    
+    /**
+     * Proporciona acceso al DAO de puntuaciones.
+     */
     abstract fun scoreDao(): ScoreDao
 
     companion object {
@@ -36,6 +53,14 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
+        /**
+         * Obtiene una instancia de la base de datos, creándola si no existe.
+         * 
+         * Utiliza el patrón Singleton para garantizar una única instancia de la base de datos.
+         * 
+         * @param context Contexto de la aplicación
+         * @return Instancia de AppDatabase
+         */
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(

@@ -9,11 +9,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Implementación del repositorio de jugadores.
+ * Gestiona la creación, actualización y consulta de jugadores.
+ */
 class PlayerRepositoryImpl @Inject constructor(
     private val playerDao: PlayerDao,
     private val scoreDao: ScoreDao
-) : PlayerRepository {
+) : BaseRepository(), PlayerRepository {
 
+    /**
+     * Crea un nuevo jugador en la base de datos.
+     *
+     * @param name Nombre del jugador
+     * @param avatarResourceId ID del recurso de avatar del jugador
+     * @return ID del jugador creado
+     */
     override suspend fun createPlayer(name: String, avatarResourceId: Int): Long {
         val playerEntity = PlayerEntity(
             name = name,
@@ -22,67 +33,92 @@ class PlayerRepositoryImpl @Inject constructor(
         return playerDao.insertPlayer(playerEntity)
     }
 
+    /**
+     * Actualiza los datos de un jugador existente.
+     *
+     * @param player Objeto Player con los datos actualizados
+     */
     override suspend fun updatePlayer(player: Player) {
-        val playerEntity = PlayerEntity(
-            playerId = player.id,
-            name = player.name,
-            avatarResourceId = player.avatarResourceId,
-            gamesPlayed = player.gamesPlayed,
-            gamesWon = player.gamesWon,
-            highestScore = player.highestScore,
-            totalScore = player.totalScore,
-            isActive = player.isActive,
-            createdAt = player.createdAt
-        )
-        playerDao.updatePlayer(playerEntity)
+        playerDao.updatePlayer(player.toEntity())
     }
 
+    /**
+     * Elimina un jugador de la base de datos.
+     *
+     * @param playerId ID del jugador a eliminar
+     */
     override suspend fun deletePlayer(playerId: Long) {
         val player = playerDao.getPlayerById(playerId) ?: return
         playerDao.deletePlayer(player)
     }
 
+    /**
+     * Desactiva un jugador (lo marca como inactivo).
+     *
+     * @param playerId ID del jugador a desactivar
+     */
     override suspend fun deactivatePlayer(playerId: Long) {
         val player = playerDao.getPlayerById(playerId) ?: return
         playerDao.updatePlayer(player.copy(isActive = false))
     }
 
+    /**
+     * Obtiene todos los jugadores activos.
+     *
+     * @return Flujo que emite la lista de jugadores activos
+     */
     override fun getAllActivePlayers(): Flow<List<Player>> {
-        return playerDao.getAllActivePlayers().map { list -> list.map { mapEntityToPlayer(it) } }
+        return playerDao.getAllActivePlayers().map { list -> list.map { it.toDomainModel() } }
     }
 
+    /**
+     * Obtiene todos los jugadores (activos e inactivos).
+     *
+     * @return Flujo que emite la lista de todos los jugadores
+     */
     override fun getAllPlayers(): Flow<List<Player>> {
-        return playerDao.getAllPlayers().map { list -> list.map { mapEntityToPlayer(it) } }
+        return playerDao.getAllPlayers().map { list -> list.map { it.toDomainModel() } }
     }
 
+    /**
+     * Obtiene un jugador por su ID.
+     *
+     * @param playerId ID del jugador a obtener
+     * @return El jugador si existe, o null si no se encuentra
+     */
     override suspend fun getPlayerById(playerId: Long): Player? {
         val playerEntity = playerDao.getPlayerById(playerId) ?: return null
-        return mapEntityToPlayer(playerEntity)
+        return playerEntity.toDomainModel()
     }
 
+    /**
+     * Obtiene un jugador por su ID como un flujo observable.
+     *
+     * @param playerId ID del jugador a obtener
+     * @return Flujo que emite el jugador si existe, o null si no se encuentra
+     */
     override fun getPlayerByIdFlow(playerId: Long): Flow<Player?> {
-        return playerDao.getPlayerByIdFlow(playerId).map { it?.let { mapEntityToPlayer(it) } }
+        return playerDao.getPlayerByIdFlow(playerId).map { it?.toDomainModel() }
     }
 
+    /**
+     * Obtiene la puntuación media de un jugador.
+     *
+     * @param playerId ID del jugador
+     * @return Puntuación media del jugador
+     */
     override suspend fun getPlayerAverageScore(playerId: Long): Float {
         return scoreDao.getPlayerAverageScore(playerId) ?: 0f
     }
 
+    /**
+     * Obtiene la puntuación más alta de un turno para un jugador.
+     *
+     * @param playerId ID del jugador
+     * @return Puntuación más alta de un turno
+     */
     override suspend fun getPlayerBestTurnScore(playerId: Long): Int {
-        return scoreDao.getPlayerBestTurn(playerId)?.turnScore ?: 0
-    }
-
-    private fun mapEntityToPlayer(entity: PlayerEntity): Player {
-        return Player(
-            id = entity.playerId,
-            name = entity.name,
-            avatarResourceId = entity.avatarResourceId,
-            gamesPlayed = entity.gamesPlayed,
-            gamesWon = entity.gamesWon,
-            highestScore = entity.highestScore,
-            totalScore = entity.totalScore,
-            isActive = entity.isActive,
-            createdAt = entity.createdAt
-        )
+        val bestTurn = scoreDao.getPlayerBestTurn(playerId)
+        return bestTurn?.turnScore ?: 0
     }
 }

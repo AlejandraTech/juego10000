@@ -23,16 +23,19 @@ object DatabaseModule {
     }
 
     @Provides
+    @Singleton
     fun providePlayerDao(database: AppDatabase): PlayerDao {
         return database.playerDao()
     }
 
     @Provides
+    @Singleton
     fun provideGameDao(database: AppDatabase): GameDao {
         return database.gameDao()
     }
 
     @Provides
+    @Singleton
     fun provideScoreDao(database: AppDatabase): ScoreDao {
         return database.scoreDao()
     }
