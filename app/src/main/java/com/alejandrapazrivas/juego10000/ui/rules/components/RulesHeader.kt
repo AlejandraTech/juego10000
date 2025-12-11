@@ -27,8 +27,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Encabezado animado para la pantalla de reglas.
@@ -36,6 +36,7 @@ import com.alejandrapazrivas.juego10000.R
  */
 @Composable
 fun RulesHeader() {
+    val dimensions = LocalDimensions.current
     val scale by animateFloatAsState(
         targetValue = 1f,
         animationSpec = tween(durationMillis = 700),
@@ -51,11 +52,11 @@ fun RulesHeader() {
                 alpha = scale
             }
             .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(20.dp),
+                elevation = dimensions.spaceSmall,
+                shape = RoundedCornerShape(dimensions.spaceMedium + dimensions.spaceExtraSmall),
                 spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
             ),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(dimensions.spaceMedium + dimensions.spaceExtraSmall),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f)
         )
@@ -63,7 +64,7 @@ fun RulesHeader() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp),
+                .padding(dimensions.spaceLarge),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -71,23 +72,23 @@ fun RulesHeader() {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(64.dp)
+                        .size(dimensions.buttonHeight + dimensions.spaceMedium)
                         .background(
                             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
                             shape = CircleShape
                         )
-                        .padding(12.dp),
+                        .padding(dimensions.spaceSmall + dimensions.spaceExtraSmall),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_rules),
                         contentDescription = "Reglas",
-                        modifier = Modifier.size(36.dp),
+                        modifier = Modifier.size(dimensions.iconSizeLarge + dimensions.spaceExtraSmall),
                         tint = Color.White
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                 Text(
                     text = "Reglas del Juego 10000",
@@ -97,7 +98,7 @@ fun RulesHeader() {
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
                 Text(
                     text = "Aprende a jugar y dominar el juego",

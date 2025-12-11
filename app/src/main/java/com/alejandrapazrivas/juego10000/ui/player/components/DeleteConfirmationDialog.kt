@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Diálogo de confirmación para eliminar un jugador.
@@ -30,14 +30,16 @@ fun DeleteConfirmationDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     BaseDialog(onDismiss = onDismiss) {
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.error,
                     modifier = Modifier
-                        .size(48.dp)
-                        .padding(bottom = 16.dp)
+                        .size(dimensions.iconSizeExtraLarge)
+                        .padding(bottom = dimensions.spaceMedium)
                 )
 
                 Text(
@@ -47,7 +49,7 @@ fun DeleteConfirmationDialog(
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                 Text(
                     text = "¿Estás seguro de que quieres eliminar a $playerName? Esta acción es permanente y el jugador se eliminará de todos los registros, incluidas estadísticas e historial de partidas.",
@@ -56,7 +58,7 @@ fun DeleteConfirmationDialog(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceLarge))
 
                 DialogButtons(
                     onCancel = onDismiss,

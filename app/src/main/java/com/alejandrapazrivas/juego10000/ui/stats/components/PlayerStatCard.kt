@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.common.theme.ScorePositive
@@ -44,13 +45,15 @@ fun PlayerStatCard(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .animateContentSize(),
         shape = CardShape,
         elevation = CardDefaults.cardElevation(
-            defaultElevation = if (isSelected) 8.dp else 2.dp
+            defaultElevation = if (isSelected) dimensions.spaceSmall else dimensions.elevationSmall
         ),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected)
@@ -62,17 +65,17 @@ fun PlayerStatCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spaceMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Avatar del jugador
             PlayerAvatar(playerStat.player.name)
-            
-            Spacer(modifier = Modifier.width(16.dp))
-            
+
+            Spacer(modifier = Modifier.width(dimensions.spaceMedium))
+
             // Información del jugador
             PlayerInfo(playerStat)
-            
+
             // Indicador de tasa de victorias
             WinRateIndicator(playerStat.player.winRate)
         }
@@ -84,9 +87,10 @@ fun PlayerStatCard(
  */
 @Composable
 private fun PlayerAvatar(playerName: String) {
+    val dimensions = LocalDimensions.current
     Box(
         modifier = Modifier
-            .size(48.dp)
+            .size(dimensions.buttonHeight)
             .background(
                 color = Primary.copy(alpha = 0.2f),
                 shape = CircleShape
@@ -106,6 +110,7 @@ private fun PlayerAvatar(playerName: String) {
  */
 @Composable
 private fun PlayerInfo(playerStat: PlayerStats) {
+    val dimensions = LocalDimensions.current
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -114,7 +119,7 @@ private fun PlayerInfo(playerStat: PlayerStats) {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
         // Partidas jugadas
         PlayerStatRow(
@@ -148,16 +153,17 @@ private fun PlayerStatRow(
     text: String,
     tint: Color
 ) {
+    val dimensions = LocalDimensions.current
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = null,
-            modifier = Modifier.size(16.dp),
+            modifier = Modifier.size(dimensions.spaceMedium),
             tint = tint
         )
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(dimensions.spaceExtraSmall))
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium
@@ -170,10 +176,11 @@ private fun PlayerStatRow(
  */
 @Composable
 private fun WinRateIndicator(winRate: Float) {
+    val dimensions = LocalDimensions.current
     Box(
         modifier = Modifier
-            .size(64.dp)
-            .padding(4.dp),
+            .size(dimensions.avatarSizeMedium + dimensions.spaceSmall)
+            .padding(dimensions.spaceExtraSmall),
         contentAlignment = Alignment.Center
     ) {
         val animatedProgress by animateFloatAsState(
@@ -185,7 +192,7 @@ private fun WinRateIndicator(winRate: Float) {
         CircularProgressIndicator(
             progress = { animatedProgress },
             modifier = Modifier.fillMaxSize(),
-            strokeWidth = 4.dp,
+            strokeWidth = dimensions.spaceExtraSmall,
             trackColor = MaterialTheme.colorScheme.surfaceVariant,
             color = ScorePositive
         )

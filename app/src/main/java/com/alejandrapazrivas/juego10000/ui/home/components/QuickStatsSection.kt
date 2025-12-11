@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.home.model.UserStats
 
 @Composable
@@ -42,18 +43,20 @@ fun QuickStatsSection(
     stats: UserStats,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
+
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = "Tus Estadísticas",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(bottom = 12.dp)
+            modifier = Modifier.padding(bottom = dimensions.spaceSmall)
         )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
         ) {
             StatCard(
                 title = "Partidas",
@@ -77,11 +80,11 @@ fun QuickStatsSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
         ) {
             StatCard(
                 title = "Mejor Turno",
@@ -115,6 +118,7 @@ private fun StatCard(
     gradientColors: List<Color>,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
     var animationPlayed by remember { mutableStateOf(false) }
     val animatedAlpha by animateFloatAsState(
         targetValue = if (animationPlayed) 1f else 0f,
@@ -126,29 +130,31 @@ private fun StatCard(
         animationPlayed = true
     }
 
+    val cardHeight = dimensions.buttonHeight * 2
+
     Card(
-        modifier = modifier.height(100.dp),
-        shape = RoundedCornerShape(16.dp),
+        modifier = modifier.height(cardHeight),
+        shape = RoundedCornerShape(dimensions.cardCornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.cardElevation)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(cardHeight)
                 .background(
                     brush = Brush.linearGradient(colors = gradientColors)
                 )
-                .padding(12.dp)
+                .padding(dimensions.spaceSmall)
         ) {
             Column(
                 modifier = Modifier.align(Alignment.TopStart)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(dimensions.iconSizeLarge)
                         .clip(CircleShape)
                         .background(Color.White.copy(alpha = 0.2f)),
                     contentAlignment = Alignment.Center
@@ -157,7 +163,7 @@ private fun StatCard(
                         painter = painterResource(id = icon),
                         contentDescription = null,
                         tint = Color.White,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(dimensions.iconSizeSmall)
                     )
                 }
 
@@ -167,15 +173,13 @@ private fun StatCard(
                     text = value,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    fontSize = 22.sp
+                    color = Color.White
                 )
 
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.9f),
-                    fontSize = 11.sp
+                    color = Color.White.copy(alpha = 0.9f)
                 )
             }
         }

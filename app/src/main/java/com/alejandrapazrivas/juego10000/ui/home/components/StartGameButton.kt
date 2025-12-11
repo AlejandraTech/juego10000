@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.ButtonShape
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Botón principal para iniciar una nueva partida.
@@ -47,6 +48,7 @@ fun StartGameButton(
     onStartGame: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
     var isPressed by remember { mutableStateOf(false) }
 
     val scale by animateFloatAsState(
@@ -54,7 +56,7 @@ fun StartGameButton(
         animationSpec = tween(100),
         label = "scale_animation"
     )
-    
+
     val shadowElevation by animateFloatAsState(
         targetValue = if (isPressed) 2f else 6f,
         animationSpec = tween(100),
@@ -67,12 +69,14 @@ fun StartGameButton(
         MaterialTheme.colorScheme.primaryContainer
     )
 
+    val buttonHeight = dimensions.buttonHeight + dimensions.spaceSmall
+
     Button(
         onClick = onStartGame,
         enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
-            .height(64.dp)
+            .height(buttonHeight)
             .scale(scale)
             .shadow(
                 elevation = shadowElevation.dp,
@@ -90,7 +94,7 @@ fun StartGameButton(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(64.dp)
+                .height(buttonHeight)
                 .background(
                     brush = if (enabled) {
                         Brush.horizontalGradient(colors = gradientColors)
@@ -104,11 +108,11 @@ fun StartGameButton(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = dimensions.spaceMedium)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(36.dp)
+                        .size(dimensions.iconSizeLarge + dimensions.spaceExtraSmall)
                         .clip(CircleShape)
                         .background(
                             color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
@@ -119,12 +123,12 @@ fun StartGameButton(
                         imageVector = Icons.Default.PlayArrow,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(dimensions.iconSizeMedium)
                     )
                 }
-                
-                Spacer(modifier = Modifier.width(16.dp))
-                
+
+                Spacer(modifier = Modifier.width(dimensions.spaceMedium))
+
                 Text(
                     text = stringResource(id = R.string.start_game),
                     style = MaterialTheme.typography.titleMedium,

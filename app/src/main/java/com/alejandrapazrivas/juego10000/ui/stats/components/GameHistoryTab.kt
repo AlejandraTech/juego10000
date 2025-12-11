@@ -15,12 +15,14 @@ import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Pestaña que muestra el historial de partidas
  */
 @Composable
 fun GameHistoryTab(gameHistory: List<Pair<Game, Player?>>) {
+    val dimensions = LocalDimensions.current
     if (gameHistory.isEmpty()) {
         EmptyStateMessage(
             message = "No hay partidas registradas",
@@ -30,19 +32,19 @@ fun GameHistoryTab(gameHistory: List<Pair<Game, Player?>>) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             Text(
                 text = "Historial de partidas",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 8.dp)
+                modifier = Modifier.padding(vertical = dimensions.spaceSmall)
             )
 
             // Usamos el componente de animación para la lista
             AnimatedEntrance {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(dimensions.spaceSmall + dimensions.spaceExtraSmall)
                 ) {
                     items(gameHistory) { (game, winner) ->
                         GameHistoryCard(

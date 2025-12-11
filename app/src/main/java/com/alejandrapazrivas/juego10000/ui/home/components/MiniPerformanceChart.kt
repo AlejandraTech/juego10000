@@ -32,27 +32,30 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 @Composable
 fun MiniPerformanceChart(
     scores: List<Int>,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
     val primaryColor = MaterialTheme.colorScheme.primary
     val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
+    val chartHeight = dimensions.buttonHeight * 2
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.cardCornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.cardElevation / 2)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             Text(
                 text = "Rendimiento Reciente",
@@ -61,7 +64,7 @@ fun MiniPerformanceChart(
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
             Text(
                 text = if (scores.isNotEmpty()) "Últimas ${scores.size} partidas" else "Sin datos",
@@ -69,7 +72,7 @@ fun MiniPerformanceChart(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
             if (scores.isNotEmpty()) {
                 var animationPlayed by remember { mutableStateOf(false) }
@@ -89,10 +92,10 @@ fun MiniPerformanceChart(
                     animationProgress = animationProgress,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
+                        .height(chartHeight)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
                 // Estadísticas rápidas
                 Row(
@@ -110,7 +113,7 @@ fun MiniPerformanceChart(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
+                        .height(chartHeight)
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
@@ -118,7 +121,7 @@ fun MiniPerformanceChart(
                                     surfaceVariant.copy(alpha = 0.1f)
                                 )
                             ),
-                            shape = RoundedCornerShape(8.dp)
+                            shape = RoundedCornerShape(dimensions.spaceSmall)
                         ),
                     contentAlignment = Alignment.Center
                 ) {

@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.ButtonShape
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 @Composable
 fun MainMenuOptions(
@@ -46,6 +47,8 @@ fun MainMenuOptions(
     onNavigateToStats: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -57,7 +60,7 @@ fun MainMenuOptions(
             primaryColor = MaterialTheme.colorScheme.secondary
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
         MenuButton(
             text = stringResource(id = R.string.rules),
@@ -66,7 +69,7 @@ fun MainMenuOptions(
             primaryColor = MaterialTheme.colorScheme.tertiary
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
         MenuButton(
             text = stringResource(id = R.string.statistics),
@@ -85,6 +88,7 @@ private fun MenuButton(
     onClick: () -> Unit,
     primaryColor: Color
 ) {
+    val dimensions = LocalDimensions.current
     var isPressed by remember { mutableStateOf(false) }
 
     val elevation by animateFloatAsState(
@@ -96,11 +100,13 @@ private fun MenuButton(
         primaryColor,
         primaryColor.copy(alpha = 0.8f)
     )
-    
+
+    val buttonHeight = dimensions.buttonHeight + dimensions.spaceSmall
+
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp)
+            .height(buttonHeight)
             .shadow(
                 elevation = elevation.dp,
                 shape = ButtonShape,
@@ -122,7 +128,7 @@ private fun MenuButton(
                         endX = 1000f
                     )
                 )
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
             contentAlignment = Alignment.CenterStart
         ) {
             Row(
@@ -132,23 +138,23 @@ private fun MenuButton(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(dimensions.avatarSizeSmall)
                         .clip(CircleShape)
                         .background(
                             color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
                         )
-                        .padding(8.dp),
+                        .padding(dimensions.spaceSmall),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = icon),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(dimensions.iconSizeMedium)
                     )
                 }
 
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceMedium))
 
                 Text(
                     text = text,

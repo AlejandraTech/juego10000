@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Componente que muestra un mensaje cuando no hay datos disponibles
@@ -35,10 +35,11 @@ fun EmptyStateMessage(
     message: String,
     iconResId: Int = R.drawable.ic_stats
 ) {
+    val dimensions = LocalDimensions.current
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(dimensions.spaceMedium),
         contentAlignment = Alignment.Center
     ) {
         // Usamos el componente de animación para aplicar efectos de entrada
@@ -59,6 +60,7 @@ private fun EmptyStateContent(
     message: String,
     icon: Painter
 ) {
+    val dimensions = LocalDimensions.current
     // Animaciones para el contenido
     val animatedScale by animateFloatAsState(
         targetValue = 1f,
@@ -76,7 +78,7 @@ private fun EmptyStateContent(
             painter = icon,
             contentDescription = null,
             modifier = Modifier
-                .size(80.dp)
+                .size(dimensions.buttonHeight + dimensions.spaceExtraLarge)
                 .graphicsLayer {
                     scaleX = animatedScale
                     scaleY = animatedScale
@@ -84,14 +86,14 @@ private fun EmptyStateContent(
             tint = Color.Gray.copy(alpha = 0.7f)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
         Text(
             text = message,
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = Color.Gray,
-            modifier = Modifier.padding(horizontal = 32.dp)
+            modifier = Modifier.padding(horizontal = dimensions.spaceExtraLarge)
         )
     }
 }

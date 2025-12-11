@@ -26,11 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.BotDifficulty
 import com.alejandrapazrivas.juego10000.domain.model.Player
-
-// Constantes para el componente ScoreboardSection
-private val TITLE_FONT_SIZE = 18.sp
-private val INDICATOR_SIZE = 12.dp
-private val PLAYER_ROW_CORNER_RADIUS = 6.dp
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Componente que muestra la fila de un jugador en la tabla de puntuaciones
@@ -42,18 +38,20 @@ private fun PlayerScoreRow(
     isCurrentPlayer: Boolean,
     botDifficulty: BotDifficulty? = null
 ) {
+    val dimensions = LocalDimensions.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp)
+            .padding(vertical = dimensions.spaceExtraSmall)
             .background(
-                color = if (isCurrentPlayer) 
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) 
-                else 
+                color = if (isCurrentPlayer)
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+                else
                     MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(PLAYER_ROW_CORNER_RADIUS)
+                shape = RoundedCornerShape(dimensions.spaceSmall)
             )
-            .padding(horizontal = 8.dp, vertical = 6.dp),
+            .padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceSmall),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -65,10 +63,10 @@ private fun PlayerScoreRow(
             if (isCurrentPlayer) {
                 Box(
                     modifier = Modifier
-                        .size(INDICATOR_SIZE)
+                        .size(dimensions.indicatorSize)
                         .background(MaterialTheme.colorScheme.primary, CircleShape)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
             }
 
             // Mostrar el nombre del jugador o el nombre del bot con su nivel
@@ -119,6 +117,8 @@ fun ScoreboardSection(
     botDifficulty: BotDifficulty? = null,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
+
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -126,15 +126,15 @@ fun ScoreboardSection(
         // Título de la tabla de puntuaciones
         Text(
             text = stringResource(R.string.scoreboard),
-            style = MaterialTheme.typography.titleMedium.copy(fontSize = TITLE_FONT_SIZE),
+            style = MaterialTheme.typography.titleMedium.copy(fontSize = dimensions.titleFontSize),
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = dimensions.spaceSmall)
         )
 
         Divider(
-            modifier = Modifier.padding(bottom = 4.dp),
+            modifier = Modifier.padding(bottom = dimensions.spaceExtraSmall),
             color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
         )
 
@@ -155,7 +155,7 @@ fun ScoreboardSection(
             if (index < players.size - 1) {
                 Divider(
                     color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                    modifier = Modifier.padding(horizontal = 8.dp)
+                    modifier = Modifier.padding(horizontal = dimensions.spaceSmall)
                 )
             }
         }

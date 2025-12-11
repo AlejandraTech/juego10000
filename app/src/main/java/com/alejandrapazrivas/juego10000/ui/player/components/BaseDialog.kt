@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import androidx.compose.ui.window.DialogProperties
 
 /**
@@ -26,6 +26,8 @@ fun BaseDialog(
     onDismiss: () -> Unit,
     content: @Composable () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
@@ -36,12 +38,12 @@ fun BaseDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
                 .shadow(
-                    elevation = 8.dp,
-                    shape = RoundedCornerShape(16.dp)
+                    elevation = dimensions.spaceSmall,
+                    shape = RoundedCornerShape(dimensions.spaceMedium)
                 ),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(dimensions.spaceMedium),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface
             )
@@ -49,7 +51,7 @@ fun BaseDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(dimensions.spaceLarge),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 content()

@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,6 +47,7 @@ fun PlayGameCard(
     onPlayClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
     val infiniteTransition = rememberInfiniteTransition(label = "play_button_pulse")
     val pulseScale by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -62,11 +64,11 @@ fun PlayGameCard(
         modifier = modifier
             .fillMaxWidth()
             .scale(pulseScale),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(dimensions.spaceMedium),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.cardElevation)
     ) {
         Box(
             modifier = Modifier
@@ -80,7 +82,7 @@ fun PlayGameCard(
                         )
                     )
                 )
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -89,7 +91,7 @@ fun PlayGameCard(
                 // Icono de dados
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
+                        .size(dimensions.iconSizeExtraLarge)
                         .clip(CircleShape)
                         .background(Color.White.copy(alpha = 0.2f)),
                     contentAlignment = Alignment.Center
@@ -98,11 +100,11 @@ fun PlayGameCard(
                         painter = painterResource(id = R.drawable.ic_dice),
                         contentDescription = null,
                         tint = Color.White,
-                        modifier = Modifier.size(26.dp)
+                        modifier = Modifier.size(dimensions.iconSizeMedium)
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
                 // Texto - usa weight para ocupar espacio disponible
                 Column(
@@ -117,7 +119,7 @@ fun PlayGameCard(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Spacer(modifier = Modifier.height(2.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
                     Text(
                         text = "¡Alcanza los 10.000 puntos!",
                         style = MaterialTheme.typography.bodySmall,
@@ -127,12 +129,12 @@ fun PlayGameCard(
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
                 // Botón de play
                 Box(
                     modifier = Modifier
-                        .size(44.dp)
+                        .size(dimensions.iconSizeExtraLarge)
                         .clip(CircleShape)
                         .background(Color.White),
                     contentAlignment = Alignment.Center
@@ -141,7 +143,7 @@ fun PlayGameCard(
                         imageVector = Icons.Default.PlayArrow,
                         contentDescription = "Jugar",
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(26.dp)
+                        modifier = Modifier.size(dimensions.iconSizeMedium)
                     )
                 }
             }

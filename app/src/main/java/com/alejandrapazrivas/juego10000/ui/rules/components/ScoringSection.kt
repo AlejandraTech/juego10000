@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Sección que agrupa elementos de puntuación bajo un título común.
@@ -20,8 +20,10 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun ScoringSection(title: String, content: @Composable () -> Unit) {
+    val dimensions = LocalDimensions.current
+
     Column(
-        modifier = Modifier.padding(vertical = 8.dp)
+        modifier = Modifier.padding(vertical = dimensions.spaceSmall)
     ) {
         Text(
             text = title,
@@ -30,15 +32,15 @@ fun ScoringSection(title: String, content: @Composable () -> Unit) {
             color = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         content()
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
         if (title != "Multiplicadores:") {
             Divider(
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = dimensions.spaceSmall),
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
         }

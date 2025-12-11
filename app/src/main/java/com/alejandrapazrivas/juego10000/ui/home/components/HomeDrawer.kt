@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 data class DrawerMenuItem(
     val title: String,
@@ -48,8 +49,10 @@ fun HomeDrawerContent(
     onCloseDrawer: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
+
     ModalDrawerSheet(
-        modifier = modifier.width(300.dp),
+        modifier = modifier.width(dimensions.maxContentWidth / 2),
         drawerContainerColor = MaterialTheme.colorScheme.surface
     ) {
         Column(
@@ -58,7 +61,7 @@ fun HomeDrawerContent(
             // Header del drawer
             DrawerHeader(currentUserName = currentUserName)
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
             // Opciones principales
             DrawerMenuSection(title = "Juego") {
@@ -92,7 +95,7 @@ fun HomeDrawerContent(
             }
 
             HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier.padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
                 color = MaterialTheme.colorScheme.outlineVariant
             )
 
@@ -113,7 +116,7 @@ fun HomeDrawerContent(
 
             // Cambiar perfil - Sección separada con estilo diferente
             HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = dimensions.spaceMedium),
                 color = MaterialTheme.colorScheme.outlineVariant
             )
 
@@ -135,6 +138,8 @@ fun HomeDrawerContent(
 private fun DrawerHeader(
     currentUserName: String?
 ) {
+    val dimensions = LocalDimensions.current
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -146,13 +151,13 @@ private fun DrawerHeader(
                     )
                 )
             )
-            .padding(24.dp)
+            .padding(dimensions.spaceLarge)
     ) {
         Column {
             // Icono del juego
             Box(
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(dimensions.avatarSizeLarge)
                     .clip(CircleShape)
                     .background(Color.White.copy(alpha = 0.2f)),
                 contentAlignment = Alignment.Center
@@ -161,11 +166,11 @@ private fun DrawerHeader(
                     painter = painterResource(id = R.drawable.ic_dice),
                     contentDescription = null,
                     tint = Color.White,
-                    modifier = Modifier.size(36.dp)
+                    modifier = Modifier.size(dimensions.iconSizeLarge + dimensions.spaceExtraSmall)
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
             Text(
                 text = currentUserName ?: "Sin usuario",
@@ -188,15 +193,17 @@ private fun DrawerMenuSection(
     title: String,
     content: @Composable () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier.padding(horizontal = dimensions.spaceMedium)
     ) {
         Text(
             text = title,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
+            modifier = Modifier.padding(vertical = dimensions.spaceSmall, horizontal = dimensions.spaceSmall)
         )
         content()
     }
@@ -209,18 +216,20 @@ private fun DrawerItem(
     subtitle: String,
     onClick: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(dimensions.cardCornerRadius))
             .clickable(onClick = onClick)
-            .padding(12.dp),
+            .padding(dimensions.spaceSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .size(40.dp)
-                .clip(RoundedCornerShape(10.dp))
+                .size(dimensions.avatarSizeSmall)
+                .clip(RoundedCornerShape(dimensions.spaceSmall + 2.dp))
                 .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
@@ -228,11 +237,11 @@ private fun DrawerItem(
                 painter = painterResource(id = icon),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(dimensions.iconSizeSmall)
             )
         }
 
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
         Column {
             Text(
@@ -255,17 +264,19 @@ private fun ChangeProfileItem(
     currentUserName: String?,
     onClick: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Avatar pequeño del usuario actual
         Box(
             modifier = Modifier
-                .size(36.dp)
+                .size(dimensions.iconSizeLarge + dimensions.spaceExtraSmall)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.secondaryContainer),
             contentAlignment = Alignment.Center
@@ -278,7 +289,7 @@ private fun ChangeProfileItem(
             )
         }
 
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
         Column(
             modifier = Modifier.weight(1f)
@@ -300,17 +311,19 @@ private fun ChangeProfileItem(
             painter = painterResource(id = R.drawable.ic_swap),
             contentDescription = "Cambiar perfil",
             tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(dimensions.iconSizeSmall)
         )
     }
 }
 
 @Composable
 private fun DrawerFooter() {
+    val dimensions = LocalDimensions.current
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(dimensions.spaceMedium),
         contentAlignment = Alignment.Center
     ) {
         Text(

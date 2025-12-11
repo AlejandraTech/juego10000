@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Icono que representa visualmente un nivel de dificultad mediante barras verticales.
@@ -25,28 +27,31 @@ fun DifficultyLevelIcon(
     isSelected: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
+    val iconSize = dimensions.iconSizeMedium
+
     Row(
-        modifier = modifier.size(24.dp),
+        modifier = modifier.size(iconSize),
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.Bottom
     ) {
         // Barra izquierda (la más alta)
         DifficultyBar(
-            height = 20.dp,
+            height = iconSize * 0.83f,
             isActive = level >= 3,
             isSelected = isSelected
         )
-        
+
         // Barra central (altura media)
         DifficultyBar(
-            height = 14.dp,
+            height = iconSize * 0.58f,
             isActive = level >= 2,
             isSelected = isSelected
         )
-        
+
         // Barra derecha (la más baja)
         DifficultyBar(
-            height = 8.dp,
+            height = iconSize * 0.33f,
             isActive = level >= 1,
             isSelected = isSelected
         )
@@ -55,19 +60,21 @@ fun DifficultyLevelIcon(
 
 @Composable
 private fun DifficultyBar(
-    height: androidx.compose.ui.unit.Dp,
+    height: Dp,
     isActive: Boolean,
     isSelected: Boolean
 ) {
+    val dimensions = LocalDimensions.current
+
     Box(
         modifier = Modifier
-            .width(5.dp)
+            .width(dimensions.spaceExtraSmall + 1.dp)
             .height(height)
             .clip(RoundedCornerShape(2.dp))
             .background(
-                color = if (isActive) 
+                color = if (isActive)
                     if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                else 
+                else
                     if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
             )
     )

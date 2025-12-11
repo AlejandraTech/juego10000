@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Componente reutilizable para opciones seleccionables en diálogos y listas.
@@ -37,22 +38,24 @@ fun SelectableOption(
     leadingContent: @Composable (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
+
     Card(
         modifier = modifier
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(dimensions.cardCornerRadius),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) 
+            containerColor = if (isSelected)
                 MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
-            else 
+            else
                 MaterialTheme.colorScheme.surface
         ),
-        border = if (isSelected) 
+        border = if (isSelected)
             BorderStroke(
                 width = 2.dp,
                 color = MaterialTheme.colorScheme.primary
             )
-        else 
+        else
             BorderStroke(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant
@@ -60,7 +63,7 @@ fun SelectableOption(
     ) {
         Row(
             modifier = Modifier
-                .padding(12.dp),
+                .padding(dimensions.spaceSmall),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (leadingContent != null) {
@@ -68,8 +71,8 @@ fun SelectableOption(
             } else if (iconResId != null) {
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .size(dimensions.avatarSizeSmall)
+                        .clip(RoundedCornerShape(dimensions.spaceSmall))
                         .background(
                             color = if (isSelected)
                                 MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
@@ -81,30 +84,30 @@ fun SelectableOption(
                     Icon(
                         painter = painterResource(id = iconResId),
                         contentDescription = null,
-                        tint = if (isSelected) 
+                        tint = if (isSelected)
                             MaterialTheme.colorScheme.primary
-                        else 
+                        else
                             MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(dimensions.iconSizeMedium)
                     )
                 }
             }
-            
+
             Column(
                 modifier = Modifier
-                    .padding(start = 16.dp)
+                    .padding(start = dimensions.spaceMedium)
                     .weight(1f)
             ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.SemiBold,
-                    color = if (isSelected) 
+                    color = if (isSelected)
                         MaterialTheme.colorScheme.primary
-                    else 
+                    else
                         MaterialTheme.colorScheme.onSurface
                 )
-                
+
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodyMedium,

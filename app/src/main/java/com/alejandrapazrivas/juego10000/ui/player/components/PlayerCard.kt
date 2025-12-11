@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 @Composable
 fun PlayerCard(
@@ -42,11 +43,13 @@ fun PlayerCard(
     onEditPlayer: () -> Unit,
     onDeletePlayer: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(
-                elevation = 4.dp,
+                elevation = dimensions.cardElevation,
                 shape = CardShape,
                 spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
             ),
@@ -59,7 +62,7 @@ fun PlayerCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -68,7 +71,7 @@ fun PlayerCard(
                 // Avatar del jugador
                 Box(
                     modifier = Modifier
-                        .size(56.dp)
+                        .size(dimensions.avatarSizeMedium)
                         .clip(CircleShape)
                         .background(
                             brush = Brush.radialGradient(
@@ -102,7 +105,7 @@ fun PlayerCard(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = dimensions.spaceMedium)
                 ) {
                     Text(
                         text = player.name,
@@ -117,7 +120,7 @@ fun PlayerCard(
                     IconButton(
                         onClick = onEditPlayer,
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(dimensions.avatarSizeSmall)
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f))
                     ) {
@@ -125,16 +128,16 @@ fun PlayerCard(
                             imageVector = Icons.Default.Edit,
                             contentDescription = stringResource(id = R.string.edit_player),
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(dimensions.iconSizeSmall)
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
                     IconButton(
                         onClick = onDeletePlayer,
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(dimensions.avatarSizeSmall)
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f))
                     ) {
@@ -142,20 +145,20 @@ fun PlayerCard(
                             imageVector = Icons.Default.Delete,
                             contentDescription = stringResource(id = R.string.delete_player),
                             tint = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(dimensions.iconSizeSmall)
                         )
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
             Divider(
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-                modifier = Modifier.padding(vertical = 4.dp)
+                modifier = Modifier.padding(vertical = dimensions.spaceExtraSmall)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
             // Estadísticas del jugador en tarjetas
             Row(
@@ -169,7 +172,7 @@ fun PlayerCard(
                     modifier = Modifier.weight(1f)
                 )
 
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
                 StatCard(
                     icon = R.drawable.ic_trophy,
@@ -178,7 +181,7 @@ fun PlayerCard(
                     modifier = Modifier.weight(1f)
                 )
 
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
                 StatCard(
                     icon = R.drawable.ic_stats,

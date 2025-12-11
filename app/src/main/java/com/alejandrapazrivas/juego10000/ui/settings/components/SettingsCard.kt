@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Modelo de datos para un elemento de configuración
@@ -72,6 +73,7 @@ fun SettingsCard(
     settings: List<SettingItem>,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = CardShape,
@@ -81,7 +83,7 @@ fun SettingsCard(
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(dimensions.spaceMedium)
         ) {
             Text(
                 text = title,
@@ -89,7 +91,7 @@ fun SettingsCard(
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
             settings.forEachIndexed { index, item ->
                 SettingRow(
@@ -100,7 +102,7 @@ fun SettingsCard(
                 )
 
                 if (index < settings.size - 1) {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spaceMedium))
                 }
             }
         }

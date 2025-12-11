@@ -64,21 +64,15 @@ import com.alejandrapazrivas.juego10000.ui.gamewinner.GameVictoryScreen
 import com.alejandrapazrivas.juego10000.ui.common.components.toast.GameMessageHandler
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
 import com.alejandrapazrivas.juego10000.ui.common.theme.ButtonShape
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalWindowInfo
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
+import com.alejandrapazrivas.juego10000.ui.common.theme.ScreenOrientation
 import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
 import com.alejandrapazrivas.juego10000.ui.game.components.GameTopAppBar
 import com.alejandrapazrivas.juego10000.ui.game.components.ScoreboardSection
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-private val ROUND_INDICATOR_CORNER_RADIUS = 40
-private val CARD_CORNER_RADIUS = 14.dp
-private val BUTTON_HEIGHT = 52.dp
-private val DECORATIVE_CIRCLE_TOP_SIZE = 200.dp
-private val DECORATIVE_CIRCLE_BOTTOM_SIZE = 180.dp
-private val SCORE_TEXT_SIZE_LARGE = 40.sp
-private val SCORE_TEXT_SIZE_MEDIUM = 36.sp
-private val SCORE_TEXT_SIZE_SMALL = 32.sp
 
 @Composable
 fun GameScreen(
@@ -86,6 +80,10 @@ fun GameScreen(
     gameId: Long,
     viewModel: GameViewModel = hiltViewModel()
 ) {
+    val dimensions = LocalDimensions.current
+    val windowInfo = LocalWindowInfo.current
+    val isLandscape = windowInfo.screenOrientation == ScreenOrientation.Landscape
+
     val gameState by viewModel.gameState.collectAsState()
     val scope = rememberCoroutineScope()
     val isBotTurn by viewModel.isBotTurn.collectAsState()
@@ -228,11 +226,11 @@ fun GameScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(dimensions.screenPaddingHorizontal)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(DECORATIVE_CIRCLE_TOP_SIZE)
+                        .size(dimensions.decorativeCircleTopSize)
                         .offset(x = (-30).dp, y = (-50).dp)
                         .background(
                             brush = Brush.radialGradient(
@@ -248,7 +246,7 @@ fun GameScreen(
 
                 Box(
                     modifier = Modifier
-                        .size(DECORATIVE_CIRCLE_BOTTOM_SIZE)
+                        .size(dimensions.decorativeCircleBottomSize)
                         .align(Alignment.BottomEnd)
                         .offset(x = 30.dp, y = 50.dp)
                         .background(
@@ -278,34 +276,34 @@ fun GameScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding(horizontal = dimensions.screenPaddingHorizontal, vertical = dimensions.screenPaddingVertical),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
                         modifier = Modifier
-                            .padding(vertical = 6.dp)
-                            .clip(RoundedCornerShape(ROUND_INDICATOR_CORNER_RADIUS))
+                            .padding(vertical = dimensions.spaceSmall)
+                            .clip(RoundedCornerShape(40))
                             .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
-                            .padding(horizontal = 14.dp, vertical = 4.dp)
+                            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceExtraSmall)
                     ) {
                         Text(
                             text = stringResource(R.string.round, gameState.currentRound),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(horizontal = 6.dp)
+                            modifier = Modifier.padding(horizontal = dimensions.spaceSmall)
                         )
                     }
 
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 6.dp)
+                            .padding(vertical = dimensions.spaceSmall)
                             .graphicsLayer {
                                 shadowElevation = 6f
-                                shape = RoundedCornerShape(CARD_CORNER_RADIUS)
+                                shape = RoundedCornerShape(dimensions.cardCornerRadius)
                             },
-                        shape = RoundedCornerShape(CARD_CORNER_RADIUS),
+                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.surface
                         ),
@@ -317,7 +315,7 @@ fun GameScreen(
                             currentPlayerIndex = gameState.currentPlayerIndex,
                             isSinglePlayerMode = gameState.isSinglePlayerMode,
                             botDifficulty = gameState.botDifficulty,
-                            modifier = Modifier.padding(12.dp)
+                            modifier = Modifier.padding(dimensions.cardPadding)
                         )
                     }
 
@@ -325,7 +323,7 @@ fun GameScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
-                            .padding(vertical = 8.dp)
+                            .padding(vertical = dimensions.spaceSmall)
                             .graphicsLayer {
                                 shadowElevation = 12f
                                 shape = CardShape
@@ -339,7 +337,7 @@ fun GameScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(horizontal = 16.dp, vertical = 16.dp),
+                                .padding(dimensions.screenPaddingHorizontal),
                             contentAlignment = Alignment.Center
                         ) {
                             if (!gameState.gameStarted && !isBotTurn) {
@@ -357,8 +355,8 @@ fun GameScreen(
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
 
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    
+                                    Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
                                     Text(
                                         text = "Usa el botón 'Lanzar dados' para comenzar",
                                         style = MaterialTheme.typography.bodyMedium,
@@ -378,12 +376,12 @@ fun GameScreen(
                                         textAlign = TextAlign.Center,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    
-                                    Spacer(modifier = Modifier.height(16.dp))
+
+                                    Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                                     CircularProgressIndicator(
                                         color = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.size(48.dp),
+                                        modifier = Modifier.size(dimensions.progressIndicatorSize),
                                         strokeWidth = 4.dp
                                     )
                                 }
@@ -408,7 +406,7 @@ fun GameScreen(
                                     Box(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(horizontal = 16.dp)
+                                            .padding(horizontal = dimensions.screenPaddingHorizontal)
                                             .align(Alignment.TopCenter),
                                         contentAlignment = Alignment.TopCenter
                                     ) {
@@ -425,7 +423,7 @@ fun GameScreen(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp)
+                            .padding(vertical = dimensions.spaceSmall)
                             .graphicsLayer {
                                 scaleX = scoreScale
                                 scaleY = scoreScale
@@ -441,7 +439,7 @@ fun GameScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp),
+                                .padding(dimensions.cardPadding),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
@@ -452,9 +450,9 @@ fun GameScreen(
                             )
 
                             val textSize = when {
-                                gameState.currentTurnScore >= 1000 -> SCORE_TEXT_SIZE_SMALL
-                                gameState.currentTurnScore >= 100 -> SCORE_TEXT_SIZE_MEDIUM
-                                else -> SCORE_TEXT_SIZE_LARGE
+                                gameState.currentTurnScore >= 1000 -> dimensions.scoreSmall
+                                gameState.currentTurnScore >= 100 -> dimensions.scoreMedium
+                                else -> dimensions.scoreLarge
                             }
 
                             Text(
@@ -469,16 +467,16 @@ fun GameScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            .padding(vertical = dimensions.spaceSmall),
+                        horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
                     ) {
                         Button(
                             onClick = { viewModel.onRollClick() },
                             modifier = Modifier
                                 .weight(1f)
-                                .height(BUTTON_HEIGHT)
+                                .height(dimensions.buttonHeight)
                                 .shadow(
-                                    elevation = 4.dp,
+                                    elevation = dimensions.cardElevation,
                                     shape = ButtonShape,
                                     spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
                                 ),
@@ -509,7 +507,7 @@ fun GameScreen(
                             gameState.scoreExceeded -> MaterialTheme.colorScheme.error
                             else -> MaterialTheme.colorScheme.secondary
                         }
-                        
+
                         val buttonText = when {
                             gameState.isGameOver -> stringResource(R.string.end_game)
                             gameState.scoreExceeded -> stringResource(R.string.pass_turn)
@@ -527,9 +525,9 @@ fun GameScreen(
                             },
                             modifier = Modifier
                                 .weight(1f)
-                                .height(BUTTON_HEIGHT)
+                                .height(dimensions.buttonHeight)
                                 .shadow(
-                                    elevation = 4.dp,
+                                    elevation = dimensions.cardElevation,
                                     shape = ButtonShape,
                                     spotColor = buttonColor.copy(alpha = 0.5f)
                                 ),

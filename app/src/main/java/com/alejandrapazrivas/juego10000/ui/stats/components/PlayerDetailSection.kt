@@ -28,6 +28,7 @@ import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 
 /**
@@ -38,25 +39,26 @@ fun PlayerDetailSection(
     player: Player,
     games: List<Game>
 ) {
+    val dimensions = LocalDimensions.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
         shape = CardShape,
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.spaceExtraSmall)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             // Encabezado con el nombre del jugador
             PlayerDetailHeader(player)
-            
+
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = dimensions.spaceSmall),
                 color = MaterialTheme.colorScheme.surfaceVariant
             )
 
@@ -71,6 +73,7 @@ fun PlayerDetailSection(
  */
 @Composable
 private fun PlayerDetailHeader(player: Player) {
+    val dimensions = LocalDimensions.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -79,9 +82,9 @@ private fun PlayerDetailHeader(player: Player) {
             painter = painterResource(id = R.drawable.ic_stats),
             contentDescription = null,
             tint = Primary,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(dimensions.spaceLarge)
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
         Text(
             text = "Historial de ${player.name}",
             style = MaterialTheme.typography.titleMedium,
@@ -95,11 +98,12 @@ private fun PlayerDetailHeader(player: Player) {
  */
 @Composable
 private fun PlayerGamesList(games: List<Game>, playerId: Long) {
+    val dimensions = LocalDimensions.current
     if (games.isEmpty()) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp),
+                .height(dimensions.buttonHeight * 2),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -114,8 +118,8 @@ private fun PlayerGamesList(games: List<Game>, playerId: Long) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .height(dimensions.buttonHeight * 4),
+                verticalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
             ) {
                 items(games) { game ->
                     GameHistoryItem(game = game, playerId = playerId)

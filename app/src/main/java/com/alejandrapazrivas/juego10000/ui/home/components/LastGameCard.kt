@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.home.model.LastGameInfo
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -39,6 +40,7 @@ fun LastGameCard(
 ) {
     if (lastGame == null) return
 
+    val dimensions = LocalDimensions.current
     val isVictory = lastGame.isVictory
     val gradientColors = if (isVictory) {
         listOf(
@@ -56,17 +58,17 @@ fun LastGameCard(
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.cardCornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.cardElevation)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(brush = Brush.horizontalGradient(colors = gradientColors))
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -75,7 +77,7 @@ fun LastGameCard(
                 // Icono
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
+                        .size(dimensions.iconSizeExtraLarge)
                         .clip(CircleShape)
                         .background(
                             if (isVictory) Color.White.copy(alpha = 0.2f)
@@ -89,11 +91,11 @@ fun LastGameCard(
                         ),
                         contentDescription = null,
                         tint = if (isVictory) Color.White else MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(dimensions.iconSizeMedium)
                     )
                 }
 
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceMedium))
 
                 // Información
                 Column(
@@ -106,7 +108,7 @@ fun LastGameCard(
                         color = textColor
                     )
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
                     val gameMode = if (lastGame.game.gameMode == "SINGLE_PLAYER") {
                         "vs Bot"

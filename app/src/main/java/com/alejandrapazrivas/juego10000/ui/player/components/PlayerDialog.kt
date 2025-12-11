@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Diálogo para añadir o editar un jugador.
@@ -36,6 +36,8 @@ fun PlayerDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     BaseDialog(onDismiss = onDismiss) {
                 Text(
                     text = title,
@@ -44,7 +46,7 @@ fun PlayerDialog(
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceLarge))
 
                 OutlinedTextField(
                     value = playerName,
@@ -62,7 +64,7 @@ fun PlayerDialog(
                         )
                     },
                     singleLine = true,
-                    shape = RoundedCornerShape(12.dp),
+                    shape = RoundedCornerShape(dimensions.spaceSmall + dimensions.spaceExtraSmall),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
                         unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
@@ -71,7 +73,7 @@ fun PlayerDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceLarge))
 
                 DialogButtons(
                     onCancel = onDismiss,

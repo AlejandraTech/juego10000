@@ -26,22 +26,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.ButtonShape
 
 @Composable
 fun EmptyPlayersList(onAddPlayer: () -> Unit) {
+    val dimensions = LocalDimensions.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(dimensions.spaceLarge),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Box(
             modifier = Modifier
-                .size(120.dp)
+                .size(dimensions.emptyStateIconSize)
                 .clip(CircleShape)
                 .background(
                     brush = Brush.radialGradient(
@@ -51,18 +53,18 @@ fun EmptyPlayersList(onAddPlayer: () -> Unit) {
                         )
                     )
                 )
-                .padding(16.dp),
+                .padding(dimensions.spaceMedium),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_add_player),
                 contentDescription = null,
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier.size(dimensions.buttonHeight + dimensions.spaceMedium),
                 tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceLarge))
 
         Text(
             text = stringResource(id = R.string.no_players),
@@ -72,7 +74,7 @@ fun EmptyPlayersList(onAddPlayer: () -> Unit) {
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         Text(
             text = "Añade jugadores para comenzar a jugar",
@@ -81,7 +83,7 @@ fun EmptyPlayersList(onAddPlayer: () -> Unit) {
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
 
         Button(
             onClick = onAddPlayer,
@@ -90,16 +92,16 @@ fun EmptyPlayersList(onAddPlayer: () -> Unit) {
                 containerColor = MaterialTheme.colorScheme.primary
             ),
             elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 4.dp
+                defaultElevation = dimensions.spaceExtraSmall
             ),
             modifier = Modifier
-                .height(56.dp)
-                .padding(horizontal = 32.dp)
+                .height(dimensions.avatarSizeMedium)
+                .padding(horizontal = dimensions.spaceExtraLarge)
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = null,
-                modifier = Modifier.padding(end = 12.dp)
+                modifier = Modifier.padding(end = dimensions.spaceSmall + dimensions.spaceExtraSmall)
             )
             Text(
                 text = stringResource(id = R.string.add_player),

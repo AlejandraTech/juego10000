@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alejandrapazrivas.juego10000.domain.model.Player
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 @Composable
 fun UserSelectionScreen(
@@ -98,13 +99,14 @@ private fun UserSelectionContent(
     onPlayerSelected: (Player) -> Unit,
     onCreatePlayer: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(dimensions.spaceLarge),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(dimensions.buttonHeight))
 
         // Header
         Text(
@@ -114,7 +116,7 @@ private fun UserSelectionContent(
             color = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         Text(
             text = "Selecciona tu perfil",
@@ -122,7 +124,7 @@ private fun UserSelectionContent(
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
         )
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(dimensions.buttonHeight))
 
         if (showCreatePlayerHint || players.isEmpty()) {
             // Estado vacío - No hay jugadores
@@ -131,9 +133,9 @@ private fun UserSelectionContent(
             // Grid de jugadores
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(dimensions.spaceSmall),
+                horizontalArrangement = Arrangement.spacedBy(dimensions.spaceMedium),
+                verticalArrangement = Arrangement.spacedBy(dimensions.spaceMedium),
                 modifier = Modifier.weight(1f)
             ) {
                 items(players) { player ->
@@ -157,26 +159,27 @@ private fun PlayerSelectionCard(
     player: Player,
     onClick: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.spaceMedium),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.spaceExtraSmall)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spaceMedium),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Avatar
             Box(
                 modifier = Modifier
-                    .size(72.dp)
+                    .size(dimensions.avatarSizeLarge)
                     .clip(CircleShape)
                     .background(
                         brush = Brush.linearGradient(
@@ -196,7 +199,7 @@ private fun PlayerSelectionCard(
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall + dimensions.spaceExtraSmall))
 
             // Nombre
             Text(
@@ -208,7 +211,7 @@ private fun PlayerSelectionCard(
                 overflow = TextOverflow.Ellipsis
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
             // Estadísticas breves
             Text(
@@ -224,11 +227,12 @@ private fun PlayerSelectionCard(
 private fun AddPlayerCard(
     onClick: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.spaceMedium),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
         ),
@@ -237,16 +241,16 @@ private fun AddPlayerCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spaceMedium),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Icono de añadir
             Box(
                 modifier = Modifier
-                    .size(72.dp)
+                    .size(dimensions.avatarSizeLarge)
                     .clip(CircleShape)
                     .border(
-                        width = 2.dp,
+                        width = dimensions.spaceExtraSmall / 2,
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
                         shape = CircleShape
                     ),
@@ -256,11 +260,11 @@ private fun AddPlayerCard(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Añadir jugador",
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(dimensions.spaceExtraLarge)
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall + dimensions.spaceExtraSmall))
 
             Text(
                 text = "Nuevo jugador",
@@ -269,7 +273,7 @@ private fun AddPlayerCard(
                 color = MaterialTheme.colorScheme.primary
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
             Text(
                 text = "Crear perfil",
@@ -284,13 +288,14 @@ private fun AddPlayerCard(
 private fun EmptyPlayersState(
     onCreatePlayer: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
-                .size(120.dp)
+                .size(dimensions.avatarSizeLarge + dimensions.buttonHeight)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center
@@ -298,12 +303,12 @@ private fun EmptyPlayersState(
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = null,
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier.size(dimensions.avatarSizeMedium + dimensions.spaceExtraSmall),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceLarge))
 
         Text(
             text = "No hay jugadores",
@@ -312,7 +317,7 @@ private fun EmptyPlayersState(
             color = MaterialTheme.colorScheme.onSurface
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         Text(
             text = "Crea tu primer perfil para comenzar a jugar",
@@ -321,13 +326,13 @@ private fun EmptyPlayersState(
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
 
         Card(
             modifier = Modifier
                 .fillMaxWidth(0.6f)
                 .clickable(onClick = onCreatePlayer),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(dimensions.spaceMedium),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.primary
             )
@@ -335,7 +340,7 @@ private fun EmptyPlayersState(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(dimensions.spaceMedium),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

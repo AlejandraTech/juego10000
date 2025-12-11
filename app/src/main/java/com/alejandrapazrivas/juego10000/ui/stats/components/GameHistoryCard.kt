@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
@@ -39,21 +39,22 @@ fun GameHistoryCard(
     winner: Player?,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = CardShape,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.spaceExtraSmall / 2)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             // Encabezado con ID de partida y fecha
             GameCardHeader(game)
-            
-            Spacer(modifier = Modifier.height(12.dp))
-            
+
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall + dimensions.spaceExtraSmall))
+
             // Información del ganador y estadísticas
             GameCardDetails(game, winner)
         }
@@ -65,6 +66,7 @@ fun GameHistoryCard(
  */
 @Composable
 private fun GameCardHeader(game: Game) {
+    val dimensions = LocalDimensions.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -75,9 +77,9 @@ private fun GameCardHeader(game: Game) {
                 painter = painterResource(id = R.drawable.ic_dice),
                 contentDescription = null,
                 tint = Primary,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(dimensions.iconSizeSmall + dimensions.spaceExtraSmall)
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(dimensions.spaceSmall))
             Text(
                 text = "Partida #${game.id}",
                 style = MaterialTheme.typography.titleMedium,
@@ -86,13 +88,13 @@ private fun GameCardHeader(game: Game) {
         }
 
         Surface(
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(dimensions.spaceMedium),
             color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)
         ) {
             Text(
                 text = DateFormatUtils.formatFullDate(game.completedAt ?: game.startedAt),
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                modifier = Modifier.padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceExtraSmall)
             )
         }
     }
@@ -103,6 +105,7 @@ private fun GameCardHeader(game: Game) {
  */
 @Composable
 private fun GameCardDetails(game: Game, winner: Player?) {
+    val dimensions = LocalDimensions.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -111,10 +114,10 @@ private fun GameCardDetails(game: Game, winner: Player?) {
             painter = painterResource(id = R.drawable.ic_trophy),
             contentDescription = "Ganador",
             tint = Color(0xFFFFC107),
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(dimensions.spaceLarge)
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
         Text(
             text = winner?.name ?: "Sin ganador",
@@ -131,7 +134,7 @@ private fun GameCardDetails(game: Game, winner: Player?) {
             color = Primary
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
         // Chip para mostrar el número de rondas
         GameStatChip(
@@ -151,21 +154,22 @@ private fun GameStatChip(
     value: String,
     color: Color
 ) {
+    val dimensions = LocalDimensions.current
     Surface(
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.spaceMedium),
         color = color.copy(alpha = 0.1f)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceExtraSmall),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = null,
                 tint = color,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(dimensions.spaceMedium)
             )
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(dimensions.spaceExtraSmall))
             Text(
                 text = value,
                 style = MaterialTheme.typography.bodySmall,

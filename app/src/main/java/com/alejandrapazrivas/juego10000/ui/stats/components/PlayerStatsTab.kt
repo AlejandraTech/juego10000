@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.PlayerStats
 
 /**
@@ -31,6 +32,7 @@ fun PlayerStatsTab(
     onPlayerSelected: (Player) -> Unit,
     playerGames: List<Game>
 ) {
+    val dimensions = LocalDimensions.current
     Column(modifier = Modifier.fillMaxSize()) {
         if (players.isEmpty()) {
             EmptyStateMessage(message = "No hay jugadores registrados")
@@ -41,8 +43,8 @@ fun PlayerStatsTab(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                        .padding(dimensions.spaceMedium),
+                    verticalArrangement = Arrangement.spacedBy(dimensions.spaceSmall + dimensions.spaceExtraSmall)
                 ) {
                     // Gráficas de estadísticas
                     item {
@@ -50,7 +52,7 @@ fun PlayerStatsTab(
                             players = players,
                             modifier = Modifier.fillMaxWidth()
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
                     }
 
                     item {
@@ -58,7 +60,7 @@ fun PlayerStatsTab(
                             players = players,
                             modifier = Modifier.fillMaxWidth()
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
                     }
 
                     // Lista de jugadores

@@ -35,6 +35,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.PlayerStats
 
 @Composable
@@ -44,18 +45,19 @@ fun PlayerScoresChart(
 ) {
     if (players.isEmpty()) return
 
+    val dimensions = LocalDimensions.current
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.spaceMedium),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.spaceExtraSmall / 2)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             Text(
                 text = "Mejores Puntuaciones por Jugador",
@@ -64,7 +66,7 @@ fun PlayerScoresChart(
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
             var animationPlayed by remember { mutableStateOf(false) }
             val animationProgress by animateFloatAsState(
@@ -87,15 +89,15 @@ fun PlayerScoresChart(
                 animationProgress = animationProgress,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
+                    .height(dimensions.buttonHeight * 3)
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall + dimensions.spaceExtraSmall))
 
             // Leyenda
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(dimensions.spaceMedium)
             ) {
                 players.take(4).forEachIndexed { index, player ->
                     LegendItem(
@@ -152,18 +154,19 @@ fun WinRateChart(
 ) {
     if (players.isEmpty()) return
 
+    val dimensions = LocalDimensions.current
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.spaceMedium),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.spaceExtraSmall / 2)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             Text(
                 text = "Tasa de Victorias",
@@ -172,7 +175,7 @@ fun WinRateChart(
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -201,12 +204,13 @@ private fun WinRateItem(
     winRate: Float,
     color: Color
 ) {
+    val dimensions = LocalDimensions.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
-                .size(60.dp)
+                .size(dimensions.avatarSizeMedium + dimensions.spaceExtraSmall)
                 .clip(CircleShape)
                 .background(color.copy(alpha = 0.2f)),
             contentAlignment = Alignment.Center
@@ -219,7 +223,7 @@ private fun WinRateItem(
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         Text(
             text = name,
@@ -235,16 +239,17 @@ private fun LegendItem(
     name: String,
     color: Color
 ) {
+    val dimensions = LocalDimensions.current
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .size(8.dp)
+                .size(dimensions.spaceSmall)
                 .clip(CircleShape)
                 .background(color)
         )
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(dimensions.spaceExtraSmall))
         Text(
             text = name,
             style = MaterialTheme.typography.labelSmall,

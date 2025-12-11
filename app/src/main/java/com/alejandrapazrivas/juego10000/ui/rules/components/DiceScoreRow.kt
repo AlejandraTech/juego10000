@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.rules.components.base.ScoreRow
 
 /**
@@ -28,6 +28,8 @@ import com.alejandrapazrivas.juego10000.ui.rules.components.base.ScoreRow
  */
 @Composable
 fun DiceScoreRow(diceValue: Int, points: Int) {
+    val dimensions = LocalDimensions.current
+
     ScoreRow(
         points = points,
         leadingContent = {
@@ -36,12 +38,12 @@ fun DiceScoreRow(diceValue: Int, points: Int) {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(44.dp)
+                        .size(dimensions.avatarSizeSmall + dimensions.spaceExtraSmall)
                         .background(
                             color = MaterialTheme.colorScheme.surfaceVariant,
                             shape = CircleShape
                         )
-                        .padding(6.dp),
+                        .padding(dimensions.spaceSmall - dimensions.spaceExtraSmall),
                     contentAlignment = Alignment.Center
                 ) {
                     // Mostrar el dado correspondiente
@@ -57,11 +59,11 @@ fun DiceScoreRow(diceValue: Int, points: Int) {
                             }
                         ),
                         contentDescription = "Dado $diceValue",
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(dimensions.spaceExtraLarge)
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall + dimensions.spaceExtraSmall))
 
                 Text(
                     text = "Valor $diceValue",

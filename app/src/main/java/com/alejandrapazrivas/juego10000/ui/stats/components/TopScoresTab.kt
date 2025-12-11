@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.ScoreWithPlayer
 
 /**
@@ -20,6 +21,7 @@ import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.ScoreWithPlayer
  */
 @Composable
 fun TopScoresTab(topScores: List<ScoreWithPlayer>) {
+    val dimensions = LocalDimensions.current
     if (topScores.isEmpty()) {
         EmptyStateMessage(
             message = "No hay puntuaciones registradas",
@@ -29,19 +31,19 @@ fun TopScoresTab(topScores: List<ScoreWithPlayer>) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         ) {
             Text(
                 text = "Mejores puntuaciones",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = dimensions.spaceMedium)
             )
 
             // Usamos el componente de animación para la lista
             AnimatedEntrance {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(dimensions.spaceSmall + dimensions.spaceExtraSmall)
                 ) {
                     itemsIndexed(topScores) { index, scoreWithPlayer ->
                         TopScoreCard(

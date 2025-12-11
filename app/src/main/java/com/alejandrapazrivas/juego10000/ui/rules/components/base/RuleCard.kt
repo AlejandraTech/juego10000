@@ -23,8 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Componente base para las tarjetas de reglas.
@@ -39,11 +39,13 @@ fun RuleCard(
     title: String,
     content: @Composable () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(
-                elevation = 4.dp,
+                elevation = dimensions.spaceExtraSmall,
                 shape = CardShape,
                 spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
             ),
@@ -51,22 +53,22 @@ fun RuleCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.elevationNone)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(dimensions.spaceMedium)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(dimensions.avatarSizeSmall)
                         .background(
                             color = MaterialTheme.colorScheme.primaryContainer,
                             shape = CircleShape
                         )
-                        .padding(8.dp),
+                        .padding(dimensions.spaceSmall),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -76,7 +78,7 @@ fun RuleCard(
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall + dimensions.spaceExtraSmall))
 
                 Text(
                     text = title,
@@ -86,14 +88,14 @@ fun RuleCard(
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall + dimensions.spaceExtraSmall))
 
             Divider(
-                modifier = Modifier.padding(vertical = 4.dp),
+                modifier = Modifier.padding(vertical = dimensions.spaceExtraSmall),
                 color = MaterialTheme.colorScheme.outlineVariant
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
             content()
         }

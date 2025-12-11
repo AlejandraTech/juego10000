@@ -19,8 +19,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,6 +29,8 @@ fun PlayerTopAppBar(
     onBackClick: () -> Unit,
     onAddClick: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     TopAppBar(
         title = {
             Text(
@@ -54,7 +56,7 @@ fun PlayerTopAppBar(
             IconButton(
                 onClick = onAddClick,
                 modifier = Modifier
-                    .padding(end = 8.dp)
+                    .padding(end = dimensions.spaceSmall)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f))
             ) {
@@ -65,6 +67,6 @@ fun PlayerTopAppBar(
                 )
             }
         },
-        modifier = Modifier.shadow(elevation = 4.dp)
+        modifier = Modifier.shadow(elevation = dimensions.spaceExtraSmall)
     )
 }

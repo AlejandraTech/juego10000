@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.stats.components.GameHistoryTab
 import com.alejandrapazrivas.juego10000.ui.stats.components.PlayerStatsTab
@@ -100,6 +101,7 @@ fun StatsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StatsTopAppBar(navController: NavController) {
+    val dimensions = LocalDimensions.current
     TopAppBar(
         title = {
             Text(
@@ -121,7 +123,7 @@ private fun StatsTopAppBar(navController: NavController) {
             containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
             titleContentColor = MaterialTheme.colorScheme.onSurface
         ),
-        modifier = Modifier.shadow(elevation = 4.dp)
+        modifier = Modifier.shadow(elevation = dimensions.spaceExtraSmall)
     )
 }
 
@@ -134,6 +136,7 @@ private fun StatsTabRow(
     selectedTab: Int,
     onTabSelected: (Int) -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     TabRow(
         selectedTabIndex = selectedTab,
         containerColor = Primary,
@@ -141,7 +144,7 @@ private fun StatsTabRow(
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
                 modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
-                height = 3.dp,
+                height = dimensions.spaceExtraSmall - 1.dp,
                 color = Color.White
             )
         }
@@ -150,13 +153,13 @@ private fun StatsTabRow(
             Tab(
                 selected = selectedTab == index,
                 onClick = { onTabSelected(index) },
-                text = { 
+                text = {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.labelLarge.copy(
                             fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
                         )
-                    ) 
+                    )
                 }
             )
         }

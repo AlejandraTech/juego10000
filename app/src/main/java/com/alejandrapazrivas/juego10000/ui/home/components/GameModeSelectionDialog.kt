@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.BotDifficulty
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Enumeración para los modos de juego disponibles
@@ -42,6 +43,7 @@ fun GameModeSelectionDialog(
     onMultiplayerSelected: () -> Unit,
     onSinglePlayerSelected: (BotDifficulty) -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     var selectedMode by remember { mutableStateOf(GameMode.MULTIPLAYER) }
     var selectedDifficulty by remember { mutableStateOf(BotDifficulty.BEGINNER) }
     var showDifficultySelection by remember { mutableStateOf(false) }
@@ -70,8 +72,8 @@ fun GameModeSelectionDialog(
                         style = MaterialTheme.typography.bodyMedium
                     )
                     
-                    Spacer(modifier = Modifier.height(16.dp))
-                    
+                    Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
                     // Modo de juego - Multijugador
                     SelectableOption(
                         title = stringResource(id = R.string.multiplayer_mode),
@@ -81,9 +83,9 @@ fun GameModeSelectionDialog(
                         onClick = { selectedMode = GameMode.MULTIPLAYER },
                         modifier = Modifier.fillMaxWidth()
                     )
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
+
+                    Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
                     // Modo de juego - Un jugador
                     SelectableOption(
                         title = stringResource(id = R.string.single_player_mode),
@@ -99,9 +101,9 @@ fun GameModeSelectionDialog(
                         text = "Selecciona la dificultad del bot para la partida",
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    
-                    Spacer(modifier = Modifier.height(16.dp))
-                    
+
+                    Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
                     // Dificultad - Principiante
                     SelectableOption(
                         title = stringResource(id = R.string.bot_beginner),
@@ -110,7 +112,7 @@ fun GameModeSelectionDialog(
                         onClick = { selectedDifficulty = BotDifficulty.BEGINNER },
                         leadingContent = {
                             Box(
-                                modifier = Modifier.size(40.dp),
+                                modifier = Modifier.size(dimensions.avatarSizeSmall),
                                 contentAlignment = Alignment.Center
                             ) {
                                 DifficultyLevelIcon(
@@ -121,9 +123,9 @@ fun GameModeSelectionDialog(
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
+
+                    Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
                     // Dificultad - Intermedio
                     SelectableOption(
                         title = stringResource(id = R.string.bot_intermediate),
@@ -132,7 +134,7 @@ fun GameModeSelectionDialog(
                         onClick = { selectedDifficulty = BotDifficulty.INTERMEDIATE },
                         leadingContent = {
                             Box(
-                                modifier = Modifier.size(40.dp),
+                                modifier = Modifier.size(dimensions.avatarSizeSmall),
                                 contentAlignment = Alignment.Center
                             ) {
                                 DifficultyLevelIcon(
@@ -143,9 +145,9 @@ fun GameModeSelectionDialog(
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
+
+                    Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
                     // Dificultad - Experto
                     SelectableOption(
                         title = stringResource(id = R.string.bot_expert),
@@ -154,7 +156,7 @@ fun GameModeSelectionDialog(
                         onClick = { selectedDifficulty = BotDifficulty.EXPERT },
                         leadingContent = {
                             Box(
-                                modifier = Modifier.size(40.dp),
+                                modifier = Modifier.size(dimensions.avatarSizeSmall),
                                 contentAlignment = Alignment.Center
                             ) {
                                 DifficultyLevelIcon(

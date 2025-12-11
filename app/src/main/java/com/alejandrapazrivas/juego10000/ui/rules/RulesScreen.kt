@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.rules.components.RuleSection
 import com.alejandrapazrivas.juego10000.ui.rules.components.RulesHeader
 import com.alejandrapazrivas.juego10000.ui.rules.components.ScoringCard
@@ -50,6 +51,7 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RulesScreen(navController: NavController) {
+    val dimensions = LocalDimensions.current
     // Estados para controlar la animación de aparición de los elementos
     var showHeader by remember { mutableStateOf(false) }
     var showObjective by remember { mutableStateOf(false) }
@@ -96,7 +98,7 @@ fun RulesScreen(navController: NavController) {
                     containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
                     titleContentColor = MaterialTheme.colorScheme.onSurface
                 ),
-                modifier = Modifier.shadow(elevation = 4.dp)
+                modifier = Modifier.shadow(elevation = dimensions.spaceExtraSmall)
             )
         }
     ) { paddingValues ->
@@ -119,7 +121,7 @@ fun RulesScreen(navController: NavController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(dimensions.spaceMedium)
                     .verticalScroll(rememberScrollState())
             ) {
                 // Encabezado animado
@@ -131,7 +133,7 @@ fun RulesScreen(navController: NavController) {
                     RulesHeader()
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceLarge))
 
                 // Objetivo del juego
                 AnimatedVisibility(
@@ -146,7 +148,7 @@ fun RulesScreen(navController: NavController) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                 // Entrada en juego
                 AnimatedVisibility(
@@ -161,7 +163,7 @@ fun RulesScreen(navController: NavController) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                 // Mecánica de turnos
                 AnimatedVisibility(
@@ -181,7 +183,7 @@ fun RulesScreen(navController: NavController) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                 // Sistema de puntuación
                 AnimatedVisibility(
@@ -192,7 +194,7 @@ fun RulesScreen(navController: NavController) {
                     ScoringCard()
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                 // Estrategias
                 AnimatedVisibility(
@@ -210,7 +212,7 @@ fun RulesScreen(navController: NavController) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceLarge))
             }
         }
     }

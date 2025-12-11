@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.Juego10000Theme
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.settings.components.SettingItem
 import com.alejandrapazrivas.juego10000.ui.settings.components.SettingsCard
 
@@ -41,6 +42,7 @@ fun SettingsScreen(
     navController: NavController,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
+    val dimensions = LocalDimensions.current
     // Obtener el estado actual de las preferencias
     val soundEnabled by viewModel.soundEnabled.collectAsState()
     val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
@@ -59,7 +61,7 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(dimensions.spaceMedium)
         )
     }
 }
@@ -70,6 +72,7 @@ fun SettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsTopBar(navController: NavController) {
+    val dimensions = LocalDimensions.current
     TopAppBar(
         title = {
             Text(
@@ -91,7 +94,7 @@ private fun SettingsTopBar(navController: NavController) {
             containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
             titleContentColor = MaterialTheme.colorScheme.onSurface
         ),
-        modifier = Modifier.shadow(elevation = 4.dp)
+        modifier = Modifier.shadow(elevation = dimensions.spaceExtraSmall)
     )
 }
 
@@ -108,6 +111,7 @@ private fun SettingsContent(
     onDarkModeChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
     Column(modifier = modifier) {
         SettingsCard(
             title = stringResource(R.string.game_preferences),
@@ -127,7 +131,7 @@ private fun SettingsContent(
             )
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
         SettingsCard(
             title = stringResource(R.string.appearance),

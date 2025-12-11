@@ -37,17 +37,18 @@ import androidx.compose.ui.unit.sp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.ButtonShape
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 private val TrophyColor = Color(0xFFFFC107)
-private val TrophySize = 120.dp
-private val CardCornerRadius = 24.dp
-private val VictoryTitleSize = 32.sp
 
 /**
  * Componente para mostrar el trofeo animado con efecto de brillo
  */
 @Composable
 private fun AnimatedTrophy() {
+    val dimensions = LocalDimensions.current
+    val trophySize = dimensions.headerIconSize * 1.5f
+
     // Animación para el trofeo
     val infiniteTransition = rememberInfiniteTransition(label = "trophy_animation")
     val scale by infiniteTransition.animateFloat(
@@ -59,7 +60,7 @@ private fun AnimatedTrophy() {
         ),
         label = "scale_animation"
     )
-    
+
     // Animación para el brillo
     val shimmerAlpha by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -70,28 +71,28 @@ private fun AnimatedTrophy() {
         ),
         label = "shimmer_animation"
     )
-    
+
     Box(
         modifier = Modifier
-            .size(TrophySize * scale)
-            .padding(8.dp),
+            .size(trophySize * scale)
+            .padding(dimensions.spaceSmall),
         contentAlignment = Alignment.Center
     ) {
         // Efecto de brillo
         Box(
             modifier = Modifier
-                .size(TrophySize * scale * 1.2f)
+                .size(trophySize * scale * 1.2f)
                 .background(
                     TrophyColor.copy(alpha = shimmerAlpha),
                     RoundedCornerShape(percent = 50)
                 )
         )
-        
+
         // Icono del trofeo
         Icon(
             painter = painterResource(id = R.drawable.ic_trophy),
             contentDescription = "Trofeo",
-            modifier = Modifier.size(TrophySize * scale),
+            modifier = Modifier.size(trophySize * scale),
             tint = TrophyColor
         )
     }
@@ -103,6 +104,7 @@ fun GameVictoryScreen(
     score: Int,
     onBackToHome: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
 
     Box(
         modifier = Modifier
@@ -115,19 +117,19 @@ fun GameVictoryScreen(
         Card(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
-                .padding(16.dp),
-            shape = RoundedCornerShape(CardCornerRadius),
+                .padding(dimensions.spaceMedium),
+            shape = RoundedCornerShape(dimensions.spaceLarge),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
             ),
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
+                defaultElevation = dimensions.cardElevation
             )
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(dimensions.spaceLarge),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -137,15 +139,15 @@ fun GameVictoryScreen(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
-                    fontSize = VictoryTitleSize
+                    fontSize = dimensions.scoreLarge
                 )
-                
-                Spacer(modifier = Modifier.height(24.dp))
-                
+
+                Spacer(modifier = Modifier.height(dimensions.spaceLarge))
+
                 AnimatedTrophy()
-                
-                Spacer(modifier = Modifier.height(24.dp))
-                
+
+                Spacer(modifier = Modifier.height(dimensions.spaceLarge))
+
                 winner?.let {
                     Text(
                         text = "¡${it.name} ha ganado!",
@@ -154,9 +156,9 @@ fun GameVictoryScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
+
+                    Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
                     Text(
                         text = "Puntuación: $score puntos",
                         style = MaterialTheme.typography.titleLarge,
@@ -164,14 +166,14 @@ fun GameVictoryScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-                
-                Spacer(modifier = Modifier.height(32.dp))
-                
+
+                Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
+
                 Button(
                     onClick = onBackToHome,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp),
+                        .height(dimensions.buttonHeight),
                     shape = ButtonShape,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary

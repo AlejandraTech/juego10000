@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.ui.common.theme.ScorePositive
 
@@ -26,6 +26,7 @@ import com.alejandrapazrivas.juego10000.ui.common.theme.ScorePositive
  */
 @Composable
 fun GameHistoryItem(game: Game, playerId: Long) {
+    val dimensions = LocalDimensions.current
     val isWinner = game.winnerPlayerId == playerId
     val backgroundColor = if (isWinner) ScorePositive.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface
     val statusColor = if (isWinner) ScorePositive else Color.Gray
@@ -34,14 +35,14 @@ fun GameHistoryItem(game: Game, playerId: Long) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(8.dp),
+            .padding(vertical = dimensions.spaceExtraSmall),
+        shape = RoundedCornerShape(dimensions.spaceSmall),
         color = backgroundColor
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(dimensions.spaceSmall),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Icono de trofeo para victorias
@@ -50,9 +51,9 @@ fun GameHistoryItem(game: Game, playerId: Long) {
                     painter = painterResource(id = R.drawable.ic_trophy),
                     contentDescription = "Victoria",
                     tint = Color(0xFFFFC107),
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(dimensions.iconSizeSmall + dimensions.spaceExtraSmall)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
             }
 
             // Fecha de la partida
@@ -64,14 +65,14 @@ fun GameHistoryItem(game: Game, playerId: Long) {
 
             // Indicador de resultado
             Surface(
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(dimensions.spaceMedium),
                 color = statusColor.copy(alpha = 0.2f)
             ) {
                 Text(
                     text = statusText,
                     style = MaterialTheme.typography.bodyMedium,
                     color = statusColor,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+                    modifier = Modifier.padding(horizontal = dimensions.spaceSmall + dimensions.spaceExtraSmall, vertical = dimensions.spaceExtraSmall)
                 )
             }
         }

@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.ScoreWithPlayer
@@ -36,14 +37,15 @@ fun TopScoreCard(
     scoreWithPlayer: ScoreWithPlayer,
     position: Int
 ) {
+    val dimensions = LocalDimensions.current
     // Colores según la posición
     val medalColors = getMedalColors(position)
-    
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .border(
-                width = if (position <= 3) 2.dp else 0.dp,
+                width = if (position <= 3) dimensions.spaceExtraSmall / 2 else 0.dp,
                 color = medalColors.border,
                 shape = CardShape
             ),
@@ -51,23 +53,23 @@ fun TopScoreCard(
         colors = CardDefaults.cardColors(containerColor = medalColors.background),
         elevation = CardDefaults.cardElevation(
             defaultElevation = when (position) {
-                1 -> 8.dp
-                2 -> 6.dp
-                3 -> 4.dp
-                else -> 2.dp
+                1 -> dimensions.spaceSmall
+                2 -> dimensions.spaceSmall - dimensions.spaceExtraSmall / 2
+                3 -> dimensions.spaceExtraSmall
+                else -> dimensions.spaceExtraSmall / 2
             }
         )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spaceMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Posición con círculo
             PositionCircle(position, medalColors.medal)
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(dimensions.spaceMedium))
 
             // Puntuación con estilo grande
             Text(
@@ -77,7 +79,7 @@ fun TopScoreCard(
                 color = Primary
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(dimensions.spaceMedium))
 
             // Información del jugador y la puntuación
             ScoreDetails(scoreWithPlayer)
@@ -88,7 +90,7 @@ fun TopScoreCard(
                     painter = painterResource(id = R.drawable.ic_trophy),
                     contentDescription = null,
                     tint = medalColors.medal,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(dimensions.spaceExtraLarge)
                 )
             }
         }
@@ -100,9 +102,10 @@ fun TopScoreCard(
  */
 @Composable
 private fun PositionCircle(position: Int, color: Color) {
+    val dimensions = LocalDimensions.current
     Box(
         modifier = Modifier
-            .size(40.dp)
+            .size(dimensions.avatarSizeSmall)
             .background(
                 color = color,
                 shape = CircleShape
@@ -123,6 +126,7 @@ private fun PositionCircle(position: Int, color: Color) {
  */
 @Composable
 private fun ScoreDetails(scoreWithPlayer: ScoreWithPlayer) {
+    val dimensions = LocalDimensions.current
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -138,10 +142,10 @@ private fun ScoreDetails(scoreWithPlayer: ScoreWithPlayer) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_dice),
                 contentDescription = null,
-                modifier = Modifier.size(16.dp),
+                modifier = Modifier.size(dimensions.spaceMedium),
                 tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
             )
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(dimensions.spaceExtraSmall))
             Text(
                 text = "Ronda ${scoreWithPlayer.score.round}",
                 style = MaterialTheme.typography.bodyMedium

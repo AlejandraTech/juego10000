@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.home.components.GameModeSelectionDialog
 import com.alejandrapazrivas.juego10000.ui.home.components.HomeDrawerContent
 import com.alejandrapazrivas.juego10000.ui.home.components.LastGameCard
@@ -67,6 +68,7 @@ fun HomeScreen(
     onNavigateToUserSelection: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val dimensions = LocalDimensions.current
     val uiState by viewModel.uiState.collectAsState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -165,11 +167,11 @@ fun HomeScreen(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(paddingValues)
-                                .padding(horizontal = 16.dp)
+                                .padding(horizontal = dimensions.screenPaddingHorizontal)
                                 .verticalScroll(rememberScrollState()),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
                             // Card principal para jugar
                             AnimatedVisibility(
@@ -189,7 +191,7 @@ fun HomeScreen(
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(24.dp))
+                            Spacer(modifier = Modifier.height(dimensions.spaceLarge))
 
                             // Sección de estadísticas rápidas
                             AnimatedVisibility(
@@ -209,7 +211,7 @@ fun HomeScreen(
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                             // Gráfica de rendimiento
                             AnimatedVisibility(
@@ -226,7 +228,7 @@ fun HomeScreen(
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                             // Última partida
                             AnimatedVisibility(
@@ -243,7 +245,7 @@ fun HomeScreen(
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(32.dp))
+                            Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
                         }
                     }
                 }

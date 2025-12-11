@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Player
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Diálogo para seleccionar oponentes para una partida multijugador.
@@ -35,6 +36,8 @@ fun PlayerSelectionDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = "Seleccionar Oponentes") },
@@ -47,7 +50,7 @@ fun PlayerSelectionDialog(
                     style = MaterialTheme.typography.bodyMedium
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                 // Lista de jugadores disponibles (sin el usuario actual)
                 availablePlayers.forEach { player ->
@@ -60,7 +63,7 @@ fun PlayerSelectionDialog(
                         onClick = { onPlayerSelected(player) },
                         leadingContent = {
                             Box(
-                                modifier = Modifier.size(40.dp),
+                                modifier = Modifier.size(dimensions.avatarSizeSmall),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Checkbox(
@@ -71,7 +74,7 @@ fun PlayerSelectionDialog(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 4.dp)
+                            .padding(vertical = dimensions.spaceExtraSmall)
                     )
                 }
             }

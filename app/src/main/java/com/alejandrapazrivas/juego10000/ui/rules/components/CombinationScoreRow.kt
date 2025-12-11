@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.rules.components.base.ScoreRow
 
 /**
@@ -28,6 +28,8 @@ import com.alejandrapazrivas.juego10000.ui.rules.components.base.ScoreRow
  */
 @Composable
 fun CombinationScoreRow(combination: String, points: Int) {
+    val dimensions = LocalDimensions.current
+
     ScoreRow(
         points = points,
         useGradient = true,
@@ -37,23 +39,23 @@ fun CombinationScoreRow(combination: String, points: Int) {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(dimensions.spaceExtraLarge)
                         .background(
                             color = MaterialTheme.colorScheme.surfaceVariant,
                             shape = CircleShape
                         )
-                        .padding(6.dp),
+                        .padding(dimensions.spaceSmall - dimensions.spaceExtraSmall),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_dice),
                         contentDescription = null,
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(dimensions.iconSizeSmall),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall + dimensions.spaceExtraSmall))
 
                 Text(
                     text = combination,

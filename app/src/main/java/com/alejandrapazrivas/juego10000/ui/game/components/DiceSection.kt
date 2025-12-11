@@ -46,11 +46,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Dice
-
-// Constantes
-private val DICE_SIZE = 64.dp
-private val DICE_ICON_SIZE = 56.dp
-private val DICE_CORNER_RADIUS = 8.dp
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Componente que muestra un indicador visual con un icono y mensajes
@@ -64,6 +60,8 @@ private fun GameIndicator(
     detailMessage: String? = null,
     isError: Boolean = false
 ) {
+    val dimensions = LocalDimensions.current
+
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn(animationSpec = tween(300)),
@@ -72,61 +70,61 @@ private fun GameIndicator(
         Surface(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
-                .padding(16.dp),
-            color = if (isError) 
+                .padding(dimensions.spaceMedium),
+            color = if (isError)
                 MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.9f)
-            else 
+            else
                 MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f),
             shape = MaterialTheme.shapes.medium
         ) {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(dimensions.spaceMedium),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = if (isError) 
+                    tint = if (isError)
                         MaterialTheme.colorScheme.onErrorContainer
-                    else 
+                    else
                         MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.size(40.dp)
+                    modifier = Modifier.size(dimensions.iconSizeExtraLarge)
                 )
-                
-                Spacer(modifier = Modifier.height(8.dp))
-                
+
+                Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    color = if (isError) 
+                    color = if (isError)
                         MaterialTheme.colorScheme.onErrorContainer
-                    else 
+                    else
                         MaterialTheme.colorScheme.onPrimaryContainer
                 )
-                
+
                 if (message != null) {
                     Text(
                         text = message,
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
-                        color = if (isError) 
+                        color = if (isError)
                             MaterialTheme.colorScheme.onErrorContainer
-                        else 
+                        else
                             MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-                
+
                 if (detailMessage != null) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
+                    Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
                     Text(
                         text = detailMessage,
                         style = MaterialTheme.typography.bodySmall,
                         textAlign = TextAlign.Center,
-                        color = if (isError) 
+                        color = if (isError)
                             MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.8f)
-                        else 
+                        else
                             MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
                     )
                 }
@@ -145,6 +143,8 @@ fun DiceSection(
     showPointsSavedIndicator: Boolean = false,
     showScoreExceededIndicator: Boolean = false
 ) {
+    val dimensions = LocalDimensions.current
+
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -174,7 +174,7 @@ fun DiceSection(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.diceSpacing))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -229,6 +229,8 @@ fun DiceView(
     isRolling: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
+
     // Obtener el recurso de drawable correspondiente al valor del dado
     val diceResource = when (dice.value) {
         1 -> R.drawable.dice_1
@@ -239,7 +241,7 @@ fun DiceView(
         6 -> R.drawable.dice_6
         else -> R.drawable.dice_1
     }
-    
+
     // Animación de rotación para el lanzamiento
     val infiniteTransition = rememberInfiniteTransition(label = "diceRoll")
     val rotation by infiniteTransition.animateFloat(
@@ -251,38 +253,38 @@ fun DiceView(
         ),
         label = "rotation"
     )
-    
+
     // Escala para el efecto de selección
     val scale by animateFloatAsState(
         targetValue = if (dice.isSelected || dice.isLocked) 1.1f else 1f,
         animationSpec = tween(100),
         label = "scale"
     )
-    
+
     // Color de fondo según el estado del dado
     val backgroundColor = when {
         dice.isLocked -> MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
         dice.isSelected -> MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f)
         else -> Color.Transparent
     }
-    
+
     // Contenedor del dado con efectos visuales
     Box(
         modifier = modifier
-            .size(DICE_SIZE)
+            .size(dimensions.diceSize)
             .rotate(if (isRolling) rotation else 0f)
             .scale(scale)
-            .clip(RoundedCornerShape(DICE_CORNER_RADIUS))
+            .clip(RoundedCornerShape(dimensions.diceCornerRadius))
             .background(backgroundColor)
             .clickable(enabled = !isRolling && !dice.isLocked) { onClick() }
-            .padding(4.dp),
+            .padding(dimensions.spaceExtraSmall),
         contentAlignment = Alignment.Center
     ) {
         // Icono del dado
         Icon(
             painter = painterResource(id = diceResource),
             contentDescription = "Dado con valor ${dice.value}",
-            modifier = Modifier.size(DICE_ICON_SIZE),
+            modifier = Modifier.size(dimensions.diceIconSize),
             tint = Color.Unspecified
         )
     }

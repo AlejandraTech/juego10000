@@ -18,8 +18,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.domain.model.Player
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import kotlinx.coroutines.delay
 
 /**
@@ -35,11 +35,13 @@ fun PlayersList(
     onEditPlayer: (Player) -> Unit,
     onDeletePlayer: (Player) -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
+        verticalArrangement = Arrangement.spacedBy(dimensions.spaceSmall + dimensions.spaceExtraSmall)
     ) {
         itemsIndexed(
             items = players,
@@ -61,7 +63,7 @@ fun PlayersList(
         }
 
         item {
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.height(dimensions.headerIconSize))
         }
     }
 }

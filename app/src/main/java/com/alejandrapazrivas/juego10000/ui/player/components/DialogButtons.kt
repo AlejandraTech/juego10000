@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.ButtonShape
 
 /**
@@ -37,9 +38,11 @@ fun DialogButtons(
     confirmColor: Color = MaterialTheme.colorScheme.primary,
     confirmTextColor: Color = MaterialTheme.colorScheme.onPrimary
 ) {
+    val dimensions = LocalDimensions.current
+
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
     ) {
         // Botón Cancelar
         OutlinedButton(
@@ -51,7 +54,7 @@ fun DialogButtons(
             ),
             modifier = Modifier
                 .weight(1f)
-                .height(48.dp)
+                .height(dimensions.buttonHeight)
         ) {
             Text(
                 text = stringResource(id = R.string.cancel),
@@ -70,7 +73,7 @@ fun DialogButtons(
             ),
             modifier = Modifier
                 .weight(1f)
-                .height(48.dp)
+                .height(dimensions.buttonHeight)
         ) {
             Text(
                 text = confirmText,

@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Componente base para las filas de puntuación.
@@ -33,19 +33,21 @@ fun ScoreRow(
     useGradient: Boolean = false,
     backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
+    val dimensions = LocalDimensions.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp),
+            .padding(vertical = dimensions.spaceSmall - dimensions.spaceExtraSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
         leadingContent()
-        
+
         Spacer(modifier = Modifier.weight(1f))
 
         Box(
             modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(dimensions.spaceMedium))
                 .background(
                     color = if (!useGradient) backgroundColor else Color.Transparent
                 )
@@ -60,9 +62,9 @@ fun ScoreRow(
                     } else {
                         Brush.horizontalGradient(colors = listOf(backgroundColor, backgroundColor))
                     },
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(dimensions.spaceMedium)
                 )
-                .padding(horizontal = 12.dp, vertical = 6.dp),
+                .padding(horizontal = dimensions.spaceSmall + dimensions.spaceExtraSmall, vertical = dimensions.spaceSmall - dimensions.spaceExtraSmall),
             contentAlignment = Alignment.Center
         ) {
             Text(

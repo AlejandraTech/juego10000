@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Cabecera de la pantalla principal que muestra el logo y título del juego.
@@ -23,14 +24,16 @@ import com.alejandrapazrivas.juego10000.R
 fun GameHeader(
     modifier: Modifier = Modifier
 ) {
+    val dimensions = LocalDimensions.current
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(top = 16.dp)
+        modifier = modifier.padding(top = dimensions.spaceMedium)
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_dice),
             contentDescription = null,
-            modifier = Modifier.size(80.dp)
+            modifier = Modifier.size(dimensions.headerIconSize)
         )
 
         Text(
@@ -39,7 +42,7 @@ fun GameHeader(
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = dimensions.spaceSmall)
         )
     }
 }
