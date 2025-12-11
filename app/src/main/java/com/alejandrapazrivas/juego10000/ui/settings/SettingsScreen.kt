@@ -246,7 +246,7 @@ private fun SettingsContent(
                         .clickable {
                             val intent = Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse("https://pixabay.com/sound-effects/dice-142528/")
+                                Uri.parse("https://pixabay.com/sound-effects/dice-roll-201898/")
                             )
                             context.startActivity(intent)
                         }
@@ -273,7 +273,7 @@ private fun SettingsContent(
                         .clickable {
                             val intent = Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse("https://pixabay.com/sound-effects/tada-fanfare-a-6313/")
+                                Uri.parse("https://pixabay.com/sound-effects/brass-fanfare-with-timpani-and-winchimes-reverberated-146260/")
                             )
                             context.startActivity(intent)
                         }
