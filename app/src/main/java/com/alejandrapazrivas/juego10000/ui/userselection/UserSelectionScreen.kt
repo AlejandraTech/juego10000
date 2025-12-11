@@ -110,7 +110,7 @@ private fun UserSelectionContent(
 
         // Header
         Text(
-            text = "Juego 10.000",
+            text = "Juego 10000",
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary

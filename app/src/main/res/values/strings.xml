@@ -142,4 +142,7 @@
     <string name="enable_dark_mode">Cambiar a tema oscuro</string>
     <string name="appearance">Apariencia</string>
     <string name="game_preferences">Preferencias de Juego</string>
+    <string name="legal">Legal</string>
+    <string name="privacy_policy">Política de Privacidad</string>
+    <string name="privacy_policy_description">Ver nuestra política de privacidad</string>
 </resources>
