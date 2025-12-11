@@ -2,7 +2,6 @@ package com.alejandrapazrivas.juego10000.ui.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -15,37 +14,47 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alejandrapazrivas.juego10000.ui.home.components.GameHeader
 import com.alejandrapazrivas.juego10000.ui.home.components.GameModeSelectionDialog
-import com.alejandrapazrivas.juego10000.ui.home.components.MainMenuOptions
+import com.alejandrapazrivas.juego10000.ui.home.components.HomeDrawerContent
+import com.alejandrapazrivas.juego10000.ui.home.components.LastGameCard
+import com.alejandrapazrivas.juego10000.ui.home.components.MiniPerformanceChart
+import com.alejandrapazrivas.juego10000.ui.home.components.PlayGameCard
 import com.alejandrapazrivas.juego10000.ui.home.components.PlayerSelectionDialog
-import com.alejandrapazrivas.juego10000.ui.home.components.StartGameButton
+import com.alejandrapazrivas.juego10000.ui.home.components.QuickStatsSection
 import com.alejandrapazrivas.juego10000.ui.common.theme.Juego10000Theme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,30 +67,25 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
     // Estados para controlar la animación de aparición de los elementos
-    var showHeader by remember { mutableStateOf(false) }
-    var showMenuOptions by remember { mutableStateOf(false) }
-    var showStartButton by remember { mutableStateOf(false) }
-    
+    var showPlayCard by remember { mutableStateOf(false) }
+    var showStats by remember { mutableStateOf(false) }
+    var showChart by remember { mutableStateOf(false) }
+    var showLastGame by remember { mutableStateOf(false) }
+
     // Efecto para animar la aparición secuencial de los elementos
     LaunchedEffect(key1 = true) {
-        showHeader = true
-        delay(200)
-        showMenuOptions = true
-        delay(400)
-        showStartButton = true
+        showPlayCard = true
+        delay(150)
+        showStats = true
+        delay(150)
+        showChart = true
+        delay(150)
+        showLastGame = true
     }
-    
-    // Animación de escala para el botón de inicio
-    val startButtonScale by animateFloatAsState(
-        targetValue = if (showStartButton) 1f else 0.8f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "button_scale"
-    )
 
     // Mostrar mensaje de error
     uiState.errorMessage?.let { errorMessage ->
@@ -91,114 +95,149 @@ fun HomeScreen(
     }
 
     Juego10000Theme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { /* Título vacío para mantener el diseño centrado */ },
-                    actions = {
-                        IconButton(
-                            onClick = onNavigateToSettings,
-                            modifier = Modifier
-                                .padding(end = 8.dp)
-                                .background(
-                                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f),
-                                    shape = androidx.compose.foundation.shape.CircleShape
-                                )
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = "Configuración",
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent,
-                        actionIconContentColor = MaterialTheme.colorScheme.primary
-                    )
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent = {
+                HomeDrawerContent(
+                    onNavigateToPlayers = onNavigateToPlayers,
+                    onNavigateToStats = onNavigateToStats,
+                    onNavigateToRules = onNavigateToRules,
+                    onNavigateToSettings = onNavigateToSettings,
+                    onCloseDrawer = {
+                        scope.launch { drawerState.close() }
+                    }
                 )
             }
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.background,
-                                MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
-                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f)
+        ) {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = "Juego 10000",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold
                             )
+                        },
+                        navigationIcon = {
+                            IconButton(
+                                onClick = {
+                                    scope.launch { drawerState.open() }
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Menu,
+                                    contentDescription = "Menú"
+                                )
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Transparent,
+                            titleContentColor = MaterialTheme.colorScheme.onBackground
                         )
                     )
-            ) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.Transparent
+                }
+            ) { paddingValues ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    MaterialTheme.colorScheme.background,
+                                    MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
+                                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f)
+                                )
+                            )
+                        )
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                            .padding(horizontal = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = Color.Transparent
                     ) {
-                        AnimatedVisibility(
-                            visible = showHeader,
-                            enter = fadeIn(animationSpec = tween(700)) +
-                                    slideInVertically(
-                                        initialOffsetY = { -100 },
-                                        animationSpec = tween(700)
-                                    )
-                        ) {
-                            GameHeader(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 16.dp)
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(32.dp))
-
-                        AnimatedVisibility(
-                            visible = showMenuOptions,
-                            enter = fadeIn(animationSpec = tween(700)) +
-                                    slideInVertically(
-                                        initialOffsetY = { 100 },
-                                        animationSpec = spring(
-                                            dampingRatio = Spring.DampingRatioMediumBouncy,
-                                            stiffness = Spring.StiffnessLow
-                                        )
-                                    )
-                        ) {
-                            MainMenuOptions(
-                                onNavigateToGame = { viewModel.onNewGameClick() },
-                                onNavigateToPlayers = onNavigateToPlayers,
-                                onNavigateToRules = onNavigateToRules,
-                                onNavigateToStats = onNavigateToStats,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        Box(
+                        Column(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 32.dp)
-                                .graphicsLayer {
-                                    scaleX = startButtonScale
-                                    scaleY = startButtonScale
-                                    alpha = startButtonScale
-                                },
-                            contentAlignment = Alignment.Center
+                                .fillMaxSize()
+                                .padding(paddingValues)
+                                .padding(horizontal = 16.dp)
+                                .verticalScroll(rememberScrollState()),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            StartGameButton(
-                                enabled = true,
-                                onStartGame = {
-                                    viewModel.onNewGameClick()
-                                }
-                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            // Card principal para jugar
+                            AnimatedVisibility(
+                                visible = showPlayCard,
+                                enter = fadeIn(animationSpec = tween(500)) +
+                                        slideInVertically(
+                                            initialOffsetY = { -50 },
+                                            animationSpec = spring(
+                                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                                stiffness = Spring.StiffnessLow
+                                            )
+                                        )
+                            ) {
+                                PlayGameCard(
+                                    onPlayClick = { viewModel.onNewGameClick() },
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(24.dp))
+
+                            // Sección de estadísticas rápidas
+                            AnimatedVisibility(
+                                visible = showStats,
+                                enter = fadeIn(animationSpec = tween(500)) +
+                                        slideInVertically(
+                                            initialOffsetY = { 50 },
+                                            animationSpec = spring(
+                                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                                stiffness = Spring.StiffnessLow
+                                            )
+                                        )
+                            ) {
+                                QuickStatsSection(
+                                    stats = uiState.userStats,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            // Gráfica de rendimiento
+                            AnimatedVisibility(
+                                visible = showChart,
+                                enter = fadeIn(animationSpec = tween(500)) +
+                                        slideInVertically(
+                                            initialOffsetY = { 50 },
+                                            animationSpec = tween(500)
+                                        )
+                            ) {
+                                MiniPerformanceChart(
+                                    scores = uiState.recentScores,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            // Última partida
+                            AnimatedVisibility(
+                                visible = showLastGame && uiState.lastGame != null,
+                                enter = fadeIn(animationSpec = tween(500)) +
+                                        slideInVertically(
+                                            initialOffsetY = { 50 },
+                                            animationSpec = tween(500)
+                                        )
+                            ) {
+                                LastGameCard(
+                                    lastGame = uiState.lastGame,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(32.dp))
                         }
                     }
                 }
