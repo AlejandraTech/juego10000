@@ -13,7 +13,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -25,8 +24,8 @@ import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Player
 
 /**
- * Diálogo para seleccionar jugadores para una partida.
- * Permite selección única en modo individual o múltiple en modo multijugador.
+ * Diálogo para seleccionar oponentes para una partida multijugador.
+ * El usuario actual ya está incluido automáticamente en la partida.
  */
 @Composable
 fun PlayerSelectionDialog(
@@ -34,38 +33,29 @@ fun PlayerSelectionDialog(
     selectedPlayers: List<Player>,
     onPlayerSelected: (Player) -> Unit,
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
-    isSinglePlayerMode: Boolean = false
+    onConfirm: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = stringResource(id = R.string.manage_players)) },
+        title = { Text(text = "Seleccionar Oponentes") },
         text = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
                 Text(
-                    text = if (isSinglePlayerMode) {
-                        "Selecciona tu jugador para la partida contra el bot"
-                    } else {
-                        "Selecciona entre 2 y 6 jugadores para la partida multijugador"
-                    },
+                    text = "Selecciona entre 1 y 5 oponentes para la partida",
                     style = MaterialTheme.typography.bodyMedium
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Lista de jugadores disponibles
+                // Lista de jugadores disponibles (sin el usuario actual)
                 availablePlayers.forEach { player ->
                     val isSelected = selectedPlayers.contains(player)
-                    
+
                     SelectableOption(
                         title = player.name,
-                        description = if (isSinglePlayerMode) {
-                            "Selecciona este jugador para la partida"
-                        } else {
-                            if (isSelected) "Jugador seleccionado" else "Haz clic para seleccionar"
-                        },
+                        description = if (isSelected) "Oponente seleccionado" else "Haz clic para seleccionar",
                         isSelected = isSelected,
                         onClick = { onPlayerSelected(player) },
                         leadingContent = {
@@ -73,17 +63,10 @@ fun PlayerSelectionDialog(
                                 modifier = Modifier.size(40.dp),
                                 contentAlignment = Alignment.Center
                             ) {
-                                if (isSinglePlayerMode) {
-                                    RadioButton(
-                                        selected = isSelected,
-                                        onClick = null
-                                    )
-                                } else {
-                                    Checkbox(
-                                        checked = isSelected,
-                                        onCheckedChange = null
-                                    )
-                                }
+                                Checkbox(
+                                    checked = isSelected,
+                                    onCheckedChange = null
+                                )
                             }
                         },
                         modifier = Modifier
@@ -96,13 +79,8 @@ fun PlayerSelectionDialog(
         confirmButton = {
             Button(
                 onClick = onConfirm,
-                enabled = if (isSinglePlayerMode) {
-                    // En modo individual, se requiere exactamente 1 jugador
-                    selectedPlayers.size == 1
-                } else {
-                    // En modo multijugador, se requieren entre 2 y 6 jugadores
-                    selectedPlayers.size >= 2 && selectedPlayers.size <= 6
-                }
+                // Se requiere entre 1 y 5 oponentes
+                enabled = selectedPlayers.isNotEmpty() && selectedPlayers.size <= 5
             ) {
                 Text(text = stringResource(id = R.string.confirm))
             }

@@ -260,18 +260,20 @@ fun HomeScreen(
         )
     }
 
-    // Diálogo de selección de jugadores
+    // Diálogo de selección de oponentes (solo para multijugador)
     if (uiState.showPlayerSelectionDialog) {
+        // Filtrar el usuario actual de la lista de jugadores disponibles
+        val otherPlayers = uiState.availablePlayers.filter { it.id != uiState.currentUser?.id }
+
         PlayerSelectionDialog(
-            availablePlayers = uiState.availablePlayers,
+            availablePlayers = otherPlayers,
             selectedPlayers = uiState.selectedPlayers,
             onPlayerSelected = { player -> viewModel.onPlayerSelected(player) },
             onDismiss = { viewModel.onPlayerSelectionDialogDismiss() },
             onConfirm = {
                 viewModel.createNewGame()
                 viewModel.onPlayerSelectionDialogDismiss()
-            },
-            isSinglePlayerMode = uiState.isSinglePlayerMode
+            }
         )
     }
 

@@ -155,20 +155,35 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onNewGameClick() {
-        if (_uiState.value.availablePlayers.isEmpty()) {
-            _uiState.update { it.copy(errorMessage = "No hay jugadores disponibles. Crea algunos primero.") }
+        val currentUser = _uiState.value.currentUser
+        if (currentUser == null) {
+            _uiState.update { it.copy(errorMessage = "No hay usuario seleccionado. Selecciona un perfil primero.") }
             return
         }
 
         _uiState.update { it.copy(showGameModeDialog = true) }
     }
-    
+
     fun onGameModeDialogDismiss() {
         _uiState.update { it.copy(showGameModeDialog = false) }
     }
-    
+
     fun onMultiplayerModeSelected() {
-        _uiState.update { 
+        val currentUser = _uiState.value.currentUser
+        // Verificar que haya otros jugadores disponibles además del usuario actual
+        val otherPlayers = _uiState.value.availablePlayers.filter { it.id != currentUser?.id }
+
+        if (otherPlayers.isEmpty()) {
+            _uiState.update {
+                it.copy(
+                    showGameModeDialog = false,
+                    errorMessage = "No hay otros jugadores disponibles. Crea más jugadores primero."
+                )
+            }
+            return
+        }
+
+        _uiState.update {
             it.copy(
                 isSinglePlayerMode = false,
                 botDifficulty = null,
@@ -178,37 +193,34 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
-    
+
     fun onSinglePlayerModeSelected(difficulty: BotDifficulty) {
-        _uiState.update { 
+        // En modo individual, crear el juego directamente con el usuario actual
+        _uiState.update {
             it.copy(
                 isSinglePlayerMode = true,
                 botDifficulty = difficulty,
-                selectedPlayers = emptyList(),
-                showGameModeDialog = false,
-                showPlayerSelectionDialog = true
+                showGameModeDialog = false
             )
         }
+        // Crear el juego inmediatamente
+        createNewGame()
     }
 
     fun onPlayerSelected(player: Player) {
-        val currentState = _uiState.value
-        
-        if (currentState.isSinglePlayerMode) {
-            // En modo individual, solo permitir un jugador seleccionado
-            _uiState.update { it.copy(selectedPlayers = listOf(player)) }
+        // En modo multijugador, permitir selección múltiple de oponentes
+        val currentSelected = _uiState.value.selectedPlayers.toMutableList()
+
+        if (currentSelected.contains(player)) {
+            currentSelected.remove(player)
         } else {
-            // En modo multijugador, permitir selección múltiple
-            val currentSelected = currentState.selectedPlayers.toMutableList()
-            
-            if (currentSelected.contains(player)) {
-                currentSelected.remove(player)
-            } else {
+            // Máximo 5 oponentes (usuario actual + 5 = 6 jugadores)
+            if (currentSelected.size < 5) {
                 currentSelected.add(player)
             }
-            
-            _uiState.update { it.copy(selectedPlayers = currentSelected) }
         }
+
+        _uiState.update { it.copy(selectedPlayers = currentSelected) }
     }
 
     fun onPlayerSelectionDialogDismiss() {
@@ -221,27 +233,30 @@ class HomeViewModel @Inject constructor(
 
             try {
                 val currentState = _uiState.value
-                
-                // Validar número de jugadores según el modo de juego
+                val currentUser = currentState.currentUser
+                    ?: throw IllegalArgumentException("No hay usuario seleccionado")
+
+                // Construir lista de jugadores según el modo
+                val playerIds: List<Long>
+                val gameMode: String
+
                 if (currentState.isSinglePlayerMode) {
-                    if (currentState.selectedPlayers.isEmpty()) {
-                        throw IllegalArgumentException("Selecciona un jugador para comenzar")
-                    }
+                    // Modo individual: solo el usuario actual vs Bot
+                    playerIds = listOf(currentUser.id)
+                    gameMode = "SINGLE_PLAYER"
                 } else {
-                    // Modo multijugador: mínimo 2, máximo 6 jugadores
-                    when {
-                        currentState.selectedPlayers.isEmpty() -> 
-                            throw IllegalArgumentException("Selecciona jugadores para comenzar")
-                        currentState.selectedPlayers.size < 2 -> 
-                            throw IllegalArgumentException("Selecciona al menos 2 jugadores para modo multijugador")
-                        currentState.selectedPlayers.size > 6 -> 
-                            throw IllegalArgumentException("Máximo 6 jugadores permitidos")
+                    // Modo multijugador: usuario actual + oponentes seleccionados
+                    if (currentState.selectedPlayers.isEmpty()) {
+                        throw IllegalArgumentException("Selecciona al menos un oponente")
                     }
+                    if (currentState.selectedPlayers.size > 5) {
+                        throw IllegalArgumentException("Máximo 5 oponentes permitidos")
+                    }
+                    // El usuario actual siempre va primero en la lista
+                    playerIds = listOf(currentUser.id) + currentState.selectedPlayers.map { it.id }
+                    gameMode = "MULTIPLAYER"
                 }
 
-                val playerIds = currentState.selectedPlayers.map { it.id }
-                val gameMode = if (currentState.isSinglePlayerMode) "SINGLE_PLAYER" else "MULTIPLAYER"
-                
                 // Crear el juego con el modo adecuado
                 val result = if (currentState.isSinglePlayerMode) {
                     // En modo individual, añadir un jugador "Bot" a la lista
@@ -265,12 +280,12 @@ class HomeViewModel @Inject constructor(
                     onSuccess = { gameId ->
                         // Guardar el ID del juego en preferencias
                         userPreferencesManager.setLastActiveGame(gameId)
-                        
+
                         // Guardar información del bot si es modo individual
                         if (currentState.isSinglePlayerMode && currentState.botDifficulty != null) {
                             userPreferencesManager.setBotDifficulty(currentState.botDifficulty.toString())
                         }
-                        
+
                         _uiState.update { it.copy(currentGameId = gameId) }
                     },
                     onFailure = { error ->
