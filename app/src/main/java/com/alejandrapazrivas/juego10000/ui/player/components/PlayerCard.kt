@@ -132,7 +132,7 @@ fun PlayerCard(
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(dimensions.spaceSmall))
+                    Spacer(modifier = Modifier.width(dimensions.spaceMedium))
 
                     IconButton(
                         onClick = onDeletePlayer,
