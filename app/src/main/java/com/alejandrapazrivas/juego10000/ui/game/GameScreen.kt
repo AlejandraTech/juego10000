@@ -71,7 +71,6 @@ import com.alejandrapazrivas.juego10000.ui.game.components.ScoreboardSection
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// Constantes para el componente GameScreen
 private val ROUND_INDICATOR_CORNER_RADIUS = 40
 private val CARD_CORNER_RADIUS = 14.dp
 private val BUTTON_HEIGHT = 52.dp
@@ -89,21 +88,16 @@ fun GameScreen(
 ) {
     val gameState by viewModel.gameState.collectAsState()
     val scope = rememberCoroutineScope()
-
-    // Estados y animaciones
     val isBotTurn by viewModel.isBotTurn.collectAsState()
     val botActionInProgress by viewModel.botActionInProgress.collectAsState()
-    
-    // Estados para los indicadores visuales
+
     var showTurnLostIndicator by remember { mutableStateOf(false) }
     var showPointsSavedIndicator by remember { mutableStateOf(false) }
     var showScoreExceededIndicator by remember { mutableStateOf(false) }
 
-    // Estado para animar la aparición del contenido
     val contentVisible = remember { MutableTransitionState(false) }
     LaunchedEffect(Unit) { contentVisible.targetState = true }
 
-    // Función para navegar a la pantalla de inicio
     val navigateToHome = {
         viewModel.exitGame()
         navController.navigate("home") {
@@ -111,7 +105,6 @@ fun GameScreen(
         }
     }
 
-    // Animaciones
     val infiniteTransition = rememberInfiniteTransition(label = "backgroundAnimation")
     val backgroundAlpha by infiniteTransition.animateFloat(
         initialValue = 0.02f,
@@ -132,24 +125,17 @@ fun GameScreen(
         label = "scoreScaleAnimation"
     )
 
-    // Efectos para gestionar estados de la UI
     LaunchedEffect(gameState.currentPlayerIndex) {
-        // Resetear flag de selección cuando cambia el jugador
-        // NO resetear indicadores aquí - lo hace LaunchedEffect(gameState.message)
         viewModel.resetSelectedDiceChangedFlag()
     }
 
-    // Gestión de indicadores visuales basados en mensajes
-    // Este es el ÚNICO lugar donde se deben resetear/activar los indicadores
     LaunchedEffect(gameState.message) {
-        // Siempre resetear primero (incluso si mensaje es null)
         showTurnLostIndicator = false
         showPointsSavedIndicator = false
         showScoreExceededIndicator = false
 
         val message = gameState.message ?: return@LaunchedEffect
 
-        // Activar el indicador apropiado según el mensaje
         when {
             message.contains("sin puntuación", ignoreCase = true) ||
                     message.contains("perdido el turno", ignoreCase = true) -> {
@@ -164,7 +150,6 @@ fun GameScreen(
             }
         }
 
-        // Ocultar el indicador después de un tiempo
         if (showTurnLostIndicator || showPointsSavedIndicator || showScoreExceededIndicator) {
             scope.launch {
                 delay(2000)
@@ -175,7 +160,6 @@ fun GameScreen(
         }
     }
 
-    // Detectar cuando se excede la puntuación
     LaunchedEffect(gameState.scoreExceeded) {
         if (gameState.scoreExceeded) {
             showScoreExceededIndicator = true
@@ -186,7 +170,6 @@ fun GameScreen(
         }
     }
 
-    // Pantalla de victoria si el juego ha terminado
     if (gameState.isGameOver && gameState.winner != null) {
         GameVictoryScreen(
             winner = gameState.winner,
@@ -196,13 +179,11 @@ fun GameScreen(
         return
     }
 
-    // Verificar si se ha excedido el límite de puntuación
     LaunchedEffect(gameState.currentTurnScore) {
         val currentPlayer = gameState.currentPlayer
         val playerScore = currentPlayer?.let { gameState.playerScores[it.id] } ?: 0
         val totalScore = playerScore + gameState.currentTurnScore
 
-        // Verificar si se excede la puntuación objetivo
         if (gameState.gameStarted &&
             currentPlayer != null &&
             gameState.playersInGame[currentPlayer.id] == true &&
@@ -222,19 +203,14 @@ fun GameScreen(
             GameTopAppBar(
                 title = stringResource(R.string.app_name),
                 onBackClick = {
-                    // Llamar a exitGame para eliminar el bot si es necesario
                     viewModel.exitGame()
-                    
-                    // Navegar a la pantalla de inicio
                     navController.navigate("home") {
-                        // Limpiar el backstack para que no se pueda volver a esta pantalla
                         popUpTo("home") { inclusive = true }
                     }
                 }
             )
         }
     ) { paddingValues ->
-        // Fondo con gradiente dinámico
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -249,13 +225,11 @@ fun GameScreen(
                 )
                 .padding(paddingValues)
         ) {
-            // Elementos decorativos de fondo
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                // Círculo decorativo superior
                 Box(
                     modifier = Modifier
                         .size(DECORATIVE_CIRCLE_TOP_SIZE)
@@ -271,8 +245,7 @@ fun GameScreen(
                         )
                         .blur(radius = 40.dp)
                 )
-                
-                // Círculo decorativo inferior
+
                 Box(
                     modifier = Modifier
                         .size(DECORATIVE_CIRCLE_BOTTOM_SIZE)
@@ -291,7 +264,6 @@ fun GameScreen(
                 )
             }
 
-            // Contenido principal con animación de entrada
             AnimatedVisibility(
                 visibleState = contentVisible,
                 enter = fadeIn(animationSpec = tween(500)) +
@@ -309,7 +281,6 @@ fun GameScreen(
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Título de la ronda con animación sutil
                     Box(
                         modifier = Modifier
                             .padding(vertical = 6.dp)
@@ -326,7 +297,6 @@ fun GameScreen(
                         )
                     }
 
-                    // Tabla de puntuaciones con efecto de elevación mejorado
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -341,7 +311,6 @@ fun GameScreen(
                         ),
                         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                     ) {
-                        // Usar el componente ScoreboardSection
                         ScoreboardSection(
                             players = gameState.players,
                             playerScores = gameState.playerScores,
@@ -352,7 +321,6 @@ fun GameScreen(
                         )
                     }
 
-                    // Sección de dados con efecto de elevación mejorado
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -375,7 +343,6 @@ fun GameScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             if (!gameState.gameStarted && !isBotTurn) {
-                                // Mensaje inicial cuando el juego no ha comenzado y no es turno del bot
                                 Column(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalAlignment = Alignment.CenterHorizontally
@@ -400,7 +367,6 @@ fun GameScreen(
                                     )
                                 }
                             } else if (isBotTurn && gameState.dice.isEmpty() && !botActionInProgress) {
-                                // Mensaje cuando es turno del bot pero aún no ha lanzado
                                 Column(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalAlignment = Alignment.CenterHorizontally
@@ -414,8 +380,7 @@ fun GameScreen(
                                     )
                                     
                                     Spacer(modifier = Modifier.height(16.dp))
-                                    
-                                    // Indicador de carga con animación
+
                                     CircularProgressIndicator(
                                         color = MaterialTheme.colorScheme.primary,
                                         modifier = Modifier.size(48.dp),
@@ -423,16 +388,13 @@ fun GameScreen(
                                     )
                                 }
                             } else {
-                                // Sección de dados cuando el juego ha comenzado
                                 Box(
                                     modifier = Modifier.fillMaxSize(),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    // Componente de dados (bloqueado durante el turno del bot)
                                     DiceSection(
                                         dice = gameState.dice,
                                         onDiceClick = { dice ->
-                                            // Solo permitir interacción si no es turno del bot
                                             if (!isBotTurn) {
                                                 viewModel.onDiceClick(dice)
                                             }
@@ -443,7 +405,6 @@ fun GameScreen(
                                         showScoreExceededIndicator = showScoreExceededIndicator
                                     )
 
-                                    // Gestor de mensajes encima de los dados
                                     Box(
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -461,7 +422,6 @@ fun GameScreen(
                         }
                     }
 
-                    // Puntuación actual con animación de escala
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -491,7 +451,6 @@ fun GameScreen(
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
 
-                            // Puntuación con tamaño dinámico según el valor
                             val textSize = when {
                                 gameState.currentTurnScore >= 1000 -> SCORE_TEXT_SIZE_SMALL
                                 gameState.currentTurnScore >= 100 -> SCORE_TEXT_SIZE_MEDIUM
@@ -507,14 +466,12 @@ fun GameScreen(
                         }
                     }
 
-                    // Botones de acción con efectos visuales mejorados
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        // Botón Lanzar Dados (bloqueado durante el turno del bot)
                         Button(
                             onClick = { viewModel.onRollClick() },
                             modifier = Modifier
@@ -542,13 +499,11 @@ fun GameScreen(
                             )
                         }
 
-                        // Botón de acción secundaria (Guardar/Pasar/Finalizar)
                         val currentPlayer = gameState.currentPlayer
                         val isPlayerInGame = currentPlayer?.let { gameState.playersInGame[it.id] } ?: false
                         val isBot = currentPlayer?.name == "Bot"
                         val minimumPointsNeeded = !isPlayerInGame && gameState.currentTurnScore < 500 && !isBot
 
-                        // Determinar color y texto del botón según el estado
                         val buttonColor = when {
                             gameState.isGameOver -> MaterialTheme.colorScheme.tertiary
                             gameState.scoreExceeded -> MaterialTheme.colorScheme.error
@@ -562,7 +517,6 @@ fun GameScreen(
                             else -> stringResource(R.string.bank_score)
                         }
 
-                        // Botón secundario (bloqueado durante el turno del bot, excepto para fin de juego)
                         Button(
                             onClick = {
                                 when {
@@ -584,7 +538,6 @@ fun GameScreen(
                                 containerColor = buttonColor,
                                 disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
                             ),
-                            // Permitir fin de juego incluso durante turno del bot, pero bloquear otras acciones
                             enabled = (gameState.canBank || gameState.scoreExceeded || gameState.isGameOver) && (!isBotTurn || gameState.isGameOver)
                         ) {
                             Text(

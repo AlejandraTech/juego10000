@@ -194,9 +194,9 @@ class BotTurnHandler @Inject constructor(
      */
     private fun getThinkingTime(difficulty: BotDifficulty): Long {
         return when (difficulty) {
-            BotDifficulty.BEGINNER -> 1500L      // Más lento
-            BotDifficulty.INTERMEDIATE -> 1000L  // Velocidad media
-            BotDifficulty.EXPERT -> 700L         // Más rápido
+            BotDifficulty.BEGINNER -> 1500L
+            BotDifficulty.INTERMEDIATE -> 1000L
+            BotDifficulty.EXPERT -> 700L
         }
     }
 }

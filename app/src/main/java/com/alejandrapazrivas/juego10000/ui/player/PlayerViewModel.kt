@@ -19,27 +19,21 @@ class PlayerViewModel @Inject constructor(
         private const val BOT_PLAYER_NAME = "Bot"
     }
 
-    // Flow de jugadores activos (excluyendo bots)
     val players: Flow<List<Player>> = playerRepository.getAllActivePlayers().map { players ->
         players.filter { it.name != BOT_PLAYER_NAME }
     }
 
-    // Crear un nuevo jugador
     fun createPlayer(name: String) {
         if (name.isBlank()) return
-
         viewModelScope.launch {
             playerRepository.createPlayer(name)
         }
     }
 
-    // Actualizar un jugador existente
     fun updatePlayer(playerId: Long, newName: String) {
         if (newName.isBlank()) return
-
         viewModelScope.launch {
             val currentPlayer = playerRepository.getPlayerById(playerId)
-
             currentPlayer?.let { player ->
                 val updatedPlayer = player.copy(name = newName)
                 playerRepository.updatePlayer(updatedPlayer)
@@ -47,7 +41,6 @@ class PlayerViewModel @Inject constructor(
         }
     }
 
-    // Desactivar un jugador
     fun deactivatePlayer(playerId: Long) {
         viewModelScope.launch {
             playerRepository.deactivatePlayer(playerId)
