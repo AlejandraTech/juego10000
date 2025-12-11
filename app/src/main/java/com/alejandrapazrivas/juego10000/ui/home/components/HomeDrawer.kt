@@ -39,10 +39,12 @@ data class DrawerMenuItem(
 
 @Composable
 fun HomeDrawerContent(
+    currentUserName: String?,
     onNavigateToPlayers: () -> Unit,
     onNavigateToStats: () -> Unit,
     onNavigateToRules: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onChangeUser: () -> Unit,
     onCloseDrawer: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -54,7 +56,7 @@ fun HomeDrawerContent(
             modifier = Modifier.fillMaxHeight()
         ) {
             // Header del drawer
-            DrawerHeader()
+            DrawerHeader(currentUserName = currentUserName)
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -105,6 +107,15 @@ fun HomeDrawerContent(
                         onNavigateToSettings()
                     }
                 )
+                DrawerItem(
+                    icon = R.drawable.ic_swap,
+                    title = "Cambiar Perfil",
+                    subtitle = "Seleccionar otro jugador",
+                    onClick = {
+                        onCloseDrawer()
+                        onChangeUser()
+                    }
+                )
             }
 
             Spacer(modifier = Modifier.weight(1f))
@@ -116,7 +127,9 @@ fun HomeDrawerContent(
 }
 
 @Composable
-private fun DrawerHeader() {
+private fun DrawerHeader(
+    currentUserName: String?
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -131,6 +144,7 @@ private fun DrawerHeader() {
             .padding(24.dp)
     ) {
         Column {
+            // Icono del juego
             Box(
                 modifier = Modifier
                     .size(64.dp)
@@ -149,14 +163,14 @@ private fun DrawerHeader() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Juego 10000",
+                text = currentUserName ?: "Sin usuario",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
 
             Text(
-                text = "El clásico juego de dados",
+                text = "Juego 10000",
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.White.copy(alpha = 0.8f)
             )

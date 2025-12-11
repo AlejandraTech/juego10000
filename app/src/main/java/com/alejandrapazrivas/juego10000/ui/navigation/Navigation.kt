@@ -14,6 +14,7 @@ import com.alejandrapazrivas.juego10000.ui.player.PlayerScreen
 import com.alejandrapazrivas.juego10000.ui.rules.RulesScreen
 import com.alejandrapazrivas.juego10000.ui.settings.SettingsScreen
 import com.alejandrapazrivas.juego10000.ui.stats.StatsScreen
+import com.alejandrapazrivas.juego10000.ui.userselection.UserSelectionScreen
 
 /**
  * Punto de entrada principal para la navegación de la aplicación.
@@ -24,8 +25,9 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = Screen.UserSelection.route
     ) {
+        addUserSelectionScreen(navController)
         addHomeScreen(navController)
         addGameScreen(navController)
         addPlayersScreen(navController)
@@ -39,6 +41,7 @@ fun AppNavigation(
  * Define las rutas de navegación disponibles en la aplicación.
  */
 sealed class Screen(val route: String) {
+    object UserSelection : Screen("user_selection")
     object Home : Screen("home")
     object Game : Screen("game")
     object Players : Screen("players")
@@ -56,6 +59,21 @@ sealed class Screen(val route: String) {
     }
 }
 
+private fun NavGraphBuilder.addUserSelectionScreen(navController: NavHostController) {
+    composable(Screen.UserSelection.route) {
+        UserSelectionScreen(
+            onNavigateToHome = {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.UserSelection.route) { inclusive = true }
+                }
+            },
+            onNavigateToPlayers = {
+                navController.navigate(Screen.Players.route)
+            }
+        )
+    }
+}
+
 private fun NavGraphBuilder.addHomeScreen(navController: NavHostController) {
     composable(Screen.Home.route) {
         HomeScreen(
@@ -65,7 +83,12 @@ private fun NavGraphBuilder.addHomeScreen(navController: NavHostController) {
             onNavigateToPlayers = { navController.navigate(Screen.Players.route) },
             onNavigateToRules = { navController.navigate(Screen.Rules.route) },
             onNavigateToStats = { navController.navigate(Screen.Stats.route) },
-            onNavigateToSettings = { navController.navigate(Screen.Settings.route) }
+            onNavigateToSettings = { navController.navigate(Screen.Settings.route) },
+            onNavigateToUserSelection = {
+                navController.navigate(Screen.UserSelection.route) {
+                    popUpTo(Screen.Home.route) { inclusive = true }
+                }
+            }
         )
     }
 }

@@ -17,7 +17,9 @@ data class HomeUiState(
     val availablePlayers: List<Player> = emptyList(),
     val selectedPlayers: List<Player> = emptyList(),
     val currentGameId: Long = 0L,
-    // Estadísticas para la home
+    // Usuario actual seleccionado
+    val currentUser: Player? = null,
+    // Estadísticas para la home (del usuario actual)
     val userStats: UserStats = UserStats(),
     val recentScores: List<Int> = emptyList(),
     val lastGame: LastGameInfo? = null,

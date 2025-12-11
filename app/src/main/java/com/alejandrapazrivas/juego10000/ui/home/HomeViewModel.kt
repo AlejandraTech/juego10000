@@ -36,9 +36,27 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
+        loadCurrentUser()
         loadPlayers()
-        loadUserStats()
-        loadLastGame()
+    }
+
+    private fun loadCurrentUser() {
+        viewModelScope.launch {
+            try {
+                val selectedUserId = userPreferencesManager.selectedUserId.first()
+                if (selectedUserId > 0) {
+                    val player = playerRepository.getPlayerById(selectedUserId)
+                    if (player != null) {
+                        _uiState.update { it.copy(currentUser = player) }
+                        // Cargar estadísticas del usuario actual
+                        loadUserStats(player)
+                        loadLastGame(player)
+                    }
+                }
+            } catch (e: Exception) {
+                // Silently fail
+            }
+        }
     }
 
     private fun loadPlayers() {
@@ -57,46 +75,36 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun loadUserStats() {
+    private fun loadUserStats(player: Player) {
         viewModelScope.launch {
             try {
-                val players = getPlayersUseCase().first()
-                if (players.isNotEmpty()) {
-                    // Agregar estadísticas de todos los jugadores humanos
-                    val totalGamesPlayed = players.sumOf { it.gamesPlayed }
-                    val totalWins = players.sumOf { it.gamesWon }
+                // Estadísticas del usuario actual
+                val totalGamesPlayed = player.gamesPlayed
+                val totalWins = player.gamesWon
 
-                    // Obtener el mejor turno de todos los jugadores
-                    var bestTurnScore = 0
-                    val recentScoresList = mutableListOf<Int>()
+                // Obtener el mejor turno del usuario actual
+                val bestTurnScore = playerRepository.getPlayerBestTurnScore(player.id)
 
-                    players.forEach { player ->
-                        val playerBestTurn = playerRepository.getPlayerBestTurnScore(player.id)
-                        if (playerBestTurn > bestTurnScore) {
-                            bestTurnScore = playerBestTurn
-                        }
+                // Obtener últimas puntuaciones para la gráfica
+                val recentScoresList = mutableListOf<Int>()
+                scoreRepository.getScoresByPlayerId(player.id).first().take(10).forEach { score ->
+                    recentScoresList.add(score.turnScore)
+                }
 
-                        // Obtener últimas puntuaciones para la gráfica
-                        scoreRepository.getScoresByPlayerId(player.id).first().take(10).forEach { score ->
-                            recentScoresList.add(score.turnScore)
-                        }
-                    }
+                val winRate = if (totalGamesPlayed > 0) {
+                    (totalWins.toFloat() / totalGamesPlayed) * 100
+                } else 0f
 
-                    val winRate = if (totalGamesPlayed > 0) {
-                        (totalWins.toFloat() / totalGamesPlayed) * 100
-                    } else 0f
-
-                    _uiState.update {
-                        it.copy(
-                            userStats = UserStats(
-                                totalGamesPlayed = totalGamesPlayed,
-                                totalWins = totalWins,
-                                bestTurnScore = bestTurnScore,
-                                winRate = winRate
-                            ),
-                            recentScores = recentScoresList.take(10)
-                        )
-                    }
+                _uiState.update {
+                    it.copy(
+                        userStats = UserStats(
+                            totalGamesPlayed = totalGamesPlayed,
+                            totalWins = totalWins,
+                            bestTurnScore = bestTurnScore,
+                            winRate = winRate
+                        ),
+                        recentScores = recentScoresList.take(10)
+                    )
                 }
             } catch (e: Exception) {
                 // Silently fail, stats are optional
@@ -104,7 +112,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun loadLastGame() {
+    private fun loadLastGame(currentPlayer: Player) {
         viewModelScope.launch {
             try {
                 gameRepository.getRecentCompletedGames().collect { games ->
@@ -114,15 +122,11 @@ class HomeViewModel @Inject constructor(
                             playerRepository.getPlayerById(winnerId)?.name
                         }
 
-                        // Obtener puntuación del ganador
-                        val playerScore = lastGame.winnerPlayerId?.let { winnerId ->
-                            scoreRepository.getPlayerTotalScore(lastGame.id, winnerId)
-                        } ?: 0
+                        // Obtener puntuación del usuario actual en esa partida
+                        val playerScore = scoreRepository.getPlayerTotalScore(lastGame.id, currentPlayer.id)
 
-                        val players = getPlayersUseCase().first()
-                        val isVictory = lastGame.winnerPlayerId?.let { winnerId ->
-                            players.any { it.id == winnerId }
-                        } ?: false
+                        // Verificar si el usuario actual ganó
+                        val isVictory = lastGame.winnerPlayerId == currentPlayer.id
 
                         _uiState.update {
                             it.copy(

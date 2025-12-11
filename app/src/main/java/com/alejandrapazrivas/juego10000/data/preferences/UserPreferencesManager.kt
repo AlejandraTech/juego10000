@@ -35,6 +35,7 @@ class UserPreferencesManager @Inject constructor(
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val LAST_ACTIVE_GAME = longPreferencesKey("last_active_game")
         val BOT_DIFFICULTY = stringPreferencesKey("bot_difficulty")
+        val SELECTED_USER_ID = longPreferencesKey("selected_user_id")
     }
 
     /**
@@ -79,6 +80,7 @@ class UserPreferencesManager @Inject constructor(
     val darkMode: Flow<Boolean> = getBooleanPreference(PreferencesKeys.DARK_MODE, false)
     val lastActiveGame: Flow<Long> = getLongPreference(PreferencesKeys.LAST_ACTIVE_GAME, 0L)
     val botDifficulty: Flow<String?> = getStringPreference(PreferencesKeys.BOT_DIFFICULTY)
+    val selectedUserId: Flow<Long> = getLongPreference(PreferencesKeys.SELECTED_USER_ID, 0L)
 
     // Métodos públicos para establecer preferencias
     suspend fun setSoundEnabled(enabled: Boolean) = 
@@ -93,6 +95,12 @@ class UserPreferencesManager @Inject constructor(
     suspend fun setLastActiveGame(gameId: Long) = 
         setPreference(PreferencesKeys.LAST_ACTIVE_GAME, gameId)
     
-    suspend fun setBotDifficulty(difficulty: String) = 
+    suspend fun setBotDifficulty(difficulty: String) =
         setPreference(PreferencesKeys.BOT_DIFFICULTY, difficulty)
+
+    suspend fun setSelectedUserId(userId: Long) =
+        setPreference(PreferencesKeys.SELECTED_USER_ID, userId)
+
+    suspend fun clearSelectedUser() =
+        setPreference(PreferencesKeys.SELECTED_USER_ID, 0L)
 }

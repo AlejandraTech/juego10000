@@ -64,6 +64,7 @@ fun HomeScreen(
     onNavigateToRules: () -> Unit,
     onNavigateToStats: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToUserSelection: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -99,10 +100,15 @@ fun HomeScreen(
             drawerState = drawerState,
             drawerContent = {
                 HomeDrawerContent(
+                    currentUserName = uiState.currentUser?.name,
                     onNavigateToPlayers = onNavigateToPlayers,
                     onNavigateToStats = onNavigateToStats,
                     onNavigateToRules = onNavigateToRules,
                     onNavigateToSettings = onNavigateToSettings,
+                    onChangeUser = {
+                        scope.launch { drawerState.close() }
+                        onNavigateToUserSelection()
+                    },
                     onCloseDrawer = {
                         scope.launch { drawerState.close() }
                     }
