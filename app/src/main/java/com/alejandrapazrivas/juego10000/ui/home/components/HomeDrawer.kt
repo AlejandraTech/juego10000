@@ -107,18 +107,23 @@ fun HomeDrawerContent(
                         onNavigateToSettings()
                     }
                 )
-                DrawerItem(
-                    icon = R.drawable.ic_swap,
-                    title = "Cambiar Perfil",
-                    subtitle = "Seleccionar otro jugador",
-                    onClick = {
-                        onCloseDrawer()
-                        onChangeUser()
-                    }
-                )
             }
 
             Spacer(modifier = Modifier.weight(1f))
+
+            // Cambiar perfil - Sección separada con estilo diferente
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+
+            ChangeProfileItem(
+                currentUserName = currentUserName,
+                onClick = {
+                    onCloseDrawer()
+                    onChangeUser()
+                }
+            )
 
             // Footer
             DrawerFooter()
@@ -242,6 +247,61 @@ private fun DrawerItem(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
         }
+    }
+}
+
+@Composable
+private fun ChangeProfileItem(
+    currentUserName: String?,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Avatar pequeño del usuario actual
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.secondaryContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = currentUserName?.firstOrNull()?.uppercase() ?: "?",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = currentUserName ?: "Sin usuario",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "Toca para cambiar de perfil",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            )
+        }
+
+        Icon(
+            painter = painterResource(id = R.drawable.ic_swap),
+            contentDescription = "Cambiar perfil",
+            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
 
