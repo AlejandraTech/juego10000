@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
@@ -125,8 +127,15 @@ private fun SettingsContent(
     modifier: Modifier = Modifier
 ) {
     val dimensions = LocalDimensions.current
+    val scrollState = rememberScrollState()
+
     Column(modifier = modifier) {
-        SettingsCard(
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(scrollState)
+        ) {
+            SettingsCard(
             title = stringResource(R.string.game_preferences),
             settings = listOf(
                 SettingItem(
@@ -303,7 +312,8 @@ private fun SettingsContent(
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+        }
 
         BannerAd(
             adUnitId = AdConstants.BANNER_SETTINGS,
