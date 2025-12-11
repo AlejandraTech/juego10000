@@ -145,4 +145,8 @@
     <string name="legal">Legal</string>
     <string name="privacy_policy">Política de Privacidad</string>
     <string name="privacy_policy_description">Ver nuestra política de privacidad</string>
+    <string name="credits">Créditos</string>
+    <string name="sound_credits">Efectos de Sonido</string>
+    <string name="sound_credits_description">Atribuciones de audio</string>
+    <string name="pixabay_attribution">Sound Effect de Pixabay</string>
 </resources>

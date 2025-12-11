@@ -210,6 +210,99 @@ private fun SettingsContent(
             }
         }
 
+        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
+        // Credits Card
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = CardShape,
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(dimensions.spaceMedium)
+            ) {
+                Text(
+                    text = stringResource(R.string.credits),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
+                Text(
+                    text = stringResource(R.string.sound_credits),
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
+                // First sound attribution
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://pixabay.com/sound-effects/dice-142528/")
+                            )
+                            context.startActivity(intent)
+                        }
+                        .padding(vertical = dimensions.spaceExtraSmall),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Sound Effect by u_ngsgp0r6zb",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardArrowRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                }
+
+                // Second sound attribution
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://pixabay.com/sound-effects/tada-fanfare-a-6313/")
+                            )
+                            context.startActivity(intent)
+                        }
+                        .padding(vertical = dimensions.spaceExtraSmall),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Sound Effect by u_ss015dykrt",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardArrowRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
+                Text(
+                    text = stringResource(R.string.pixabay_attribution),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                )
+            }
+        }
+
         Spacer(modifier = Modifier.weight(1f))
 
         BannerAd(
