@@ -75,6 +75,7 @@ fun HomeDrawerContent(
                         onNavigateToPlayers()
                     }
                 )
+                Spacer(modifier = Modifier.height(LocalDimensions.current.spaceSmall))
                 DrawerItem(
                     icon = R.drawable.ic_stats,
                     title = "Estadísticas",
@@ -84,6 +85,7 @@ fun HomeDrawerContent(
                         onNavigateToStats()
                     }
                 )
+                Spacer(modifier = Modifier.height(LocalDimensions.current.spaceSmall))
                 DrawerItem(
                     icon = R.drawable.ic_rules,
                     title = "Reglas del Juego",
