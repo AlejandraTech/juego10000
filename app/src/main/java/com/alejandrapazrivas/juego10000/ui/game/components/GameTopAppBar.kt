@@ -1,8 +1,5 @@
 package com.alejandrapazrivas.juego10000.ui.game.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,7 +11,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,12 +18,11 @@ import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 
 // Constantes para el componente GameTopAppBar
-private val BACK_BUTTON_PADDING = 8.dp
 private val APP_BAR_ELEVATION = 4.dp
 
 /**
  * Barra superior personalizada para la pantalla de juego
- * 
+ *
  * @param title Título que se mostrará en la barra
  * @param onBackClick Acción a ejecutar cuando se presiona el botón de retroceso
  */
@@ -46,17 +41,11 @@ fun GameTopAppBar(
             )
         },
         navigationIcon = {
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier
-                    .padding(start = BACK_BUTTON_PADDING)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f))
-            ) {
+            IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,
                     contentDescription = stringResource(R.string.back),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         },
