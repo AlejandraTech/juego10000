@@ -171,7 +171,7 @@ fun GameVictoryScreen(
                     Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
                     Text(
-                        text = "Puntuación: $score puntos",
+                        text = "Puntuación: 10,000 puntos",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
