@@ -106,7 +106,10 @@ data class Dimensions(
 
     // Dialog
     val dialogMinWidth: Dp = 280.dp,
-    val dialogMaxWidth: Dp = 560.dp
+    val dialogMaxWidth: Dp = 560.dp,
+
+    // Drawer
+    val drawerWidth: Dp = 300.dp
 )
 
 /**
@@ -150,7 +153,8 @@ val CompactDimensions = Dimensions(
     titleFontSize = 16.sp,
     maxContentWidth = 480.dp,
     dialogMinWidth = 280.dp,
-    dialogMaxWidth = 400.dp
+    dialogMaxWidth = 400.dp,
+    drawerWidth = 280.dp
 )
 
 /**
@@ -194,7 +198,8 @@ val MediumDimensions = Dimensions(
     titleFontSize = 18.sp,
     maxContentWidth = 600.dp,
     dialogMinWidth = 320.dp,
-    dialogMaxWidth = 480.dp
+    dialogMaxWidth = 480.dp,
+    drawerWidth = 300.dp
 )
 
 /**
@@ -238,7 +243,8 @@ val ExpandedDimensions = Dimensions(
     titleFontSize = 20.sp,
     maxContentWidth = 840.dp,
     dialogMinWidth = 400.dp,
-    dialogMaxWidth = 560.dp
+    dialogMaxWidth = 560.dp,
+    drawerWidth = 340.dp
 )
 
 /**
