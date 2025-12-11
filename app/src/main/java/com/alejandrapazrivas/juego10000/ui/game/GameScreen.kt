@@ -366,7 +366,7 @@ fun GameScreen(
                                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                                     )
                                 }
-                            } else if (isBotTurn && gameState.dice.isEmpty() && !botActionInProgress) {
+                            } else if (isBotTurn && gameState.dice.isEmpty()) {
                                 Column(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalAlignment = Alignment.CenterHorizontally
