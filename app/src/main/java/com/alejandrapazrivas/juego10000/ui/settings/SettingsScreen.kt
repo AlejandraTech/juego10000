@@ -32,6 +32,9 @@ import com.alejandrapazrivas.juego10000.ui.common.theme.Juego10000Theme
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.settings.components.SettingItem
 import com.alejandrapazrivas.juego10000.ui.settings.components.SettingsCard
+import com.alejandrapazrivas.juego10000.ads.AdConstants
+import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
+import androidx.compose.foundation.layout.fillMaxWidth
 
 /**
  * Pantalla de configuraciones de la aplicación
@@ -143,6 +146,13 @@ private fun SettingsContent(
                     onCheckedChange = onDarkModeChange
                 )
             )
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        BannerAd(
+            adUnitId = AdConstants.BANNER_SETTINGS,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }

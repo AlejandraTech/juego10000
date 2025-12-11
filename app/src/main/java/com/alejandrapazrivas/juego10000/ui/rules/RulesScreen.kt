@@ -40,6 +40,9 @@ import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.rules.components.RuleSection
 import com.alejandrapazrivas.juego10000.ui.rules.components.RulesHeader
 import com.alejandrapazrivas.juego10000.ui.rules.components.ScoringCard
+import com.alejandrapazrivas.juego10000.ads.AdConstants
+import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
+import androidx.compose.foundation.layout.fillMaxWidth
 import kotlinx.coroutines.delay
 
 /**
@@ -211,6 +214,13 @@ fun RulesScreen(navController: NavController) {
                                 "• Observa a tus oponentes: Ajusta tu estrategia según sus puntuaciones."
                     )
                 }
+
+                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
+                BannerAd(
+                    adUnitId = AdConstants.BANNER_RULES,
+                    modifier = Modifier.fillMaxWidth()
+                )
 
                 Spacer(modifier = Modifier.height(dimensions.spaceLarge))
             }

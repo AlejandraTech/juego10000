@@ -4,6 +4,8 @@
     package="com.alejandrapazrivas.juego10000">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".Juego10000Application"
@@ -14,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Juego10000"
         tools:targetApi="31">
+
+        <!-- AdMob App ID (Test ID - cambiar por ID de producción antes de publicar) -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"

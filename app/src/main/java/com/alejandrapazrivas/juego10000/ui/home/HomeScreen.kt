@@ -54,6 +54,8 @@ import com.alejandrapazrivas.juego10000.ui.home.components.PlayGameCard
 import com.alejandrapazrivas.juego10000.ui.home.components.PlayerSelectionDialog
 import com.alejandrapazrivas.juego10000.ui.home.components.QuickStatsSection
 import com.alejandrapazrivas.juego10000.ui.common.theme.Juego10000Theme
+import com.alejandrapazrivas.juego10000.ads.AdConstants
+import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -244,6 +246,14 @@ fun HomeScreen(
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
+
+                            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
+                            // Banner publicitario
+                            BannerAd(
+                                adUnitId = AdConstants.BANNER_HOME,
+                                modifier = Modifier.fillMaxWidth()
+                            )
 
                             Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
                         }

@@ -18,6 +18,9 @@ import com.alejandrapazrivas.juego10000.ui.player.components.EmptyPlayersList
 import com.alejandrapazrivas.juego10000.ui.player.components.PlayerDialog
 import com.alejandrapazrivas.juego10000.ui.player.components.PlayerTopAppBar
 import com.alejandrapazrivas.juego10000.ui.player.components.PlayersList
+import com.alejandrapazrivas.juego10000.ads.AdConstants
+import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
+import androidx.compose.ui.Alignment
 
 @Composable
 fun PlayerScreen(
@@ -45,7 +48,7 @@ fun PlayerScreen(
             )
         }
     ) { paddingValues ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
@@ -59,27 +62,34 @@ fun PlayerScreen(
                 )
                 .padding(paddingValues)
         ) {
-            AnimatedContent() {
-                if (players.isEmpty()) {
-                    EmptyPlayersList {
-                        newPlayerName.value = ""
-                        showAddDialog.value = true
-                    }
-                } else {
-                    PlayersList(
-                        players = players,
-                        onEditPlayer = { player ->
-                            selectedPlayer.value = player
-                            newPlayerName.value = player.name
-                            showEditDialog.value = true
-                        },
-                        onDeletePlayer = { player ->
-                            selectedPlayer.value = player
-                            showDeleteConfirmation.value = true
+            Box(modifier = Modifier.weight(1f)) {
+                AnimatedContent() {
+                    if (players.isEmpty()) {
+                        EmptyPlayersList {
+                            newPlayerName.value = ""
+                            showAddDialog.value = true
                         }
-                    )
+                    } else {
+                        PlayersList(
+                            players = players,
+                            onEditPlayer = { player ->
+                                selectedPlayer.value = player
+                                newPlayerName.value = player.name
+                                showEditDialog.value = true
+                            },
+                            onDeletePlayer = { player ->
+                                selectedPlayer.value = player
+                                showDeleteConfirmation.value = true
+                            }
+                        )
+                    }
                 }
             }
+
+            BannerAd(
+                adUnitId = AdConstants.BANNER_PLAYERS,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 

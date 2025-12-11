@@ -71,6 +71,8 @@ import com.alejandrapazrivas.juego10000.ui.common.theme.ScreenOrientation
 import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
 import com.alejandrapazrivas.juego10000.ui.game.components.GameTopAppBar
 import com.alejandrapazrivas.juego10000.ui.game.components.ScoreboardSection
+import com.alejandrapazrivas.juego10000.ads.AdConstants
+import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -172,7 +174,8 @@ fun GameScreen(
         GameVictoryScreen(
             winner = gameState.winner,
             score = gameState.winner?.id?.let { gameState.playerScores[it] } ?: 0,
-            onBackToHome = navigateToHome
+            onBackToHome = navigateToHome,
+            adManager = viewModel.adManager
         )
         return
     }
@@ -546,6 +549,14 @@ fun GameScreen(
                             )
                         }
                     }
+
+                    // Banner publicitario
+                    BannerAd(
+                        adUnitId = AdConstants.BANNER_GAME,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = dimensions.spaceSmall)
+                    )
                 }
             }
         }

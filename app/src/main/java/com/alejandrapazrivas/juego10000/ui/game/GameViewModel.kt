@@ -24,6 +24,7 @@ import com.alejandrapazrivas.juego10000.domain.usecase.ValidateTurnUseCase
 import com.alejandrapazrivas.juego10000.domain.usecase.GetPlayersUseCase
 import com.alejandrapazrivas.juego10000.domain.model.BotDifficulty
 import com.alejandrapazrivas.juego10000.ui.game.model.GameUiState
+import com.alejandrapazrivas.juego10000.ads.AdManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
@@ -47,7 +48,8 @@ class GameViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val getPlayersUseCase: GetPlayersUseCase,
     private val userPreferencesManager: UserPreferencesManager,
-    private val botTurnHandler: BotTurnHandler
+    private val botTurnHandler: BotTurnHandler,
+    val adManager: AdManager
 ) : ViewModel() {
 
     private val gameId: Long = savedStateHandle.get<Long>("gameId") ?: 0L

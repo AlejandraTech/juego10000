@@ -94,6 +94,9 @@ dependencies {
     // Gson
     implementation(libs.gson)
 
+    // Google Mobile Ads
+    implementation(libs.google.mobile.ads)
+
     // Unit Testing
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

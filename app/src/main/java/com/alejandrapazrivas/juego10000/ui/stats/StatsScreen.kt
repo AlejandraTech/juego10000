@@ -23,6 +23,8 @@ import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.stats.components.GameHistoryTab
 import com.alejandrapazrivas.juego10000.ui.stats.components.PlayerStatsTab
 import com.alejandrapazrivas.juego10000.ui.stats.components.TopScoresTab
+import com.alejandrapazrivas.juego10000.ads.AdConstants
+import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
 import kotlinx.coroutines.launch
 
 /**
@@ -78,7 +80,7 @@ fun StatsScreen(
             // Contenido de pestañas con paginación horizontal
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.weight(1f)
             ) { page ->
                 when (page) {
                     0 -> PlayerStatsTab(
@@ -91,6 +93,11 @@ fun StatsScreen(
                     2 -> TopScoresTab(topScores = topScores)
                 }
             }
+
+            BannerAd(
+                adUnitId = AdConstants.BANNER_STATS,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

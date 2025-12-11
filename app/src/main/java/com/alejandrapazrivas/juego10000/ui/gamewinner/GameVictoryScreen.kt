@@ -1,5 +1,6 @@
 package com.alejandrapazrivas.juego10000.ui.gamewinner
 
+import android.app.Activity
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -25,16 +26,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ads.AdManager
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.ButtonShape
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
@@ -102,9 +106,16 @@ private fun AnimatedTrophy() {
 fun GameVictoryScreen(
     winner: Player?,
     score: Int,
-    onBackToHome: () -> Unit
+    onBackToHome: () -> Unit,
+    adManager: AdManager? = null
 ) {
     val dimensions = LocalDimensions.current
+    val context = LocalContext.current
+
+    // Precargar el interstitial cuando se muestra la pantalla de victoria
+    LaunchedEffect(Unit) {
+        adManager?.loadInterstitial()
+    }
 
     Box(
         modifier = Modifier
@@ -170,7 +181,18 @@ fun GameVictoryScreen(
                 Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
 
                 Button(
-                    onClick = onBackToHome,
+                    onClick = {
+                        // Mostrar interstitial si está disponible, luego navegar
+                        if (adManager != null && adManager.isInterstitialReady()) {
+                            (context as? Activity)?.let { activity ->
+                                adManager.showInterstitial(activity) {
+                                    onBackToHome()
+                                }
+                            } ?: onBackToHome()
+                        } else {
+                            onBackToHome()
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(dimensions.buttonHeight),
