@@ -21,9 +21,15 @@ object GameMessageManager {
     // Categorías de mensajes esenciales que siempre se mostrarán
     private object MessageCategories {
         val POINTS = listOf("puntos", "guardado")
-        val GAME_EVENTS = listOf("perdido el turno", "superado los 10,000", "ganado")
+        val GAME_EVENTS = listOf(
+            "perdido el turno",      // Bot pierde turno
+            "pierdes el turno",      // Humano pierde turno
+            "sin puntuación",        // Lanzamiento sin puntos
+            "superado los 10,000",   // Excede puntuación
+            "ganado"                 // Victoria
+        )
         val ERRORS = listOf("error", "Error")
-        
+
         // Todos los mensajes esenciales combinados
         val ALL = POINTS + GAME_EVENTS + ERRORS
     }
@@ -49,12 +55,14 @@ object GameMessageManager {
             // Mensajes de éxito
             MessageCategories.POINTS.any { message.contains(it, ignoreCase = true) } ||
             message.contains("ganado", ignoreCase = true) -> ToastType.SUCCESS
-            
-            // Mensajes de error
+
+            // Mensajes de error (turno perdido, puntuación excedida)
             MessageCategories.ERRORS.any { message.contains(it, ignoreCase = true) } ||
-            message.contains("perdido", ignoreCase = true) || 
+            message.contains("perdido", ignoreCase = true) ||
+            message.contains("pierdes", ignoreCase = true) ||
+            message.contains("sin puntuación", ignoreCase = true) ||
             message.contains("superado", ignoreCase = true) -> ToastType.ERROR
-            
+
             // Mensajes informativos (por defecto)
             else -> ToastType.INFO
         }
@@ -85,39 +93,57 @@ fun GameMessageHandler(
             // Ocultar cualquier mensaje anterior
             showToast = false
             currentMessage = null
-            
+
             // Pequeña pausa para asegurar que la animación de cierre se complete
             delay(GameMessageManager.ANIMATION_DELAY_MS)
-            
+
             // Mostrar el nuevo mensaje
             currentMessage = message
             toastType = GameMessageManager.getToastType(message)
             showToast = true
-            
+
             // Auto-ocultar el mensaje después de un tiempo
             delay(GameMessageManager.AUTO_HIDE_DELAY_MS)
-            
+
             // Solo ocultar automáticamente si el mensaje aún se muestra
             if (showToast) {
                 showToast = false
+                currentMessage = null  // Limpiar el mensaje para evitar reapariciones
                 onMessageShown()
             }
         } else if (message != null) {
             onMessageShown()
+        } else {
+            // Si el mensaje es null, limpiar todo el estado
+            showToast = false
+            currentMessage = null
         }
     }
     
     // Función para cerrar el mensaje manualmente
     val closeMessage = {
         showToast = false
+        currentMessage = null  // Limpiar el mensaje para evitar reapariciones
         onMessageShown()
     }
     
-    // Mostrar el toast si hay un mensaje
-    currentMessage?.let {
+    // Mostrar el toast solo si:
+    // 1. showToast está activo
+    // 2. currentMessage no es null
+    // 3. message no es null y es esencial
+    // 4. CRÍTICO: message == currentMessage (evita mostrar mensaje viejo cuando llega uno nuevo)
+    //    Cuando el usuario hace clic en lanzar, message cambia rápidamente de null al nuevo mensaje.
+    //    Si el LaunchedEffect no ha actualizado currentMessage aún, mostraríamos el mensaje viejo.
+    val shouldShowToast = showToast &&
+            currentMessage != null &&
+            message != null &&
+            message == currentMessage &&
+            GameMessageManager.isEssentialMessage(message)
+
+    if (shouldShowToast) {
         GameToast(
-            message = it,
-            isVisible = showToast,
+            message = currentMessage!!,
+            isVisible = true,
             type = toastType,
             onClose = closeMessage,
             modifier = modifier

@@ -6,6 +6,7 @@ import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.domain.repository.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,8 +15,14 @@ class PlayerViewModel @Inject constructor(
     private val playerRepository: PlayerRepository
 ) : ViewModel() {
 
-    // Flow de jugadores activos
-    val players: Flow<List<Player>> = playerRepository.getAllActivePlayers()
+    companion object {
+        private const val BOT_PLAYER_NAME = "Bot"
+    }
+
+    // Flow de jugadores activos (excluyendo bots)
+    val players: Flow<List<Player>> = playerRepository.getAllActivePlayers().map { players ->
+        players.filter { it.name != BOT_PLAYER_NAME }
+    }
 
     // Crear un nuevo jugador
     fun createPlayer(name: String) {

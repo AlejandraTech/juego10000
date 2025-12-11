@@ -296,10 +296,13 @@ class GameViewModel @Inject constructor(
      */
     private fun checkIfBotTurn(currentPlayer: Player) {
         Log.d("GameViewModel", "checkIfBotTurn: currentPlayer=${currentPlayer.name}, isSinglePlayerMode=${_isSinglePlayerMode.value}")
-        
+
         if (_isSinglePlayerMode.value && currentPlayer.name == "Bot") {
             Log.d("GameViewModel", "Es turno del Bot, preparando ejecución")
             _isBotTurn.value = true
+            // Deshabilitar los controles inmediatamente para evitar interacciones del usuario
+            _canRoll.value = false
+            _canBank.value = false
             // Añadir un pequeño retraso antes de ejecutar el turno del bot
             // para que el usuario pueda ver que es el turno del bot
             viewModelScope.launch {
@@ -339,9 +342,13 @@ class GameViewModel @Inject constructor(
                 // Ejecutar el turno del Bot dentro del viewModelScope.launch
                 // Usamos una corrutina para llamar a la función suspendida
                 viewModelScope.launch {
+                    // Limpiar cualquier mensaje anterior ANTES de que el bot empiece
+                    // Esto evita que aparezca el mensaje del turno anterior del jugador humano
+                    _message.value = null
+
                     // Asegurarse de que el juego esté en estado "comenzado" para que se muestren los dados
                     _gameStarted.value = true
-                    
+
                     botTurnHandler.executeBotTurn(
                         bot = bot,
                         currentDice = _dice.value,
@@ -379,29 +386,19 @@ class GameViewModel @Inject constructor(
                     },
                     onDiceSelected = { selectedDice ->
                         Log.d("GameViewModel", "Bot seleccionando dados: ${selectedDice.count { it.isSelected }} seleccionados")
-                        
+
                         // Actualizar los dados
                         _dice.value = selectedDice
                         _selectedDice.value = selectedDice.filter { it.isSelected }
-                        
+
                         // Calcular puntuación de los dados seleccionados actualmente
                         val (score, description) = calculateScoreUseCase(_selectedDice.value)
-                        
-                        // Calcular puntuación de los dados ya bloqueados
-                        val lockedDiceScore = calculateScoreUseCase(_lockedDice.value).first
-                        
-                        // Actualizar la puntuación total del turno
-                        // Importante: Restamos la puntuación de los dados bloqueados para no contarla dos veces
-                        // y luego sumamos la puntuación actual más la nueva puntuación
-                        _currentTurnScore.value = _currentTurnScore.value - lockedDiceScore + lockedDiceScore + score
-                        
+
+                        // Actualizar la puntuación del turno sumando los puntos de los dados seleccionados
+                        _currentTurnScore.value = _currentTurnScore.value + score
+
                         // Mostrar mensaje con la descripción de la puntuación
                         _message.value = description
-                        
-                        // Añadir un pequeño retraso para que el usuario pueda ver los dados seleccionados
-                        viewModelScope.launch {
-                            delay(1000)
-                        }
                     },
                         onBankScore = { score ->
                             // Guardar la puntuación
@@ -452,7 +449,11 @@ class GameViewModel @Inject constructor(
                                     
                                     // Mensaje de victoria
                                     _message.value = "¡Bot ha ganado con $totalScore puntos!"
-                                    
+
+                                    // Resetear estados del bot
+                                    _botActionInProgress.value = false
+                                    _isBotTurn.value = false
+
                                     // Reproducir sonido de victoria si está habilitado
                                     viewModelScope.launch {
                                         val soundEnabled = userPreferencesManager.soundEnabled.first()
@@ -460,21 +461,23 @@ class GameViewModel @Inject constructor(
                                             playWinSound()
                                         }
                                     }
-                                    
+
                                     return@launch
                                 } else if (totalScore > currentGame.game.targetScore) {
                                     // El Bot ha superado los 10,000 puntos, pierde el turno
-                                    // Actualizar el estado para mostrar que se ha excedido la puntuación
                                     _gameState.update { currentState ->
-                                        currentState.copy(
-                                            scoreExceeded = true,
-                                            message = "¡Bot ha superado los 10,000 puntos! Pierde su turno y los puntos acumulados."
-                                        )
+                                        currentState.copy(scoreExceeded = true)
                                     }
-                                    
+                                    // Usar _message.value (fuente única de verdad para mensajes)
+                                    _message.value = "¡Bot ha superado los 10,000 puntos! Pierde su turno y los puntos acumulados."
+
                                     // Mostrar el mensaje durante más tiempo
                                     delay(2000)
-                                    
+
+                                    // Resetear estados del bot ANTES de pasar al siguiente jugador
+                                    _botActionInProgress.value = false
+                                    _isBotTurn.value = false
+
                                     // No guardar la puntuación y pasar al siguiente jugador
                                     nextPlayer()
                                     return@launch
@@ -506,7 +509,7 @@ class GameViewModel @Inject constructor(
                                 if (validateTurnUseCase.hasWon(totalScore, currentGame.game.targetScore)) {
                                     // Completar el juego con el ganador
                                     saveGameUseCase.completeGame(gameId, botPlayer.id)
-                                    
+
                                     // Actualizar estado de UI
                                     _gameState.update { currentState ->
                                         currentState.copy(
@@ -516,10 +519,14 @@ class GameViewModel @Inject constructor(
                                             canBank = true
                                         )
                                     }
-                                    
+
                                     // Mensaje de victoria
                                     _message.value = "¡Bot ha ganado con $totalScore puntos!"
-                                    
+
+                                    // Resetear estados del bot
+                                    _botActionInProgress.value = false
+                                    _isBotTurn.value = false
+
                                     // Reproducir sonido de victoria si está habilitado
                                     viewModelScope.launch {
                                         val soundEnabled = userPreferencesManager.soundEnabled.first()
@@ -527,10 +534,10 @@ class GameViewModel @Inject constructor(
                                             playWinSound()
                                         }
                                     }
-                                    
+
                                     return@launch
                                 }
-                                
+
                                 // Guardar estado
                                 saveGameUseCase(
                                     gameId = gameId,
@@ -538,7 +545,14 @@ class GameViewModel @Inject constructor(
                                     currentRound = currentGame.currentRound,
                                     gameStateData = gameStateData
                                 )
-                                
+
+                                // Pausa para que el usuario vea el mensaje (igual que jugador humano)
+                                delay(1500)
+
+                                // Resetear estados del bot ANTES de pasar al siguiente jugador
+                                _botActionInProgress.value = false
+                                _isBotTurn.value = false
+
                                 // Pasar al siguiente jugador
                                 nextPlayer()
                             }
@@ -546,20 +560,28 @@ class GameViewModel @Inject constructor(
                         onTurnLost = {
                             // El Bot pierde el turno
                             _message.value = "¡Bot ha perdido el turno!"
-                            
-                            // Pasar al siguiente jugador
-                            nextPlayer()
+
+                            // Pausa para que el usuario vea el mensaje
+                            viewModelScope.launch {
+                                delay(1500)
+                                // Resetear estados del bot ANTES de pasar al siguiente jugador
+                                _botActionInProgress.value = false
+                                _isBotTurn.value = false
+                                // Pasar al siguiente jugador
+                                nextPlayer()
+                            }
                         }
                     )
                 }
             } catch (e: Exception) {
                 Log.e("GameViewModel", "Error en el turno del Bot: ${e.message}", e)
                 _message.value = "Error en el turno del Bot"
-                nextPlayer()
-            } finally {
                 _botActionInProgress.value = false
                 _isBotTurn.value = false
+                nextPlayer()
             }
+            // No usar finally aquí porque los callbacks son asíncronos
+            // y se resetean los estados en cada callback individualmente
         }
     }
 
@@ -664,7 +686,9 @@ class GameViewModel @Inject constructor(
             _currentTurnScore.value = 0
             _gameStarted.value = false
             _canBank.value = false
-            _canRoll.value = true
+            // Solo habilitar si no es turno del bot (se verificará después en checkIfBotTurn)
+            // Por ahora dejamos en false, checkIfBotTurn o el código posterior lo habilitará si corresponde
+            _canRoll.value = !_isBotTurn.value
         }
     }
 
@@ -786,6 +810,10 @@ class GameViewModel @Inject constructor(
         if (_isRolling.value || !_canRoll.value) {
             return
         }
+
+        // Limpiar cualquier mensaje anterior ANTES de iniciar el lanzamiento
+        // Esto evita que aparezca brevemente el mensaje del turno anterior
+        _message.value = null
 
         viewModelScope.launch {
             try {
@@ -1282,8 +1310,9 @@ class GameViewModel @Inject constructor(
             _canRoll.value = false
             _canBank.value = false
 
-            // Limpiar mensaje actual para evitar que se muestre información del jugador anterior
-            _message.value = null
+            // NO limpiar el mensaje aquí - dejar que GameMessageHandler lo gestione
+            // El GameMessageHandler auto-oculta mensajes después de 3 segundos
+            // y llama a clearMessage() automáticamente
 
             val currentGame = gameStateUseCase.getGameState(gameId).first()
             if (currentGame != null) {
@@ -1324,30 +1353,32 @@ class GameViewModel @Inject constructor(
                     // No mostrar mensajes de cambio de turno, son innecesarios
                     // y la UI ya indica claramente de quién es el turno
 
-                    // Habilitar el botón de lanzar dados después de que todo se haya actualizado
-                    _canRoll.value = true
-                    
-                    // Verificar si es el turno del Bot
+                    // Verificar PRIMERO si es el turno del Bot (esto deshabilitará controles si es bot)
                     nextPlayer?.let { checkIfBotTurn(it) }
+
+                    // Solo habilitar el botón si NO es turno del bot
+                    if (!_isBotTurn.value) {
+                        _canRoll.value = true
+                    }
                 } catch (e: Exception) {
                     // Manejar errores (mensaje esencial)
                     setEssentialMessage("Error al cambiar de jugador: ${e.message}")
                     Log.e("GameViewModel", "Error en nextPlayer: ${e.message}", e)
 
                     // Asegurar que el usuario pueda interactuar incluso si hay un error
-                    _canRoll.value = true
+                    // pero solo si no es turno del bot
+                    if (!_isBotTurn.value) {
+                        _canRoll.value = true
+                    }
                 }
             }
         }
     }
 
     fun clearMessage() {
-        _gameState.update { currentState ->
-            currentState.copy(
-                message = null
-                // No modificar scoreExceeded aquí
-            )
-        }
+        // Limpiar el StateFlow _message que es la fuente real del mensaje
+        // (no _gameState.message que se sobrescribe por el combine)
+        _message.value = null
     }
 
     /**
@@ -1462,12 +1493,8 @@ class GameViewModel @Inject constructor(
      * Muestra un mensaje, reinicia la puntuación del turno actual y pasa al siguiente jugador.
      */
     fun onScoreExceeded() {
-        // Mostrar mensaje de puntuación excedida
-        _gameState.update { currentState ->
-            currentState.copy(
-                message = "¡Has superado los 10,000 puntos! Pierdes tu turno y los puntos acumulados."
-            )
-        }
+        // Usar _message.value (fuente única de verdad para mensajes)
+        _message.value = "¡Has superado los 10,000 puntos! Pierdes tu turno y los puntos acumulados."
 
         // Añadimos un pequeño retraso antes de pasar al siguiente jugador
         viewModelScope.launch {
@@ -1528,11 +1555,8 @@ class GameViewModel @Inject constructor(
      * Muestra el mensaje de puntuación excedida
      */
     fun showScoreExceededMessage() {
-        _gameState.update { currentState ->
-            currentState.copy(
-                message = "¡Has superado los 10,000 puntos! Haz clic en 'Pasar Turno'."
-            )
-        }
+        // Usar _message.value (fuente única de verdad para mensajes)
+        _message.value = "¡Has superado los 10,000 puntos! Haz clic en 'Pasar Turno'."
     }
 
     /**
@@ -1542,6 +1566,9 @@ class GameViewModel @Inject constructor(
         // Bloquear interacciones durante la transición
         blockInteractionsDuringTransition()
 
+        // Limpiar mensaje (fuente única de verdad)
+        _message.value = null
+
         // Pasar al siguiente jugador
         nextPlayer()
 
@@ -1549,8 +1576,7 @@ class GameViewModel @Inject constructor(
         _gameState.update { currentState ->
             currentState.copy(
                 scoreExceeded = false,
-                currentTurnScore = 0,
-                message = null
+                currentTurnScore = 0
             )
         }
     }
@@ -1569,7 +1595,8 @@ class GameViewModel @Inject constructor(
             delay(durationMs)
 
             // Restaurar interacciones según el estado actual del juego
-            if (!_isRolling.value && !_gameState.value.scoreExceeded) {
+            // IMPORTANTE: No restaurar si es el turno del bot
+            if (!_isRolling.value && !_gameState.value.scoreExceeded && !_isBotTurn.value) {
                 _canRoll.value = true
 
                 // Solo habilitar el banco si hay dados seleccionados con puntuación

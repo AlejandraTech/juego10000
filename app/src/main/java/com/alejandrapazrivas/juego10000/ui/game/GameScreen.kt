@@ -134,29 +134,28 @@ fun GameScreen(
 
     // Efectos para gestionar estados de la UI
     LaunchedEffect(gameState.currentPlayerIndex) {
-        // Resetear estados cuando cambia el jugador
+        // Resetear flag de selección cuando cambia el jugador
+        // NO resetear indicadores aquí - lo hace LaunchedEffect(gameState.message)
         viewModel.resetSelectedDiceChangedFlag()
-        showTurnLostIndicator = false
-        showPointsSavedIndicator = false
-        showScoreExceededIndicator = false
     }
 
     // Gestión de indicadores visuales basados en mensajes
+    // Este es el ÚNICO lugar donde se deben resetear/activar los indicadores
     LaunchedEffect(gameState.message) {
-        val message = gameState.message ?: return@LaunchedEffect
-        
-        // Resetear todos los indicadores
+        // Siempre resetear primero (incluso si mensaje es null)
         showTurnLostIndicator = false
         showPointsSavedIndicator = false
         showScoreExceededIndicator = false
-        
+
+        val message = gameState.message ?: return@LaunchedEffect
+
         // Activar el indicador apropiado según el mensaje
         when {
-            message.contains("sin puntuación", ignoreCase = true) || 
+            message.contains("sin puntuación", ignoreCase = true) ||
                     message.contains("perdido el turno", ignoreCase = true) -> {
                 showTurnLostIndicator = true
             }
-            message.contains("guardado", ignoreCase = true) && 
+            message.contains("guardado", ignoreCase = true) &&
                     message.contains("puntos", ignoreCase = true) -> {
                 showPointsSavedIndicator = true
             }
@@ -164,7 +163,7 @@ fun GameScreen(
                 showScoreExceededIndicator = true
             }
         }
-        
+
         // Ocultar el indicador después de un tiempo
         if (showTurnLostIndicator || showPointsSavedIndicator || showScoreExceededIndicator) {
             scope.launch {
@@ -429,10 +428,15 @@ fun GameScreen(
                                     modifier = Modifier.fillMaxSize(),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    // Componente de dados
+                                    // Componente de dados (bloqueado durante el turno del bot)
                                     DiceSection(
                                         dice = gameState.dice,
-                                        onDiceClick = { viewModel.onDiceClick(it) },
+                                        onDiceClick = { dice ->
+                                            // Solo permitir interacción si no es turno del bot
+                                            if (!isBotTurn) {
+                                                viewModel.onDiceClick(dice)
+                                            }
+                                        },
                                         isRolling = gameState.isRolling,
                                         showTurnLostIndicator = showTurnLostIndicator,
                                         showPointsSavedIndicator = showPointsSavedIndicator,
@@ -510,7 +514,7 @@ fun GameScreen(
                             .padding(vertical = 8.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        // Botón Lanzar Dados
+                        // Botón Lanzar Dados (bloqueado durante el turno del bot)
                         Button(
                             onClick = { viewModel.onRollClick() },
                             modifier = Modifier
@@ -528,7 +532,7 @@ fun GameScreen(
                                     alpha = 0.3f
                                 )
                             ),
-                            enabled = gameState.canRoll && !gameState.scoreExceeded && !gameState.isGameOver
+                            enabled = gameState.canRoll && !gameState.scoreExceeded && !gameState.isGameOver && !isBotTurn
                         ) {
                             Text(
                                 text = stringResource(R.string.roll_dice),
@@ -558,6 +562,7 @@ fun GameScreen(
                             else -> stringResource(R.string.bank_score)
                         }
 
+                        // Botón secundario (bloqueado durante el turno del bot, excepto para fin de juego)
                         Button(
                             onClick = {
                                 when {
@@ -579,7 +584,8 @@ fun GameScreen(
                                 containerColor = buttonColor,
                                 disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
                             ),
-                            enabled = gameState.canBank || gameState.scoreExceeded || gameState.isGameOver
+                            // Permitir fin de juego incluso durante turno del bot, pero bloquear otras acciones
+                            enabled = (gameState.canBank || gameState.scoreExceeded || gameState.isGameOver) && (!isBotTurn || gameState.isGameOver)
                         ) {
                             Text(
                                 text = buttonText,
