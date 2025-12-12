@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -85,7 +86,7 @@ fun RulesHeader() {
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_rules),
-                    contentDescription = "Reglas",
+                    contentDescription = stringResource(R.string.rules),
                     modifier = Modifier.size(36.dp),
                     tint = Color.White
                 )
@@ -94,7 +95,7 @@ fun RulesHeader() {
             Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
             Text(
-                text = "Reglas del Juego 10000",
+                text = stringResource(R.string.rules_header_title),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -104,7 +105,7 @@ fun RulesHeader() {
             Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
             Text(
-                text = "Aprende a jugar y dominar el juego",
+                text = stringResource(R.string.rules_header_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)

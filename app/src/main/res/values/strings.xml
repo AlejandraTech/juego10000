@@ -152,33 +152,39 @@
     <!-- PANTALLA DE REGLAS     -->
     <!-- ====================== -->
 
+    <!-- Encabezado de reglas -->
+    <string name="rules_header_title">Reglas del Juego 10000</string>
+    <string name="rules_header_subtitle">Aprende a jugar y dominar el juego</string>
+
     <!-- Secciones principales -->
-    <string name="game_objective">Objetivo del juego</string>
-    <string name="objective_description">El objetivo del juego es ser el primer jugador en alcanzar 10,000 puntos o más.</string>
+    <string name="game_objective">Objetivo del Juego</string>
     <string name="objective_content">Ser el primer jugador en alcanzar 10,000 puntos para ganar la partida.</string>
 
-    <string name="game_entry">Entrada en juego</string>
-    <string name="entry_description">Para entrar en juego, un jugador debe obtener al menos 500 puntos en su primer turno.</string>
+    <string name="game_entry">Entrada en Juego</string>
     <string name="entry_content">Para comenzar a acumular puntos, cada jugador debe obtener al menos 500 puntos en su primer turno. Hasta que no se consiga esta puntuación, no se registrarán puntos en el marcador.</string>
 
-    <string name="turn_mechanics">Mecánica de turnos</string>
+    <string name="turn_mechanics">Mecánica de Turnos</string>
     <string name="turn_mechanic_1">Cada jugador lanza 6 dados en su turno.</string>
-    <string name="turn_mechanic_2">Puede apartar dados con puntuación y relanzar los restantes.</string>
-    <string name="turn_mechanic_3">Si no obtiene puntos, pierde el turno y los puntos acumulados.</string>
-    <string name="turn_mechanic_4">Puede plantarse en cualquier momento y sumar los puntos a su total.</string>
-    <string name="turn_mechanic_5">Si usa los 6 dados, obtiene un nuevo tiro con todos los dados.</string>
-    <string name="turn_mechanics_content">1. Cada jugador lanza 6 dados en su turno.\n2. Después de cada lanzamiento, debe apartar al menos un dado con puntuación.\n3. Puede elegir relanzar los dados restantes para acumular más puntos.\n4. Si en algún lanzamiento no obtiene ningún dado con puntuación, pierde todos los puntos acumulados en ese turno y pasa al siguiente jugador.\n5. El jugador puede decidir \'plantarse\' en cualquier momento y sumar los puntos acumulados a su total.\n6. Si utiliza los 6 dados con puntuación, obtiene un nuevo lanzamiento con todos los dados.</string>
+    <string name="turn_mechanic_2">Después de cada lanzamiento, debe apartar al menos un dado con puntuación.</string>
+    <string name="turn_mechanic_3">Puede elegir relanzar los dados restantes para acumular más puntos.</string>
+    <string name="turn_mechanic_4">Si en algún lanzamiento no obtiene ningún dado con puntuación, pierde todos los puntos acumulados en ese turno y pasa al siguiente jugador.</string>
+    <string name="turn_mechanic_5">El jugador puede decidir \'plantarse\' en cualquier momento y sumar los puntos acumulados a su total.</string>
+    <string name="turn_mechanic_6">Si utiliza los 6 dados con puntuación, obtiene un nuevo lanzamiento con todos los dados.</string>
 
     <string name="strategies">Estrategias</string>
-    <string name="strategies_content">• Equilibra el riesgo: Decide cuándo plantarte y cuándo seguir lanzando.\n• Prioriza dados de alto valor: Los 1 y 5 son valiosos individualmente.\n• Busca combinaciones: Tres o más dados iguales otorgan puntuaciones altas.\n• Observa a tus oponentes: Ajusta tu estrategia según sus puntuaciones.</string>
+    <string name="strategy_1">Equilibra el riesgo: Decide cuándo plantarte y cuándo seguir lanzando.</string>
+    <string name="strategy_2">Prioriza dados de alto valor: Los 1 y 5 son valiosos individualmente.</string>
+    <string name="strategy_3">Busca combinaciones: Tres o más dados iguales otorgan puntuaciones altas.</string>
+    <string name="strategy_4">Observa a tus oponentes: Ajusta tu estrategia según sus puntuaciones.</string>
 
     <!-- Sistema de puntuación -->
-    <string name="scoring_system">Sistema de puntuación</string>
-    <string name="individual_dice">Dados individuales</string>
-    <string name="dice_1_score">1 → 100 puntos</string>
-    <string name="dice_5_score">5 → 50 puntos</string>
+    <string name="scoring_system">Sistema de Puntuación</string>
+    <string name="individual_dice">Dados Individuales</string>
+    <string name="dice_value">Valor %1$d</string>
+    <string name="dice_description">Dado %1$d</string>
     <string name="combinations">Combinaciones</string>
     <string name="combination">Combinación</string>
+    <string name="multipliers">Multiplicadores</string>
     <string name="three_ones">Tres 1\'s</string>
     <string name="three_twos">Tres 2\'s</string>
     <string name="three_threes">Tres 3\'s</string>
@@ -190,9 +196,9 @@
     <string name="four_of_a_kind">Cuatro iguales</string>
     <string name="five_of_a_kind">Cinco iguales</string>
     <string name="six_of_a_kind">Seis iguales</string>
-    <string name="double_three_of_a_kind">Doble del valor de tres iguales</string>
-    <string name="triple_three_of_a_kind">Triple del valor de tres iguales</string>
-    <string name="quadruple_three_of_a_kind">Cuádruple del valor de tres iguales</string>
+    <string name="four_of_a_kind_desc">Cuatro iguales: Doble del valor de tres iguales</string>
+    <string name="five_of_a_kind_desc">Cinco iguales: Triple del valor de tres iguales</string>
+    <string name="six_of_a_kind_desc">Seis iguales: Cuádruple del valor de tres iguales</string>
 
     <!-- ========================== -->
     <!-- PANTALLA DE ESTADÍSTICAS   -->

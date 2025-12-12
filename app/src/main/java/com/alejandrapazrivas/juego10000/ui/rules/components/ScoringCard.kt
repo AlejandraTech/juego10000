@@ -1,6 +1,7 @@
 package com.alejandrapazrivas.juego10000.ui.rules.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.rules.components.base.RuleCard
 
@@ -11,11 +12,11 @@ import com.alejandrapazrivas.juego10000.ui.rules.components.base.RuleCard
 fun ScoringCard() {
     RuleCard(
         icon = R.drawable.ic_stats,
-        title = "Sistema de Puntuación"
+        title = stringResource(R.string.scoring_system)
     ) {
         // Sección de dados individuales
         ScoringSection(
-            title = "Dados Individuales:",
+            title = stringResource(R.string.individual_dice),
             content = {
                 DiceScoreRow(diceValue = 1, points = 100)
                 DiceScoreRow(diceValue = 5, points = 50)
@@ -24,26 +25,26 @@ fun ScoringCard() {
 
         // Sección de combinaciones
         ScoringSection(
-            title = "Combinaciones:",
+            title = stringResource(R.string.combinations),
             content = {
-                CombinationScoreRow(combination = "Tres 1's", points = 1000)
-                CombinationScoreRow(combination = "Tres 2's", points = 200)
-                CombinationScoreRow(combination = "Tres 3's", points = 300)
-                CombinationScoreRow(combination = "Tres 4's", points = 400)
-                CombinationScoreRow(combination = "Tres 5's", points = 500)
-                CombinationScoreRow(combination = "Tres 6's", points = 600)
-                CombinationScoreRow(combination = "Escalera (1-2-3-4-5-6)", points = 1500)
-                CombinationScoreRow(combination = "Tres pares", points = 1500)
+                CombinationScoreRow(combination = stringResource(R.string.three_ones), points = 1000)
+                CombinationScoreRow(combination = stringResource(R.string.three_twos), points = 200)
+                CombinationScoreRow(combination = stringResource(R.string.three_threes), points = 300)
+                CombinationScoreRow(combination = stringResource(R.string.three_fours), points = 400)
+                CombinationScoreRow(combination = stringResource(R.string.three_fives), points = 500)
+                CombinationScoreRow(combination = stringResource(R.string.three_sixes), points = 600)
+                CombinationScoreRow(combination = stringResource(R.string.straight), points = 1500)
+                CombinationScoreRow(combination = stringResource(R.string.three_pairs), points = 1500)
             }
         )
 
         // Sección de multiplicadores
         ScoringSection(
-            title = "Multiplicadores:",
+            title = stringResource(R.string.multipliers),
             content = {
-                MultiplierRow(text = "Cuatro iguales: Doble del valor de tres iguales")
-                MultiplierRow(text = "Cinco iguales: Triple del valor de tres iguales")
-                MultiplierRow(text = "Seis iguales: Cuádruple del valor de tres iguales")
+                MultiplierRow(text = stringResource(R.string.four_of_a_kind_desc))
+                MultiplierRow(text = stringResource(R.string.five_of_a_kind_desc))
+                MultiplierRow(text = stringResource(R.string.six_of_a_kind_desc))
             }
         )
     }

@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
@@ -54,7 +55,7 @@ fun DiceScoreRow(diceValue: Int, points: Int) {
                                 else -> R.drawable.dice_6
                             }
                         ),
-                        contentDescription = "Dado $diceValue",
+                        contentDescription = stringResource(R.string.dice_description, diceValue),
                         modifier = Modifier.size(24.dp)
                     )
                 }
@@ -62,7 +63,7 @@ fun DiceScoreRow(diceValue: Int, points: Int) {
                 Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
                 Text(
-                    text = "Valor $diceValue",
+                    text = stringResource(R.string.dice_value, diceValue),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onSurface

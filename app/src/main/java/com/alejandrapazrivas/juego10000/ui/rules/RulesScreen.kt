@@ -46,6 +46,7 @@ import com.alejandrapazrivas.juego10000.ui.rules.components.ScoringCard
 import com.alejandrapazrivas.juego10000.ads.AdConstants
 import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.delay
 
 /**
@@ -85,7 +86,7 @@ fun RulesScreen(navController: NavController) {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Reglas del Juego",
+                        text = stringResource(R.string.rules_title),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = Primary
@@ -95,7 +96,7 @@ fun RulesScreen(navController: NavController) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = "Volver",
+                            contentDescription = stringResource(R.string.back),
                             tint = Primary
                         )
                     }
@@ -149,8 +150,8 @@ fun RulesScreen(navController: NavController) {
                 ) {
                     RuleSection(
                         icon = R.drawable.ic_trophy,
-                        title = "Objetivo del Juego",
-                        content = "Ser el primer jugador en alcanzar 10,000 puntos para ganar la partida."
+                        title = stringResource(R.string.game_objective),
+                        content = stringResource(R.string.objective_content)
                     )
                 }
 
@@ -164,8 +165,8 @@ fun RulesScreen(navController: NavController) {
                 ) {
                     RuleSection(
                         icon = R.drawable.ic_dice,
-                        title = "Entrada en Juego",
-                        content = "Para comenzar a acumular puntos, cada jugador debe obtener al menos 500 puntos en su primer turno. Hasta que no se consiga esta puntuación, no se registrarán puntos en el marcador."
+                        title = stringResource(R.string.game_entry),
+                        content = stringResource(R.string.entry_content)
                     )
                 }
 
@@ -179,14 +180,14 @@ fun RulesScreen(navController: NavController) {
                 ) {
                     RuleSectionNumbered(
                         icon = R.drawable.ic_dice,
-                        title = "Mecánica de Turnos",
+                        title = stringResource(R.string.turn_mechanics),
                         items = listOf(
-                            "Cada jugador lanza 6 dados en su turno.",
-                            "Después de cada lanzamiento, debe apartar al menos un dado con puntuación.",
-                            "Puede elegir relanzar los dados restantes para acumular más puntos.",
-                            "Si en algún lanzamiento no obtiene ningún dado con puntuación, pierde todos los puntos acumulados en ese turno y pasa al siguiente jugador.",
-                            "El jugador puede decidir 'plantarse' en cualquier momento y sumar los puntos acumulados a su total.",
-                            "Si utiliza los 6 dados con puntuación, obtiene un nuevo lanzamiento con todos los dados."
+                            stringResource(R.string.turn_mechanic_1),
+                            stringResource(R.string.turn_mechanic_2),
+                            stringResource(R.string.turn_mechanic_3),
+                            stringResource(R.string.turn_mechanic_4),
+                            stringResource(R.string.turn_mechanic_5),
+                            stringResource(R.string.turn_mechanic_6)
                         )
                     )
                 }
@@ -212,12 +213,12 @@ fun RulesScreen(navController: NavController) {
                 ) {
                     RuleSectionBulleted(
                         icon = R.drawable.ic_settings,
-                        title = "Estrategias",
+                        title = stringResource(R.string.strategies),
                         items = listOf(
-                            "Equilibra el riesgo: Decide cuándo plantarte y cuándo seguir lanzando.",
-                            "Prioriza dados de alto valor: Los 1 y 5 son valiosos individualmente.",
-                            "Busca combinaciones: Tres o más dados iguales otorgan puntuaciones altas.",
-                            "Observa a tus oponentes: Ajusta tu estrategia según sus puntuaciones."
+                            stringResource(R.string.strategy_1),
+                            stringResource(R.string.strategy_2),
+                            stringResource(R.string.strategy_3),
+                            stringResource(R.string.strategy_4)
                         )
                     )
                 }
