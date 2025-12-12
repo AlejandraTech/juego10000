@@ -30,13 +30,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.rules.components.RuleSection
 import com.alejandrapazrivas.juego10000.ui.rules.components.RulesHeader
 import com.alejandrapazrivas.juego10000.ui.rules.components.ScoringCard
@@ -47,14 +48,13 @@ import kotlinx.coroutines.delay
 
 /**
  * Pantalla que muestra las reglas del juego 10000.
- * Incluye secciones animadas con información sobre el objetivo, mecánica, puntuación y estrategias.
- * 
- * @param navController Controlador de navegación para manejar la navegación entre pantallas
+ * Diseño moderno sin tarjetas rectangulares, con fondo estático.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RulesScreen(navController: NavController) {
     val dimensions = LocalDimensions.current
+
     // Estados para controlar la animación de aparición de los elementos
     var showHeader by remember { mutableStateOf(false) }
     var showObjective by remember { mutableStateOf(false) }
@@ -66,15 +66,15 @@ fun RulesScreen(navController: NavController) {
     // Efecto que controla la aparición secuencial de los elementos
     LaunchedEffect(key1 = true) {
         showHeader = true
-        delay(150)
+        delay(100)
         showObjective = true
-        delay(150)
+        delay(100)
         showEntrance = true
-        delay(150)
+        delay(100)
         showMechanics = true
-        delay(150)
+        delay(100)
         showScoring = true
-        delay(150)
+        delay(100)
         showStrategies = true
     }
 
@@ -85,7 +85,8 @@ fun RulesScreen(navController: NavController) {
                     Text(
                         text = "Reglas del Juego",
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = Primary
                     )
                 },
                 navigationIcon = {
@@ -93,19 +94,17 @@ fun RulesScreen(navController: NavController) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = "Volver",
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = Primary
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                    titleContentColor = MaterialTheme.colorScheme.onSurface
-                ),
-                modifier = Modifier.shadow(elevation = dimensions.spaceExtraSmall)
+                    containerColor = Color.Transparent
+                )
             )
         }
     ) { paddingValues ->
-        // Fondo con gradiente
+        // Fondo estático con gradiente sutil
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -113,8 +112,8 @@ fun RulesScreen(navController: NavController) {
                     brush = Brush.verticalGradient(
                         colors = listOf(
                             MaterialTheme.colorScheme.background,
-                            MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f)
+                            MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)
                         )
                     )
                 )
@@ -124,14 +123,16 @@ fun RulesScreen(navController: NavController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(dimensions.spaceMedium)
+                    .padding(horizontal = dimensions.spaceMedium)
                     .verticalScroll(rememberScrollState())
             ) {
+                Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
                 // Encabezado animado
                 AnimatedVisibility(
                     visible = showHeader,
-                    enter = fadeIn(animationSpec = tween(500)) +
-                            expandVertically(animationSpec = tween(500))
+                    enter = fadeIn(animationSpec = tween(400)) +
+                            expandVertically(animationSpec = tween(400))
                 ) {
                     RulesHeader()
                 }
@@ -141,8 +142,8 @@ fun RulesScreen(navController: NavController) {
                 // Objetivo del juego
                 AnimatedVisibility(
                     visible = showObjective,
-                    enter = fadeIn(animationSpec = tween(500)) +
-                            expandVertically(animationSpec = tween(500))
+                    enter = fadeIn(animationSpec = tween(400)) +
+                            expandVertically(animationSpec = tween(400))
                 ) {
                     RuleSection(
                         icon = R.drawable.ic_trophy,
@@ -156,8 +157,8 @@ fun RulesScreen(navController: NavController) {
                 // Entrada en juego
                 AnimatedVisibility(
                     visible = showEntrance,
-                    enter = fadeIn(animationSpec = tween(500)) +
-                            expandVertically(animationSpec = tween(500))
+                    enter = fadeIn(animationSpec = tween(400)) +
+                            expandVertically(animationSpec = tween(400))
                 ) {
                     RuleSection(
                         icon = R.drawable.ic_dice,
@@ -171,8 +172,8 @@ fun RulesScreen(navController: NavController) {
                 // Mecánica de turnos
                 AnimatedVisibility(
                     visible = showMechanics,
-                    enter = fadeIn(animationSpec = tween(500)) +
-                            expandVertically(animationSpec = tween(500))
+                    enter = fadeIn(animationSpec = tween(400)) +
+                            expandVertically(animationSpec = tween(400))
                 ) {
                     RuleSection(
                         icon = R.drawable.ic_dice,
@@ -191,8 +192,8 @@ fun RulesScreen(navController: NavController) {
                 // Sistema de puntuación
                 AnimatedVisibility(
                     visible = showScoring,
-                    enter = fadeIn(animationSpec = tween(500)) +
-                            expandVertically(animationSpec = tween(500))
+                    enter = fadeIn(animationSpec = tween(400)) +
+                            expandVertically(animationSpec = tween(400))
                 ) {
                     ScoringCard()
                 }
@@ -202,8 +203,8 @@ fun RulesScreen(navController: NavController) {
                 // Estrategias
                 AnimatedVisibility(
                     visible = showStrategies,
-                    enter = fadeIn(animationSpec = tween(500)) +
-                            expandVertically(animationSpec = tween(500))
+                    enter = fadeIn(animationSpec = tween(400)) +
+                            expandVertically(animationSpec = tween(400))
                 ) {
                     RuleSection(
                         icon = R.drawable.ic_settings,

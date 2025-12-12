@@ -16,62 +16,60 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
+import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
 
 /**
- * Componente base para las filas de puntuación.
- * 
- * @param points Puntos a mostrar
- * @param leadingContent Contenido composable a mostrar al inicio de la fila
- * @param useGradient Si se debe usar un gradiente para el fondo de la puntuación
- * @param backgroundColor Color de fondo para la puntuación (ignorado si useGradient es true)
+ * Componente base moderno para las filas de puntuación.
+ * Diseño limpio con badges de puntos.
  */
 @Composable
 fun ScoreRow(
     points: Int,
     leadingContent: @Composable () -> Unit,
     useGradient: Boolean = false,
-    backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer
+    backgroundColor: Color = Primary.copy(alpha = 0.15f)
 ) {
     val dimensions = LocalDimensions.current
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = dimensions.spaceSmall - dimensions.spaceExtraSmall),
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         leadingContent()
 
         Spacer(modifier = Modifier.weight(1f))
 
+        // Badge de puntos con diseño moderno
         Box(
             modifier = Modifier
-                .clip(RoundedCornerShape(dimensions.spaceMedium))
-                .background(
-                    color = if (!useGradient) backgroundColor else Color.Transparent
-                )
+                .clip(RoundedCornerShape(12.dp))
                 .background(
                     brush = if (useGradient) {
                         Brush.horizontalGradient(
                             colors = listOf(
-                                backgroundColor,
-                                MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                                Primary.copy(alpha = 0.2f),
+                                Secondary.copy(alpha = 0.15f)
                             )
                         )
                     } else {
-                        Brush.horizontalGradient(colors = listOf(backgroundColor, backgroundColor))
-                    },
-                    shape = RoundedCornerShape(dimensions.spaceMedium)
+                        Brush.horizontalGradient(
+                            colors = listOf(backgroundColor, backgroundColor)
+                        )
+                    }
                 )
-                .padding(horizontal = dimensions.spaceSmall + dimensions.spaceExtraSmall, vertical = dimensions.spaceSmall - dimensions.spaceExtraSmall),
+                .padding(horizontal = 12.dp, vertical = 6.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "$points pts",
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = Primary
             )
         }
     }

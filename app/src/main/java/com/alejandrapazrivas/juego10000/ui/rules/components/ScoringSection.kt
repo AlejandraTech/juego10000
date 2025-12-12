@@ -1,22 +1,30 @@
 package com.alejandrapazrivas.juego10000.ui.rules.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
+import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
 
 /**
- * Sección que agrupa elementos de puntuación bajo un título común.
- * 
- * @param title Título de la sección
- * @param content Contenido composable a mostrar dentro de la sección
+ * Sección moderna que agrupa elementos de puntuación bajo un título común.
+ * Sin divisores, diseño limpio.
  */
 @Composable
 fun ScoringSection(title: String, content: @Composable () -> Unit) {
@@ -25,24 +33,35 @@ fun ScoringSection(title: String, content: @Composable () -> Unit) {
     Column(
         modifier = Modifier.padding(vertical = dimensions.spaceSmall)
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.primary
-        )
+        // Título con indicador visual
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Pequeño indicador circular
+            Box(
+                modifier = Modifier
+                    .size(8.dp)
+                    .clip(CircleShape)
+                    .background(Secondary)
+            )
+
+            Spacer(modifier = Modifier.width(dimensions.spaceSmall))
+
+            Text(
+                text = title.removeSuffix(":"),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+            )
+        }
 
         Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
-        content()
-
-        Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
-
-        if (title != "Multiplicadores:") {
-            Divider(
-                modifier = Modifier.padding(vertical = dimensions.spaceSmall),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-            )
+        // Contenido con padding izquierdo para alineación visual
+        Column(
+            modifier = Modifier.padding(start = dimensions.spaceMedium)
+        ) {
+            content()
         }
     }
 }

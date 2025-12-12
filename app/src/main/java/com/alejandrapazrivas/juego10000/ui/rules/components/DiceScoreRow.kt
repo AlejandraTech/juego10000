@@ -5,26 +5,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.rules.components.base.ScoreRow
 
 /**
- * Fila que muestra la puntuación de un valor de dado específico.
- * 
- * @param diceValue Valor del dado (1-6)
- * @param points Puntos que otorga ese valor
+ * Fila moderna que muestra la puntuación de un valor de dado específico.
  */
 @Composable
 fun DiceScoreRow(diceValue: Int, points: Int) {
@@ -36,17 +35,14 @@ fun DiceScoreRow(diceValue: Int, points: Int) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Dado con fondo redondeado
                 Box(
                     modifier = Modifier
-                        .size(dimensions.avatarSizeSmall + dimensions.spaceExtraSmall)
-                        .background(
-                            color = MaterialTheme.colorScheme.surfaceVariant,
-                            shape = CircleShape
-                        )
-                        .padding(dimensions.spaceSmall - dimensions.spaceExtraSmall),
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Primary.copy(alpha = 0.1f)),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Mostrar el dado correspondiente
                     Image(
                         painter = painterResource(
                             id = when (diceValue) {
@@ -59,16 +55,17 @@ fun DiceScoreRow(diceValue: Int, points: Int) {
                             }
                         ),
                         contentDescription = "Dado $diceValue",
-                        modifier = Modifier.size(dimensions.spaceExtraLarge)
+                        modifier = Modifier.size(24.dp)
                     )
                 }
 
-                Spacer(modifier = Modifier.width(dimensions.spaceSmall + dimensions.spaceExtraSmall))
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
                 Text(
                     text = "Valor $diceValue",
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

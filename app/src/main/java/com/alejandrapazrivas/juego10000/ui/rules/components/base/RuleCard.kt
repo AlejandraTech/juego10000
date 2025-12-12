@@ -11,27 +11,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
+import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 
 /**
- * Componente base para las tarjetas de reglas.
- * 
- * @param icon Recurso de icono a mostrar
- * @param title Título de la tarjeta
- * @param content Contenido composable a mostrar dentro de la tarjeta
+ * Componente base moderno para las secciones de reglas.
+ * Sin bordes de tarjeta, diseño limpio y fluido.
  */
 @Composable
 fun RuleCard(
@@ -41,63 +40,71 @@ fun RuleCard(
 ) {
     val dimensions = LocalDimensions.current
 
-    Card(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(
-                elevation = dimensions.spaceExtraSmall,
-                shape = CardShape,
-                spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-            ),
-        shape = CardShape,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.elevationNone)
+            .padding(vertical = dimensions.spaceSmall)
     ) {
-        Column(
-            modifier = Modifier.padding(dimensions.spaceMedium)
+        // Encabezado con icono y título
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(dimensions.avatarSizeSmall)
-                        .background(
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            shape = CircleShape
+            // Icono con fondo circular
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Primary.copy(alpha = 0.2f),
+                                Primary.copy(alpha = 0.1f)
+                            )
                         )
-                        .padding(dimensions.spaceSmall),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = icon),
-                        contentDescription = title,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(dimensions.spaceSmall + dimensions.spaceExtraSmall))
-
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = icon),
+                    contentDescription = title,
+                    modifier = Modifier.size(20.dp),
+                    tint = Primary
                 )
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spaceSmall + dimensions.spaceExtraSmall))
+            Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
-            Divider(
-                modifier = Modifier.padding(vertical = dimensions.spaceExtraSmall),
-                color = MaterialTheme.colorScheme.outlineVariant
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = Primary
             )
-
-            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
-
-            content()
         }
+
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
+        // Línea decorativa sutil
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(2.dp)
+                .clip(RoundedCornerShape(1.dp))
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Primary.copy(alpha = 0.3f),
+                            Primary.copy(alpha = 0.1f),
+                            Color.Transparent
+                        )
+                    )
+                )
+        )
+
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
+        // Contenido
+        content()
     }
 }

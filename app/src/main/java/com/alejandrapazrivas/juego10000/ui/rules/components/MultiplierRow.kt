@@ -9,17 +9,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 
 /**
- * Fila que muestra una regla de multiplicador con un bullet point.
- * 
- * @param text Texto que describe la regla del multiplicador
+ * Fila moderna que muestra una regla de multiplicador.
+ * Diseño limpio con bullet point.
  */
 @Composable
 fun MultiplierRow(text: String) {
@@ -28,24 +31,26 @@ fun MultiplierRow(text: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = dimensions.spaceExtraSmall),
+            .padding(vertical = 4.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Bullet point
         Box(
             modifier = Modifier
-                .size(dimensions.spaceSmall)
-                .background(
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = CircleShape
-                )
+                .size(6.dp)
+                .clip(CircleShape)
+                .background(Primary)
         )
 
-        Spacer(modifier = Modifier.width(dimensions.spaceSmall + dimensions.spaceExtraSmall))
+        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
         )
     }
 }
