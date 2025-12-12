@@ -89,14 +89,14 @@ private fun PlayerScoreRow(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = dimensions.spaceExtraSmall)
+            .padding(vertical = 2.dp)
             .scale(if (isCurrentPlayer) pulseScale else 1f)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .shadow(
-                    elevation = if (isCurrentPlayer) 4.dp else 1.dp,
+                    elevation = if (isCurrentPlayer) 3.dp else 0.dp,
                     shape = RoundedCornerShape(dimensions.spaceSmall),
                     spotColor = if (isCurrentPlayer) Primary.copy(alpha = 0.3f) else Color.Transparent
                 )
@@ -129,14 +129,14 @@ private fun PlayerScoreRow(
                         )
                     } else Modifier
                 )
-                .padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceSmall),
+                .padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceExtraSmall),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // Avatar con inicial
+            // Avatar con inicial - tamaño responsive
             Box(
                 modifier = Modifier
-                    .size(36.dp)
+                    .size(dimensions.scoreboardAvatarSize)
                     .clip(CircleShape)
                     .background(
                         brush = if (isCurrentPlayer) {
@@ -157,7 +157,7 @@ private fun PlayerScoreRow(
                 val initial = if (player.name == "Bot") "B" else player.name.firstOrNull()?.uppercase() ?: "?"
                 Text(
                     text = initial,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = if (isCurrentPlayer) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -184,21 +184,21 @@ private fun PlayerScoreRow(
 
                 Text(
                     text = displayName,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     fontWeight = if (isCurrentPlayer) FontWeight.Bold else FontWeight.Medium,
                     color = if (isCurrentPlayer) Primary else MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
 
                 // Barra de progreso hacia 10,000
                 LinearProgressIndicator(
                     progress = { animatedProgress },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(4.dp)
+                        .height(3.dp)
                         .clip(RoundedCornerShape(2.dp)),
                     color = if (isCurrentPlayer) Primary else Secondary.copy(alpha = 0.6f),
                     trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
@@ -208,13 +208,13 @@ private fun PlayerScoreRow(
 
             Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
-            // Puntuación
+            // Puntuación - más compacta
             Column(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
                     text = "$score",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.ExtraBold,
                     color = if (isCurrentPlayer) Primary else MaterialTheme.colorScheme.onSurface
                 )
@@ -240,15 +240,15 @@ fun ScoreboardSection(
     val dimensions = LocalDimensions.current
     val scrollState = rememberScrollState()
 
-    // Altura máxima para la lista de jugadores (aprox. 3 jugadores visibles)
-    val maxPlayersHeight = 180.dp
+    // Altura máxima responsive según el tamaño de pantalla
+    val maxPlayersHeight = dimensions.scoreboardMaxHeight
 
-    // Altura aproximada de cada fila de jugador
-    val playerRowHeight = 60
+    // Altura aproximada de cada fila de jugador (usar la dimensión)
+    val playerRowHeight = dimensions.scoreboardPlayerRowHeight.value.toInt()
 
     // Auto-scroll al jugador actual cuando cambia el turno
     LaunchedEffect(currentPlayerIndex) {
-        if (players.size > 3) {
+        if (players.size > 2) {
             val targetScroll = (currentPlayerIndex * playerRowHeight).coerceAtLeast(0)
             scrollState.animateScrollTo(targetScroll)
         }
@@ -266,17 +266,17 @@ fun ScoreboardSection(
         ) {
             Text(
                 text = stringResource(R.string.scoreboard),
-                style = MaterialTheme.typography.titleMedium.copy(fontSize = dimensions.titleFontSize),
+                style = MaterialTheme.typography.titleSmall.copy(fontSize = dimensions.titleFontSize),
                 fontWeight = FontWeight.Bold,
                 color = Primary,
                 textAlign = TextAlign.Center
             )
         }
 
-        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+        Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
         HorizontalDivider(
-            modifier = Modifier.padding(bottom = dimensions.spaceSmall),
+            modifier = Modifier.padding(bottom = dimensions.spaceExtraSmall),
             color = Primary.copy(alpha = 0.2f),
             thickness = 1.dp
         )
@@ -286,12 +286,12 @@ fun ScoreboardSection(
             Triple(player, playerScores[player.id] ?: 0, index)
         }.sortedByDescending { it.second }
 
-        // Lista de jugadores con scroll cuando hay muchos
+        // Lista de jugadores con scroll cuando hay muchos (más de 2)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .then(
-                    if (players.size > 3) {
+                    if (players.size > 2) {
                         Modifier
                             .heightIn(max = maxPlayersHeight)
                             .verticalScroll(scrollState)

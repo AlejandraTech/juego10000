@@ -109,7 +109,15 @@ data class Dimensions(
     val dialogMaxWidth: Dp = 560.dp,
 
     // Drawer
-    val drawerWidth: Dp = 300.dp
+    val drawerWidth: Dp = 300.dp,
+
+    // Scoreboard
+    val scoreboardMaxHeight: Dp = 180.dp,
+    val scoreboardPlayerRowHeight: Dp = 56.dp,
+    val scoreboardAvatarSize: Dp = 36.dp,
+
+    // Dice area minimum height (2 rows of dice + spacing)
+    val diceAreaMinHeight: Dp = 160.dp
 )
 
 /**
@@ -154,7 +162,11 @@ val CompactDimensions = Dimensions(
     maxContentWidth = 480.dp,
     dialogMinWidth = 280.dp,
     dialogMaxWidth = 400.dp,
-    drawerWidth = 280.dp
+    drawerWidth = 280.dp,
+    scoreboardMaxHeight = 130.dp,
+    scoreboardPlayerRowHeight = 48.dp,
+    scoreboardAvatarSize = 30.dp,
+    diceAreaMinHeight = 140.dp
 )
 
 /**
@@ -199,7 +211,11 @@ val MediumDimensions = Dimensions(
     maxContentWidth = 600.dp,
     dialogMinWidth = 320.dp,
     dialogMaxWidth = 480.dp,
-    drawerWidth = 300.dp
+    drawerWidth = 300.dp,
+    scoreboardMaxHeight = 160.dp,
+    scoreboardPlayerRowHeight = 52.dp,
+    scoreboardAvatarSize = 34.dp,
+    diceAreaMinHeight = 160.dp
 )
 
 /**
@@ -244,7 +260,11 @@ val ExpandedDimensions = Dimensions(
     maxContentWidth = 840.dp,
     dialogMinWidth = 400.dp,
     dialogMaxWidth = 560.dp,
-    drawerWidth = 340.dp
+    drawerWidth = 340.dp,
+    scoreboardMaxHeight = 200.dp,
+    scoreboardPlayerRowHeight = 60.dp,
+    scoreboardAvatarSize = 40.dp,
+    diceAreaMinHeight = 200.dp
 )
 
 /**
