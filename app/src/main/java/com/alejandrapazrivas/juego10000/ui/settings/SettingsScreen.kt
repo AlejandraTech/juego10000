@@ -263,7 +263,7 @@ private fun SettingsContent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Sound Effect by u_ngsgp0r6zb",
+                        text = stringResource(R.string.sound_attribution_1),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.weight(1f)
@@ -290,7 +290,7 @@ private fun SettingsContent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Sound Effect by u_ss015dykrt",
+                        text = stringResource(R.string.sound_attribution_2),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.weight(1f)

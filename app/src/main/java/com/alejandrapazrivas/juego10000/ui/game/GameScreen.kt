@@ -27,6 +27,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.activity.compose.BackHandler
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -35,6 +37,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -94,6 +97,7 @@ fun GameScreen(
     var showTurnLostIndicator by remember { mutableStateOf(false) }
     var showPointsSavedIndicator by remember { mutableStateOf(false) }
     var showScoreExceededIndicator by remember { mutableStateOf(false) }
+    var showExitConfirmationDialog by remember { mutableStateOf(false) }
 
     val contentVisible = remember { MutableTransitionState(false) }
     LaunchedEffect(Unit) { contentVisible.targetState = true }
@@ -180,6 +184,48 @@ fun GameScreen(
         return
     }
 
+    // Interceptar botón de retroceso del sistema
+    BackHandler {
+        showExitConfirmationDialog = true
+    }
+
+    // Diálogo de confirmación de salida
+    if (showExitConfirmationDialog) {
+        AlertDialog(
+            onDismissRequest = { showExitConfirmationDialog = false },
+            title = {
+                Text(
+                    text = stringResource(R.string.confirm),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Text(
+                    text = stringResource(R.string.confirm_exit_game),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showExitConfirmationDialog = false
+                        navigateToHome()
+                    }
+                ) {
+                    Text(text = stringResource(R.string.yes))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showExitConfirmationDialog = false }
+                ) {
+                    Text(text = stringResource(R.string.no))
+                }
+            }
+        )
+    }
+
     LaunchedEffect(gameState.currentTurnScore) {
         val currentPlayer = gameState.currentPlayer
         val playerScore = currentPlayer?.let { gameState.playerScores[it.id] } ?: 0
@@ -203,12 +249,7 @@ fun GameScreen(
         topBar = {
             GameTopAppBar(
                 title = stringResource(R.string.app_name),
-                onBackClick = {
-                    viewModel.exitGame()
-                    navController.navigate("home") {
-                        popUpTo("home") { inclusive = true }
-                    }
-                }
+                onBackClick = { showExitConfirmationDialog = true }
             )
         }
     ) { paddingValues ->

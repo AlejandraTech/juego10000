@@ -213,7 +213,6 @@
     <string name="game_duration">%1$d min</string>
     <string name="winner_with_score">%1$s ganó con %2$d puntos</string>
     <string name="players_count">%1$d jugadores</string>
-    <string name="unknown_player">Jugador desconocido</string>
 
     <!-- ============================ -->
     <!-- PANTALLA DE CONFIGURACIÓN    -->
@@ -239,7 +238,6 @@
     <!-- Créditos -->
     <string name="credits">Créditos</string>
     <string name="sound_credits">Efectos de Sonido</string>
-    <string name="sound_credits_description">Atribuciones de audio</string>
     <string name="pixabay_attribution">Sound Effect de Pixabay</string>
     <string name="sound_attribution_1">Sound Effect by u_ngsgp0r6zb</string>
     <string name="sound_attribution_2">Sound Effect by u_ss015dykrt</string>
@@ -276,10 +274,5 @@
     <!-- ================================ -->
     <!-- MENSAJES Y NOTIFICACIONES        -->
     <!-- ================================ -->
-    <string name="error_loading_data">Error al cargar los datos</string>
-    <string name="error_saving_data">Error al guardar los datos</string>
-    <string name="minimum_players_required">Se necesitan al menos 2 jugadores para comenzar</string>
-    <string name="game_saved">Partida guardada</string>
-    <string name="game_resumed">Partida reanudada</string>
     <string name="confirm_exit_game">¿Estás seguro de que quieres salir? La partida actual se perderá.</string>
 </resources>
