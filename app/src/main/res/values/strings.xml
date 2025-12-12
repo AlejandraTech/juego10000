@@ -113,7 +113,7 @@
     <string name="bank_score">Guardar puntos</string>
     <string name="pass_turn">Pasar turno</string>
     <string name="no_score">¡Sin puntuación! Pierdes el turno</string>
-    <string name="minimum_points_required">Necesitas al menos 500 puntos para entrar en juego</string>
+    <string name="minimum_points_required">Mín. 500 pts</string>
     <string name="player_needs_minimum_points">%1$s: Necesitas al menos 500 puntos para entrar en juego</string>
     <string name="score_exceeded">¡Has superado los 10,000 puntos! Para ganar, debes obtener exactamente 10,000 puntos. Pierdes tu turno y los puntos acumulados.</string>
 
