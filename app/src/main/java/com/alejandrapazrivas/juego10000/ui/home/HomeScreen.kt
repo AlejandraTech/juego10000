@@ -68,10 +68,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ads.AdConstants
@@ -439,7 +441,7 @@ private fun UserGreetingHeader(userName: String) {
 }
 
 /**
- * Botón principal de jugar
+ * Botón principal de jugar con anillos animados
  */
 @Composable
 private fun PlayButton(onPlayClick: () -> Unit) {
@@ -448,62 +450,203 @@ private fun PlayButton(onPlayClick: () -> Unit) {
     val isPressed by interactionSource.collectIsPressedAsState()
 
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
+        targetValue = if (isPressed) 0.92f else 1f,
         animationSpec = tween(100),
         label = "play_scale"
     )
 
-    val infiniteTransition = rememberInfiniteTransition(label = "play_pulse")
+    val infiniteTransition = rememberInfiniteTransition(label = "play_animations")
+
+    // Pulso del botón
     val pulseScale by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.02f,
+        targetValue = 1.03f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = FastOutSlowInEasing),
+            animation = tween(1200, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "pulse"
     )
 
+    // Rotación del anillo exterior
+    val ringRotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(8000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "ring_rotation"
+    )
+
+    // Rotación inversa del anillo interior
+    val innerRingRotation by infiniteTransition.animateFloat(
+        initialValue = 360f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(6000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "inner_ring_rotation"
+    )
+
+    // Efecto de brillo
+    val glowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.6f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "glow"
+    )
+
+    val buttonSize = dimensions.avatarSizeLarge * 2
+    val accentColor = Color(0xFFFF6B35) // Naranja vibrante
+    val secondaryAccent = Color(0xFFFFD700) // Dorado
+
     Box(
         modifier = Modifier
-            .size(dimensions.avatarSizeLarge * 2)
-            .scale(scale * pulseScale)
-            .shadow(
-                elevation = 12.dp,
-                shape = CircleShape,
-                spotColor = Primary.copy(alpha = 0.4f)
-            )
-            .clip(CircleShape)
-            .background(
-                brush = Brush.radialGradient(
-                    colors = listOf(
-                        Primary,
-                        Primary.copy(alpha = 0.85f)
-                    )
-                )
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onPlayClick
-            ),
+            .size(buttonSize + 40.dp)
+            .scale(scale),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+        // Anillo exterior con gradiente giratorio
+        Canvas(
+            modifier = Modifier
+                .size(buttonSize + 36.dp)
+                .graphicsLayer { rotationZ = ringRotation }
         ) {
-            Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = stringResource(R.string.play),
-                tint = Color.White,
-                modifier = Modifier.size(dimensions.iconSizeExtraLarge)
+            val strokeWidth = 4.dp.toPx()
+            drawArc(
+                brush = Brush.sweepGradient(
+                    colors = listOf(
+                        Primary,
+                        accentColor,
+                        secondaryAccent,
+                        Primary.copy(alpha = 0.3f),
+                        Primary
+                    )
+                ),
+                startAngle = 0f,
+                sweepAngle = 270f,
+                useCenter = false,
+                style = androidx.compose.ui.graphics.drawscope.Stroke(
+                    width = strokeWidth,
+                    cap = androidx.compose.ui.graphics.StrokeCap.Round
+                )
             )
-            Text(
-                text = stringResource(R.string.play).uppercase(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
+        }
+
+        // Anillo interior decorativo
+        Canvas(
+            modifier = Modifier
+                .size(buttonSize + 20.dp)
+                .graphicsLayer { rotationZ = innerRingRotation }
+        ) {
+            val strokeWidth = 2.dp.toPx()
+            drawArc(
+                brush = Brush.sweepGradient(
+                    colors = listOf(
+                        secondaryAccent.copy(alpha = 0.8f),
+                        Primary.copy(alpha = 0.5f),
+                        accentColor.copy(alpha = 0.6f),
+                        secondaryAccent.copy(alpha = 0.3f)
+                    )
+                ),
+                startAngle = 45f,
+                sweepAngle = 180f,
+                useCenter = false,
+                style = androidx.compose.ui.graphics.drawscope.Stroke(
+                    width = strokeWidth,
+                    cap = androidx.compose.ui.graphics.StrokeCap.Round
+                )
             )
+        }
+
+        // Efecto de glow detrás del botón
+        Box(
+            modifier = Modifier
+                .size(buttonSize + 8.dp)
+                .scale(pulseScale)
+                .background(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            Primary.copy(alpha = glowAlpha),
+                            Primary.copy(alpha = glowAlpha * 0.5f),
+                            Color.Transparent
+                        )
+                    ),
+                    shape = CircleShape
+                )
+        )
+
+        // Botón principal
+        Box(
+            modifier = Modifier
+                .size(buttonSize)
+                .scale(pulseScale)
+                .shadow(
+                    elevation = 16.dp,
+                    shape = CircleShape,
+                    spotColor = Primary.copy(alpha = 0.5f)
+                )
+                .clip(CircleShape)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Primary,
+                            Primary.copy(alpha = 0.9f),
+                            accentColor.copy(alpha = 0.8f)
+                        ),
+                        start = Offset(0f, 0f),
+                        end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                    )
+                )
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = onPlayClick
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            // Overlay con efecto de luz
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color.White.copy(alpha = 0.2f),
+                                Color.Transparent
+                            ),
+                            center = Offset(0.3f, 0.3f),
+                            radius = 300f
+                        )
+                    )
+            )
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Icono de dados de la app
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_dice),
+                    contentDescription = stringResource(R.string.play),
+                    tint = Color.White,
+                    modifier = Modifier.size(dimensions.iconSizeExtraLarge + 8.dp)
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = stringResource(R.string.play).uppercase(),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.White,
+                    letterSpacing = 2.sp
+                )
+            }
         }
     }
 }
