@@ -16,16 +16,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -234,6 +238,21 @@ fun ScoreboardSection(
     modifier: Modifier = Modifier
 ) {
     val dimensions = LocalDimensions.current
+    val scrollState = rememberScrollState()
+
+    // Altura máxima para la lista de jugadores (aprox. 3 jugadores visibles)
+    val maxPlayersHeight = 180.dp
+
+    // Altura aproximada de cada fila de jugador
+    val playerRowHeight = 60
+
+    // Auto-scroll al jugador actual cuando cambia el turno
+    LaunchedEffect(currentPlayerIndex) {
+        if (players.size > 3) {
+            val targetScroll = (currentPlayerIndex * playerRowHeight).coerceAtLeast(0)
+            scrollState.animateScrollTo(targetScroll)
+        }
+    }
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -267,19 +286,33 @@ fun ScoreboardSection(
             Triple(player, playerScores[player.id] ?: 0, index)
         }.sortedByDescending { it.second }
 
-        // Lista de jugadores con sus puntuaciones
-        players.forEachIndexed { index, player ->
-            val isCurrentPlayer = index == currentPlayerIndex
-            val playerScore = playerScores[player.id] ?: 0
-            val position = sortedPlayers.indexOfFirst { it.first.id == player.id } + 1
+        // Lista de jugadores con scroll cuando hay muchos
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .then(
+                    if (players.size > 3) {
+                        Modifier
+                            .heightIn(max = maxPlayersHeight)
+                            .verticalScroll(scrollState)
+                    } else {
+                        Modifier
+                    }
+                )
+        ) {
+            players.forEachIndexed { index, player ->
+                val isCurrentPlayer = index == currentPlayerIndex
+                val playerScore = playerScores[player.id] ?: 0
+                val position = sortedPlayers.indexOfFirst { it.first.id == player.id } + 1
 
-            PlayerScoreRow(
-                player = player,
-                score = playerScore,
-                isCurrentPlayer = isCurrentPlayer,
-                position = position,
-                botDifficulty = if (player.name == "Bot") botDifficulty else null
-            )
+                PlayerScoreRow(
+                    player = player,
+                    score = playerScore,
+                    isCurrentPlayer = isCurrentPlayer,
+                    position = position,
+                    botDifficulty = if (player.name == "Bot") botDifficulty else null
+                )
+            }
         }
     }
 }
