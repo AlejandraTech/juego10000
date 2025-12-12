@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -153,30 +154,81 @@ private fun DrawerHeader(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                brush = Brush.verticalGradient(
+                brush = Brush.linearGradient(
                     colors = listOf(
-                        MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+                        Primary,
+                        Primary.copy(alpha = 0.85f),
+                        Secondary.copy(alpha = 0.7f)
                     )
                 )
             )
-            .padding(dimensions.spaceLarge)
     ) {
-        Column {
-            // Icono del juego
+        // Círculos decorativos de fondo
+        Box(
+            modifier = Modifier
+                .size(120.dp)
+                .align(Alignment.TopEnd)
+                .offset(x = 40.dp, y = (-20).dp)
+                .clip(CircleShape)
+                .background(Color.White.copy(alpha = 0.08f))
+        )
+        Box(
+            modifier = Modifier
+                .size(80.dp)
+                .align(Alignment.BottomStart)
+                .offset(x = (-25).dp, y = 25.dp)
+                .clip(CircleShape)
+                .background(Color.White.copy(alpha = 0.06f))
+        )
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .align(Alignment.CenterEnd)
+                .offset(x = 10.dp, y = 20.dp)
+                .clip(CircleShape)
+                .background(Secondary.copy(alpha = 0.3f))
+        )
+
+        // Contenido principal
+        Column(
+            modifier = Modifier.padding(dimensions.spaceLarge)
+        ) {
+            // Icono del juego con gradiente
             Box(
                 modifier = Modifier
-                    .size(dimensions.avatarSizeLarge)
+                    .size(dimensions.avatarSizeLarge + 8.dp)
                     .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.2f)),
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color.White.copy(alpha = 0.3f),
+                                Color.White.copy(alpha = 0.1f)
+                            )
+                        )
+                    ),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_dice),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(dimensions.iconSizeLarge + dimensions.spaceExtraSmall)
-                )
+                Box(
+                    modifier = Modifier
+                        .size(dimensions.avatarSizeLarge)
+                        .clip(CircleShape)
+                        .background(
+                            brush = Brush.radialGradient(
+                                colors = listOf(
+                                    Secondary,
+                                    Secondary.copy(alpha = 0.8f)
+                                )
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_dice),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(dimensions.iconSizeLarge)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(dimensions.spaceMedium))
@@ -191,7 +243,7 @@ private fun DrawerHeader(
             Text(
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White.copy(alpha = 0.8f)
+                color = Color.White.copy(alpha = 0.85f)
             )
         }
     }
