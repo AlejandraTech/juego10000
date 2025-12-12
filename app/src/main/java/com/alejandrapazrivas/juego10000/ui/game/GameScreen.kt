@@ -2,6 +2,8 @@ package com.alejandrapazrivas.juego10000.ui.game
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseInOutQuad
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
@@ -13,6 +15,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,12 +31,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.activity.compose.BackHandler
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -50,16 +56,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlin.math.sin
 import androidx.navigation.NavController
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.game.components.DiceSection
@@ -256,55 +267,14 @@ fun GameScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.background,
-                            MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f)
-                        )
-                    )
-                )
                 .padding(paddingValues)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(dimensions.screenPaddingHorizontal)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(dimensions.decorativeCircleTopSize)
-                        .offset(x = (-30).dp, y = (-50).dp)
-                        .background(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    Primary.copy(alpha = backgroundAlpha),
-                                    Color.Transparent
-                                )
-                            ),
-                            shape = CircleShape
-                        )
-                        .blur(radius = 40.dp)
-                )
-
-                Box(
-                    modifier = Modifier
-                        .size(dimensions.decorativeCircleBottomSize)
-                        .align(Alignment.BottomEnd)
-                        .offset(x = 30.dp, y = 50.dp)
-                        .background(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    Secondary.copy(alpha = backgroundAlpha),
-                                    Color.Transparent
-                                )
-                            ),
-                            shape = CircleShape
-                        )
-                        .blur(radius = 35.dp)
-                )
-            }
+            // Fondo animado mejorado
+            GameAnimatedBackground(
+                floatOffset = backgroundAlpha,
+                primaryColor = Primary,
+                secondaryColor = Secondary
+            )
 
             AnimatedVisibility(
                 visibleState = contentVisible,
@@ -464,132 +434,33 @@ fun GameScreen(
                         }
                     }
 
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = dimensions.spaceSmall)
-                            .graphicsLayer {
-                                scaleX = scoreScale
-                                scaleY = scoreScale
-                                shadowElevation = 8f
-                                shape = CardShape
-                            },
-                        shape = CardShape,
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f)
-                        ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(dimensions.cardPadding),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = stringResource(R.string.current_score),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
+                    // Card de puntuación mejorada
+                    ScoreDisplayCard(
+                        currentScore = gameState.currentTurnScore,
+                        scoreScale = scoreScale
+                    )
 
-                            val textSize = when {
-                                gameState.currentTurnScore >= 1000 -> dimensions.scoreSmall
-                                gameState.currentTurnScore >= 100 -> dimensions.scoreMedium
-                                else -> dimensions.scoreLarge
+                    // Botones de acción mejorados
+                    GameActionButtons(
+                        canRoll = gameState.canRoll && !gameState.scoreExceeded && !gameState.isGameOver && !isBotTurn,
+                        canBank = (gameState.canBank || gameState.scoreExceeded || gameState.isGameOver) && (!isBotTurn || gameState.isGameOver),
+                        isGameOver = gameState.isGameOver,
+                        scoreExceeded = gameState.scoreExceeded,
+                        minimumPointsNeeded = run {
+                            val currentPlayer = gameState.currentPlayer
+                            val isPlayerInGame = currentPlayer?.let { gameState.playersInGame[it.id] } ?: false
+                            val isBot = currentPlayer?.name == "Bot"
+                            !isPlayerInGame && gameState.currentTurnScore < 500 && !isBot
+                        },
+                        onRollClick = { viewModel.onRollClick() },
+                        onBankClick = {
+                            when {
+                                gameState.isGameOver -> navigateToHome()
+                                gameState.scoreExceeded -> viewModel.onNextPlayerClick()
+                                else -> viewModel.onBankClick()
                             }
-
-                            Text(
-                                text = "${gameState.currentTurnScore}",
-                                style = MaterialTheme.typography.headlineMedium.copy(fontSize = textSize),
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
                         }
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = dimensions.spaceSmall),
-                        horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
-                    ) {
-                        Button(
-                            onClick = { viewModel.onRollClick() },
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(dimensions.buttonHeight)
-                                .shadow(
-                                    elevation = dimensions.cardElevation,
-                                    shape = ButtonShape,
-                                    spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-                                ),
-                            shape = ButtonShape,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                disabledContainerColor = MaterialTheme.colorScheme.primary.copy(
-                                    alpha = 0.3f
-                                )
-                            ),
-                            enabled = gameState.canRoll && !gameState.scoreExceeded && !gameState.isGameOver && !isBotTurn
-                        ) {
-                            Text(
-                                text = stringResource(R.string.roll_dice),
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimary
-                            )
-                        }
-
-                        val currentPlayer = gameState.currentPlayer
-                        val isPlayerInGame = currentPlayer?.let { gameState.playersInGame[it.id] } ?: false
-                        val isBot = currentPlayer?.name == "Bot"
-                        val minimumPointsNeeded = !isPlayerInGame && gameState.currentTurnScore < 500 && !isBot
-
-                        val buttonColor = when {
-                            gameState.isGameOver -> MaterialTheme.colorScheme.tertiary
-                            gameState.scoreExceeded -> MaterialTheme.colorScheme.error
-                            else -> MaterialTheme.colorScheme.secondary
-                        }
-
-                        val buttonText = when {
-                            gameState.isGameOver -> stringResource(R.string.end_game)
-                            gameState.scoreExceeded -> stringResource(R.string.pass_turn)
-                            minimumPointsNeeded -> stringResource(R.string.minimum_points_required)
-                            else -> stringResource(R.string.bank_score)
-                        }
-
-                        Button(
-                            onClick = {
-                                when {
-                                    gameState.isGameOver -> navigateToHome()
-                                    gameState.scoreExceeded -> viewModel.onNextPlayerClick()
-                                    else -> viewModel.onBankClick()
-                                }
-                            },
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(dimensions.buttonHeight)
-                                .shadow(
-                                    elevation = dimensions.cardElevation,
-                                    shape = ButtonShape,
-                                    spotColor = buttonColor.copy(alpha = 0.5f)
-                                ),
-                            shape = ButtonShape,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = buttonColor,
-                                disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
-                            ),
-                            enabled = (gameState.canBank || gameState.scoreExceeded || gameState.isGameOver) && (!isBotTurn || gameState.isGameOver)
-                        ) {
-                            Text(
-                                text = buttonText,
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSecondary
-                            )
-                        }
-                    }
+                    )
 
                     // Banner publicitario
                     BannerAd(
@@ -599,6 +470,348 @@ fun GameScreen(
                             .padding(top = dimensions.spaceSmall)
                     )
                 }
+            }
+        }
+    }
+}
+
+/**
+ * Fondo animado para la pantalla de juego
+ */
+@Composable
+private fun GameAnimatedBackground(
+    floatOffset: Float,
+    primaryColor: Color,
+    secondaryColor: Color
+) {
+    val infiniteTransition = rememberInfiniteTransition(label = "game_bg")
+
+    val float1 by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(6000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "float1"
+    )
+
+    val float2 by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(8000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "float2"
+    )
+
+    val diceRotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(20000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "dice_rotation"
+    )
+
+    val backgroundColor = MaterialTheme.colorScheme.background
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        backgroundColor,
+                        backgroundColor,
+                        primaryColor.copy(alpha = 0.05f)
+                    )
+                )
+            )
+    ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val width = size.width
+            val height = size.height
+
+            // Círculos decorativos flotantes
+            val circles = listOf(
+                Triple(0.08f, 0.1f, 60.dp.toPx()),
+                Triple(0.92f, 0.15f, 45.dp.toPx()),
+                Triple(0.85f, 0.75f, 70.dp.toPx()),
+                Triple(0.1f, 0.65f, 50.dp.toPx())
+            )
+
+            circles.forEachIndexed { index, (xRatio, yRatio, baseRadius) ->
+                val offsetMultiplier = if (index % 2 == 0) float1 else float2
+                val yOffset = sin(offsetMultiplier * Math.PI).toFloat() * 20.dp.toPx()
+
+                val color = if (index % 2 == 0) primaryColor else secondaryColor
+                drawCircle(
+                    color = color.copy(alpha = 0.04f + (floatOffset * 0.5f)),
+                    radius = baseRadius + (offsetMultiplier * 10.dp.toPx()),
+                    center = Offset(
+                        x = width * xRatio,
+                        y = height * yRatio + yOffset
+                    )
+                )
+            }
+
+            // Dados decorativos pequeños
+            val dicePositions = listOf(
+                Triple(0.05f, 0.25f, 16.dp.toPx()),
+                Triple(0.95f, 0.4f, 14.dp.toPx()),
+                Triple(0.08f, 0.8f, 18.dp.toPx()),
+                Triple(0.9f, 0.85f, 12.dp.toPx())
+            )
+
+            dicePositions.forEachIndexed { index, (xRatio, yRatio, diceSize) ->
+                val rotation = diceRotation + (index * 60f)
+                val yOffset = sin((float1 + index * 0.25f) * Math.PI).toFloat() * 10.dp.toPx()
+
+                rotate(rotation, pivot = Offset(width * xRatio, height * yRatio + yOffset)) {
+                    drawRoundRect(
+                        color = primaryColor.copy(alpha = 0.08f),
+                        topLeft = Offset(
+                            x = width * xRatio - diceSize / 2,
+                            y = height * yRatio + yOffset - diceSize / 2
+                        ),
+                        size = androidx.compose.ui.geometry.Size(diceSize, diceSize),
+                        cornerRadius = androidx.compose.ui.geometry.CornerRadius(3.dp.toPx())
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Card de visualización de puntuación mejorada
+ */
+@Composable
+private fun ScoreDisplayCard(
+    currentScore: Int,
+    scoreScale: Float
+) {
+    val dimensions = LocalDimensions.current
+    val infiniteTransition = rememberInfiniteTransition(label = "score_animation")
+
+    val glowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.6f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "glow"
+    )
+
+    val accentColor = Color(0xFFFFD700) // Dorado
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = dimensions.spaceSmall)
+            .scale(scoreScale),
+        contentAlignment = Alignment.Center
+    ) {
+        // Efecto de glow cuando hay puntos
+        if (currentScore > 0) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensions.buttonHeight * 2 + 8.dp)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Primary.copy(alpha = glowAlpha * 0.3f),
+                                Color.Transparent
+                            )
+                        ),
+                        shape = CardShape
+                    )
+            )
+        }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shadow(
+                    elevation = if (currentScore > 0) 12.dp else 4.dp,
+                    shape = CardShape,
+                    spotColor = Primary.copy(alpha = 0.3f)
+                ),
+            shape = CardShape,
+            colors = CardDefaults.cardColors(
+                containerColor = Color.Transparent
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        brush = if (currentScore > 0) {
+                            Brush.linearGradient(
+                                colors = listOf(
+                                    Primary,
+                                    Primary.copy(alpha = 0.9f),
+                                    accentColor.copy(alpha = 0.7f)
+                                ),
+                                start = Offset(0f, 0f),
+                                end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                            )
+                        } else {
+                            Brush.linearGradient(
+                                colors = listOf(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.9f)
+                                )
+                            )
+                        }
+                    )
+                    .padding(dimensions.cardPadding)
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(R.string.current_score),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = if (currentScore > 0) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    val textSize = when {
+                        currentScore >= 1000 -> dimensions.scoreSmall
+                        currentScore >= 100 -> dimensions.scoreMedium
+                        else -> dimensions.scoreLarge
+                    }
+
+                    Text(
+                        text = "$currentScore",
+                        style = MaterialTheme.typography.headlineMedium.copy(fontSize = textSize),
+                        fontWeight = FontWeight.ExtraBold,
+                        color = if (currentScore > 0) Color.White else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Botones de acción del juego mejorados
+ */
+@Composable
+private fun GameActionButtons(
+    canRoll: Boolean,
+    canBank: Boolean,
+    isGameOver: Boolean,
+    scoreExceeded: Boolean,
+    minimumPointsNeeded: Boolean,
+    onRollClick: () -> Unit,
+    onBankClick: () -> Unit
+) {
+    val dimensions = LocalDimensions.current
+
+    val buttonColor = when {
+        isGameOver -> MaterialTheme.colorScheme.tertiary
+        scoreExceeded -> MaterialTheme.colorScheme.error
+        else -> Secondary
+    }
+
+    val buttonText = when {
+        isGameOver -> stringResource(R.string.end_game)
+        scoreExceeded -> stringResource(R.string.pass_turn)
+        minimumPointsNeeded -> stringResource(R.string.minimum_points_required)
+        else -> stringResource(R.string.bank_score)
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = dimensions.spaceSmall),
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
+    ) {
+        // Botón de lanzar dados
+        Button(
+            onClick = onRollClick,
+            modifier = Modifier
+                .weight(1f)
+                .height(dimensions.buttonHeight)
+                .shadow(
+                    elevation = if (canRoll) 8.dp else 2.dp,
+                    shape = ButtonShape,
+                    spotColor = Primary.copy(alpha = 0.4f)
+                ),
+            shape = ButtonShape,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Primary,
+                disabledContainerColor = Primary.copy(alpha = 0.3f)
+            ),
+            enabled = canRoll
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_dice),
+                    contentDescription = null,
+                    modifier = Modifier.size(dimensions.iconSizeSmall),
+                    tint = Color.White
+                )
+                Spacer(modifier = Modifier.size(dimensions.spaceSmall))
+                Text(
+                    text = stringResource(R.string.roll_dice),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+        }
+
+        // Botón de guardar/pasar
+        Button(
+            onClick = onBankClick,
+            modifier = Modifier
+                .weight(1f)
+                .height(dimensions.buttonHeight)
+                .shadow(
+                    elevation = if (canBank) 8.dp else 2.dp,
+                    shape = ButtonShape,
+                    spotColor = buttonColor.copy(alpha = 0.4f)
+                ),
+            shape = ButtonShape,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = buttonColor,
+                disabledContainerColor = buttonColor.copy(alpha = 0.3f)
+            ),
+            enabled = canBank
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = null,
+                    modifier = Modifier.size(dimensions.iconSizeSmall),
+                    tint = Color.White
+                )
+                Spacer(modifier = Modifier.size(dimensions.spaceSmall))
+                Text(
+                    text = buttonText,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    maxLines = 1
+                )
             }
         }
     }
