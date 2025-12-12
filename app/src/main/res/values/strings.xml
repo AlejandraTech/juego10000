@@ -127,8 +127,10 @@
     <!-- ====================== -->
     <string name="victory">¡VICTORIA!</string>
     <string name="trophy">Trofeo</string>
-    <string name="final_score">Puntuación: 10,000 puntos</string>
+    <string name="final_score">Puntuación final</string>
     <string name="back_to_main_menu">Volver al menú principal</string>
+    <string name="champion_label">CAMPEÓN</string>
+    <string name="points_label">pts</string>
 
     <!-- ======================== -->
     <!-- GESTIÓN DE JUGADORES     -->
