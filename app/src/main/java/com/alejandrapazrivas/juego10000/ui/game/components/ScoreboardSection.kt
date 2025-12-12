@@ -89,7 +89,7 @@ private fun PlayerScoreRow(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 2.dp)
+            .padding(vertical = 3.dp)
             .scale(if (isCurrentPlayer) pulseScale else 1f)
     ) {
         Row(
@@ -129,7 +129,7 @@ private fun PlayerScoreRow(
                         )
                     } else Modifier
                 )
-                .padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceExtraSmall),
+                .padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceSmall),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -184,21 +184,21 @@ private fun PlayerScoreRow(
 
                 Text(
                     text = displayName,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = if (isCurrentPlayer) FontWeight.Bold else FontWeight.Medium,
                     color = if (isCurrentPlayer) Primary else MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
 
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 // Barra de progreso hacia 10,000
                 LinearProgressIndicator(
                     progress = { animatedProgress },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(3.dp)
+                        .height(4.dp)
                         .clip(RoundedCornerShape(2.dp)),
                     color = if (isCurrentPlayer) Primary else Secondary.copy(alpha = 0.6f),
                     trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
@@ -208,13 +208,13 @@ private fun PlayerScoreRow(
 
             Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
-            // Puntuación - más compacta
+            // Puntuación
             Column(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
                     text = "$score",
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = if (isCurrentPlayer) Primary else MaterialTheme.colorScheme.onSurface
                 )
@@ -273,10 +273,10 @@ fun ScoreboardSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
+        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         HorizontalDivider(
-            modifier = Modifier.padding(bottom = dimensions.spaceExtraSmall),
+            modifier = Modifier.padding(bottom = dimensions.spaceSmall),
             color = Primary.copy(alpha = 0.2f),
             thickness = 1.dp
         )

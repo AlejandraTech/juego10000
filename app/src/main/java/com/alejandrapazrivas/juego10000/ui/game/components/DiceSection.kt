@@ -205,17 +205,16 @@ fun DiceSection(
                 }
             }
         }
-        
+
         // Indicador de turno perdido
         GameIndicator(
             visible = showTurnLostIndicator,
             icon = Icons.Default.Close,
             title = "¡Turno perdido!",
             message = "No hay dados con puntuación",
-            detailMessage = "Observa los dados para ver tu tirada",
             isError = true
         )
-        
+
         // Indicador de puntos guardados
         GameIndicator(
             visible = showPointsSavedIndicator,
@@ -223,7 +222,7 @@ fun DiceSection(
             title = "¡Puntos guardados!",
             isError = false
         )
-        
+
         // Indicador de puntuación excedida
         GameIndicator(
             visible = showScoreExceededIndicator,

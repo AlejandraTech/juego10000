@@ -589,7 +589,7 @@ private fun GameAnimatedBackground(
 }
 
 /**
- * Card de visualización de puntuación mejorada
+ * Card de visualización de puntuación compacta
  */
 @Composable
 private fun ScoreDisplayCard(
@@ -597,50 +597,20 @@ private fun ScoreDisplayCard(
     scoreScale: Float
 ) {
     val dimensions = LocalDimensions.current
-    val infiniteTransition = rememberInfiniteTransition(label = "score_animation")
-
-    val glowAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.3f,
-        targetValue = 0.6f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "glow"
-    )
-
     val accentColor = Color(0xFFFFD700) // Dorado
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = dimensions.spaceSmall)
+            .padding(vertical = dimensions.spaceExtraSmall)
             .scale(scoreScale),
         contentAlignment = Alignment.Center
     ) {
-        // Efecto de glow cuando hay puntos
-        if (currentScore > 0) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(dimensions.buttonHeight * 2 + 8.dp)
-                    .background(
-                        brush = Brush.radialGradient(
-                            colors = listOf(
-                                Primary.copy(alpha = glowAlpha * 0.3f),
-                                Color.Transparent
-                            )
-                        ),
-                        shape = CardShape
-                    )
-            )
-        }
-
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .shadow(
-                    elevation = if (currentScore > 0) 12.dp else 4.dp,
+                    elevation = if (currentScore > 0) 8.dp else 2.dp,
                     shape = CardShape,
                     spotColor = Primary.copy(alpha = 0.3f)
                 ),
@@ -650,22 +620,20 @@ private fun ScoreDisplayCard(
             ),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
-            Box(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         brush = if (currentScore > 0) {
-                            Brush.linearGradient(
+                            Brush.horizontalGradient(
                                 colors = listOf(
                                     Primary,
                                     Primary.copy(alpha = 0.9f),
-                                    accentColor.copy(alpha = 0.7f)
-                                ),
-                                start = Offset(0f, 0f),
-                                end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                                    accentColor.copy(alpha = 0.6f)
+                                )
                             )
                         } else {
-                            Brush.linearGradient(
+                            Brush.horizontalGradient(
                                 colors = listOf(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.9f)
@@ -673,34 +641,23 @@ private fun ScoreDisplayCard(
                             )
                         }
                     )
-                    .padding(dimensions.cardPadding)
+                    .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = stringResource(R.string.current_score),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = if (currentScore > 0) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Text(
+                    text = stringResource(R.string.current_score),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = if (currentScore > 0) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+                )
 
-                    Spacer(modifier = Modifier.height(4.dp))
-
-                    val textSize = when {
-                        currentScore >= 1000 -> dimensions.scoreSmall
-                        currentScore >= 100 -> dimensions.scoreMedium
-                        else -> dimensions.scoreLarge
-                    }
-
-                    Text(
-                        text = "$currentScore",
-                        style = MaterialTheme.typography.headlineMedium.copy(fontSize = textSize),
-                        fontWeight = FontWeight.ExtraBold,
-                        color = if (currentScore > 0) Color.White else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-                    )
-                }
+                Text(
+                    text = "$currentScore",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = if (currentScore > 0) Color.White else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                )
             }
         }
     }
