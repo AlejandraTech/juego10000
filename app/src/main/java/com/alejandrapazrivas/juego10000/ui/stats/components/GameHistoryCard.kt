@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -19,17 +20,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
-import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
-import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
 
 /**
  * Tarjeta que muestra la información de una partida en el historial
@@ -41,10 +42,20 @@ fun GameHistoryCard(
     modifier: Modifier = Modifier
 ) {
     val dimensions = LocalDimensions.current
+
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .shadow(
+                elevation = dimensions.cardElevation,
+                shape = CardShape,
+                spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+            ),
         shape = CardShape,
-        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.spaceExtraSmall / 2)
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier
@@ -54,7 +65,14 @@ fun GameHistoryCard(
             // Encabezado con ID de partida y fecha
             GameCardHeader(game)
 
-            Spacer(modifier = Modifier.height(dimensions.spaceSmall + dimensions.spaceExtraSmall))
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
+
+            Divider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
+                modifier = Modifier.padding(vertical = dimensions.spaceExtraSmall)
+            )
+
+            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
             // Información del ganador y estadísticas
             GameCardDetails(game, winner)
@@ -77,24 +95,26 @@ private fun GameCardHeader(game: Game) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_dice),
                 contentDescription = null,
-                tint = Primary,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(dimensions.iconSizeSmall + dimensions.spaceExtraSmall)
             )
             Spacer(modifier = Modifier.width(dimensions.spaceSmall))
             Text(
                 text = stringResource(R.string.game_number, game.id),
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 
         Surface(
             shape = RoundedCornerShape(dimensions.spaceMedium),
-            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)
+            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
         ) {
             Text(
                 text = DateFormatUtils.formatFullDate(game.completedAt ?: game.startedAt),
                 style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceExtraSmall)
             )
         }
@@ -123,7 +143,8 @@ private fun GameCardDetails(game: Game, winner: Player?) {
         Text(
             text = winner?.name ?: stringResource(R.string.no_winner),
             style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -131,8 +152,7 @@ private fun GameCardDetails(game: Game, winner: Player?) {
         // Chip para mostrar el número de jugadores
         GameStatChip(
             icon = R.drawable.ic_add_player,
-            value = game.playerCount.toString(),
-            color = Primary
+            value = game.playerCount.toString()
         )
 
         Spacer(modifier = Modifier.width(dimensions.spaceSmall))
@@ -140,8 +160,7 @@ private fun GameCardDetails(game: Game, winner: Player?) {
         // Chip para mostrar el número de rondas
         GameStatChip(
             icon = R.drawable.ic_dice,
-            value = game.currentRound.toString(),
-            color = Secondary
+            value = game.currentRound.toString()
         )
     }
 }
@@ -152,13 +171,12 @@ private fun GameCardDetails(game: Game, winner: Player?) {
 @Composable
 private fun GameStatChip(
     icon: Int,
-    value: String,
-    color: Color
+    value: String
 ) {
     val dimensions = LocalDimensions.current
     Surface(
         shape = RoundedCornerShape(dimensions.spaceMedium),
-        color = color.copy(alpha = 0.1f)
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = dimensions.spaceSmall, vertical = dimensions.spaceExtraSmall),
@@ -167,14 +185,15 @@ private fun GameStatChip(
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = null,
-                tint = color,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(dimensions.spaceMedium)
             )
             Spacer(modifier = Modifier.width(dimensions.spaceExtraSmall))
             Text(
                 text = value,
                 style = MaterialTheme.typography.bodySmall,
-                color = color
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

@@ -207,6 +207,7 @@
     <string name="top_scores">Puntuaciones más altas por ronda</string>
     <string name="highest_score">Máx. puntuación</string>
     <string name="no_registered_players">No hay jugadores registrados</string>
+    <string name="players_count">%1$d jugadores</string>
     <string name="no_registered_games">No hay partidas registradas</string>
     <string name="no_registered_scores">No hay puntuaciones registradas</string>
     <string name="game_number">Partida #%1$d</string>
