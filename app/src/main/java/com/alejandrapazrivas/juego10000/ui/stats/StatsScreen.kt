@@ -14,10 +14,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.stats.components.GameHistoryTab
@@ -44,7 +46,11 @@ fun StatsScreen(
     val playerGameHistory by viewModel.playerGameHistory.collectAsState(initial = emptyList())
 
     // Configuración de pestañas
-    val tabs = listOf("Jugadores", "Historial", "Récords")
+    val tabs = listOf(
+        stringResource(R.string.tab_players),
+        stringResource(R.string.tab_history),
+        stringResource(R.string.tab_records)
+    )
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
     val selectedTab = pagerState.currentPage
@@ -112,7 +118,7 @@ private fun StatsTopAppBar(navController: NavController) {
     TopAppBar(
         title = {
             Text(
-                text = "Estadísticas",
+                text = stringResource(R.string.statistics),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -121,7 +127,7 @@ private fun StatsTopAppBar(navController: NavController) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = "Volver",
+                    contentDescription = stringResource(R.string.back),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }

@@ -68,16 +68,16 @@ fun GameModeSelectionDialog(
                 if (!showDifficultySelection) {
                     // Descripción del modo de juego
                     Text(
-                        text = "Selecciona el modo de juego para esta partida",
+                        text = stringResource(R.string.select_game_mode_description),
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    
+
                     Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                     // Modo de juego - Multijugador
                     SelectableOption(
                         title = stringResource(id = R.string.multiplayer_mode),
-                        description = "Juega con amigos en el mismo dispositivo.",
+                        description = stringResource(R.string.multiplayer_description),
                         iconResId = R.drawable.ic_add_player,
                         isSelected = selectedMode == GameMode.MULTIPLAYER,
                         onClick = { selectedMode = GameMode.MULTIPLAYER },
@@ -89,7 +89,7 @@ fun GameModeSelectionDialog(
                     // Modo de juego - Un jugador
                     SelectableOption(
                         title = stringResource(id = R.string.single_player_mode),
-                        description = "Juega contra un bot inteligente.",
+                        description = stringResource(R.string.single_player_description),
                         iconResId = R.drawable.ic_dice,
                         isSelected = selectedMode == GameMode.SINGLE_PLAYER,
                         onClick = { selectedMode = GameMode.SINGLE_PLAYER },
@@ -98,7 +98,7 @@ fun GameModeSelectionDialog(
                 } else {
                     // Descripción de la dificultad
                     Text(
-                        text = "Selecciona la dificultad del bot para la partida",
+                        text = stringResource(R.string.select_difficulty_description),
                         style = MaterialTheme.typography.bodyMedium
                     )
 
@@ -107,7 +107,7 @@ fun GameModeSelectionDialog(
                     // Dificultad - Principiante
                     SelectableOption(
                         title = stringResource(id = R.string.bot_beginner),
-                        description = "Para jugadores nuevos o casuales.",
+                        description = stringResource(R.string.beginner_description),
                         isSelected = selectedDifficulty == BotDifficulty.BEGINNER,
                         onClick = { selectedDifficulty = BotDifficulty.BEGINNER },
                         leadingContent = {
@@ -129,7 +129,7 @@ fun GameModeSelectionDialog(
                     // Dificultad - Intermedio
                     SelectableOption(
                         title = stringResource(id = R.string.bot_intermediate),
-                        description = "Para jugadores con experiencia.",
+                        description = stringResource(R.string.intermediate_description),
                         isSelected = selectedDifficulty == BotDifficulty.INTERMEDIATE,
                         onClick = { selectedDifficulty = BotDifficulty.INTERMEDIATE },
                         leadingContent = {
@@ -151,7 +151,7 @@ fun GameModeSelectionDialog(
                     // Dificultad - Experto
                     SelectableOption(
                         title = stringResource(id = R.string.bot_expert),
-                        description = "Para jugadores avanzados.",
+                        description = stringResource(R.string.expert_description),
                         isSelected = selectedDifficulty == BotDifficulty.EXPERT,
                         onClick = { selectedDifficulty = BotDifficulty.EXPERT },
                         leadingContent = {

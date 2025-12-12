@@ -40,13 +40,13 @@ fun PlayerSelectionDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = "Seleccionar Oponentes") },
+        title = { Text(text = stringResource(R.string.select_opponents)) },
         text = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
                 Text(
-                    text = "Selecciona entre 1 y 5 oponentes para la partida",
+                    text = stringResource(R.string.select_opponents_description),
                     style = MaterialTheme.typography.bodyMedium
                 )
 
@@ -58,7 +58,7 @@ fun PlayerSelectionDialog(
 
                     SelectableOption(
                         title = player.name,
-                        description = if (isSelected) "Oponente seleccionado" else "Haz clic para seleccionar",
+                        description = if (isSelected) stringResource(R.string.opponent_selected) else stringResource(R.string.click_to_select),
                         isSelected = isSelected,
                         onClick = { onPlayerSelected(player) },
                         leadingContent = {

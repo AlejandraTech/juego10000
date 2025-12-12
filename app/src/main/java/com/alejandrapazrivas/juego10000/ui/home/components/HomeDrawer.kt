@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -65,11 +66,11 @@ fun HomeDrawerContent(
             Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
             // Opciones principales
-            DrawerMenuSection(title = "Juego") {
+            DrawerMenuSection(title = stringResource(R.string.game_section)) {
                 DrawerItem(
                     icon = R.drawable.ic_add_player,
-                    title = "Gestionar Jugadores",
-                    subtitle = "Añadir, editar o eliminar",
+                    title = stringResource(R.string.manage_players),
+                    subtitle = stringResource(R.string.manage_players_description),
                     onClick = {
                         onCloseDrawer()
                         onNavigateToPlayers()
@@ -78,8 +79,8 @@ fun HomeDrawerContent(
                 Spacer(modifier = Modifier.height(LocalDimensions.current.spaceSmall))
                 DrawerItem(
                     icon = R.drawable.ic_stats,
-                    title = "Estadísticas",
-                    subtitle = "Ver historial y récords",
+                    title = stringResource(R.string.statistics),
+                    subtitle = stringResource(R.string.stats_description),
                     onClick = {
                         onCloseDrawer()
                         onNavigateToStats()
@@ -88,8 +89,8 @@ fun HomeDrawerContent(
                 Spacer(modifier = Modifier.height(LocalDimensions.current.spaceSmall))
                 DrawerItem(
                     icon = R.drawable.ic_rules,
-                    title = "Reglas del Juego",
-                    subtitle = "Cómo jugar y puntuaciones",
+                    title = stringResource(R.string.rules_title),
+                    subtitle = stringResource(R.string.rules_description),
                     onClick = {
                         onCloseDrawer()
                         onNavigateToRules()
@@ -103,11 +104,11 @@ fun HomeDrawerContent(
             )
 
             // Configuración
-            DrawerMenuSection(title = "Ajustes") {
+            DrawerMenuSection(title = stringResource(R.string.settings_section)) {
                 DrawerItem(
                     icon = R.drawable.ic_settings,
-                    title = "Configuración",
-                    subtitle = "Sonido, vibración y más",
+                    title = stringResource(R.string.settings),
+                    subtitle = stringResource(R.string.settings_description),
                     onClick = {
                         onCloseDrawer()
                         onNavigateToSettings()
@@ -176,14 +177,14 @@ private fun DrawerHeader(
             Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
             Text(
-                text = currentUserName ?: "Sin usuario",
+                text = currentUserName ?: stringResource(R.string.no_user),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
 
             Text(
-                text = "Juego 10000",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.White.copy(alpha = 0.8f)
             )
@@ -302,13 +303,13 @@ private fun ChangeProfileItem(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = currentUserName ?: "Sin usuario",
+                text = currentUserName ?: stringResource(R.string.no_user),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "Toca para cambiar de perfil",
+                text = stringResource(R.string.tap_to_change_profile),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
             )
@@ -316,7 +317,7 @@ private fun ChangeProfileItem(
 
         Icon(
             painter = painterResource(id = R.drawable.ic_swap),
-            contentDescription = "Cambiar perfil",
+            contentDescription = stringResource(R.string.change_profile),
             tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
             modifier = Modifier.size(dimensions.iconSizeSmall)
         )
@@ -334,7 +335,7 @@ private fun DrawerFooter() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Versión 1.0",
+            text = stringResource(R.string.version, "1.0"),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
         )

@@ -42,9 +42,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
@@ -110,7 +112,7 @@ private fun UserSelectionContent(
 
         // Header
         Text(
-            text = "Juego 10000",
+            text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -119,7 +121,7 @@ private fun UserSelectionContent(
         Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         Text(
-            text = "Selecciona tu perfil",
+            text = stringResource(R.string.select_profile),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
         )
@@ -215,7 +217,7 @@ private fun PlayerSelectionCard(
 
             // Estadísticas breves
             Text(
-                text = "${player.gamesPlayed} partidas",
+                text = stringResource(R.string.games_count, player.gamesPlayed),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
@@ -258,7 +260,7 @@ private fun AddPlayerCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Añadir jugador",
+                    contentDescription = stringResource(R.string.add_player),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(dimensions.spaceExtraLarge)
                 )
@@ -267,7 +269,7 @@ private fun AddPlayerCard(
             Spacer(modifier = Modifier.height(dimensions.spaceSmall + dimensions.spaceExtraSmall))
 
             Text(
-                text = "Nuevo jugador",
+                text = stringResource(R.string.new_player),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
@@ -276,7 +278,7 @@ private fun AddPlayerCard(
             Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
             Text(
-                text = "Crear perfil",
+                text = stringResource(R.string.create_profile),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
@@ -311,7 +313,7 @@ private fun EmptyPlayersState(
         Spacer(modifier = Modifier.height(dimensions.spaceLarge))
 
         Text(
-            text = "No hay jugadores",
+            text = stringResource(R.string.no_players_title),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface
@@ -320,7 +322,7 @@ private fun EmptyPlayersState(
         Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         Text(
-            text = "Crea tu primer perfil para comenzar a jugar",
+            text = stringResource(R.string.no_players_hint),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
             textAlign = TextAlign.Center
@@ -344,7 +346,7 @@ private fun EmptyPlayersState(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Crear jugador",
+                    text = stringResource(R.string.create_player),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onPrimary

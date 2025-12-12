@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -111,7 +112,7 @@ fun PlayGameCard(
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = "NUEVA PARTIDA",
+                        text = stringResource(R.string.new_game),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
@@ -121,7 +122,7 @@ fun PlayGameCard(
                     )
                     Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
                     Text(
-                        text = "¡Alcanza los 10.000 puntos!",
+                        text = stringResource(R.string.reach_10000_points),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.White.copy(alpha = 0.9f),
                         maxLines = 1,
@@ -141,7 +142,7 @@ fun PlayGameCard(
                 ) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Jugar",
+                        contentDescription = stringResource(R.string.play),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(dimensions.iconSizeMedium)
                     )

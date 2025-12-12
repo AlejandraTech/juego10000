@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -95,7 +96,7 @@ private fun AnimatedTrophy() {
         // Icono del trofeo
         Icon(
             painter = painterResource(id = R.drawable.ic_trophy),
-            contentDescription = "Trofeo",
+            contentDescription = stringResource(R.string.trophy),
             modifier = Modifier.size(trophySize * scale),
             tint = TrophyColor
         )
@@ -145,7 +146,7 @@ fun GameVictoryScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "¡VICTORIA!",
+                    text = stringResource(R.string.victory),
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -161,7 +162,7 @@ fun GameVictoryScreen(
 
                 winner?.let {
                     Text(
-                        text = "¡${it.name} ha ganado!",
+                        text = stringResource(R.string.winner, it.name),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -171,7 +172,7 @@ fun GameVictoryScreen(
                     Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
                     Text(
-                        text = "Puntuación: 10,000 puntos",
+                        text = stringResource(R.string.final_score),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
@@ -202,7 +203,7 @@ fun GameVictoryScreen(
                     )
                 ) {
                     Text(
-                        text = "Volver al menú principal",
+                        text = stringResource(R.string.back_to_main_menu),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )

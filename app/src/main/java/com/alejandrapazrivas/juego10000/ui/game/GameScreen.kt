@@ -361,7 +361,7 @@ fun GameScreen(
                                     Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                                     Text(
-                                        text = "Usa el botón 'Lanzar dados' para comenzar",
+                                        text = stringResource(R.string.roll_dice_instruction),
                                         style = MaterialTheme.typography.bodyMedium,
                                         textAlign = TextAlign.Center,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
@@ -373,7 +373,7 @@ fun GameScreen(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Text(
-                                        text = "Turno del Bot...",
+                                        text = stringResource(R.string.bot_turn),
                                         style = MaterialTheme.typography.titleLarge,
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Center,
@@ -446,7 +446,7 @@ fun GameScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "Puntuación Actual",
+                                text = stringResource(R.string.current_score),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
