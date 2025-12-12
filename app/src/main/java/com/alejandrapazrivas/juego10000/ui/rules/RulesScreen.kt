@@ -39,6 +39,8 @@ import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.rules.components.RuleSection
+import com.alejandrapazrivas.juego10000.ui.rules.components.RuleSectionBulleted
+import com.alejandrapazrivas.juego10000.ui.rules.components.RuleSectionNumbered
 import com.alejandrapazrivas.juego10000.ui.rules.components.RulesHeader
 import com.alejandrapazrivas.juego10000.ui.rules.components.ScoringCard
 import com.alejandrapazrivas.juego10000.ads.AdConstants
@@ -175,15 +177,17 @@ fun RulesScreen(navController: NavController) {
                     enter = fadeIn(animationSpec = tween(400)) +
                             expandVertically(animationSpec = tween(400))
                 ) {
-                    RuleSection(
+                    RuleSectionNumbered(
                         icon = R.drawable.ic_dice,
                         title = "Mecánica de Turnos",
-                        content = "1. Cada jugador lanza 6 dados en su turno.\n" +
-                                "2. Después de cada lanzamiento, debe apartar al menos un dado con puntuación.\n" +
-                                "3. Puede elegir relanzar los dados restantes para acumular más puntos.\n" +
-                                "4. Si en algún lanzamiento no obtiene ningún dado con puntuación, pierde todos los puntos acumulados en ese turno y pasa al siguiente jugador.\n" +
-                                "5. El jugador puede decidir 'plantarse' en cualquier momento y sumar los puntos acumulados a su total.\n" +
-                                "6. Si utiliza los 6 dados con puntuación, obtiene un nuevo lanzamiento con todos los dados."
+                        items = listOf(
+                            "Cada jugador lanza 6 dados en su turno.",
+                            "Después de cada lanzamiento, debe apartar al menos un dado con puntuación.",
+                            "Puede elegir relanzar los dados restantes para acumular más puntos.",
+                            "Si en algún lanzamiento no obtiene ningún dado con puntuación, pierde todos los puntos acumulados en ese turno y pasa al siguiente jugador.",
+                            "El jugador puede decidir 'plantarse' en cualquier momento y sumar los puntos acumulados a su total.",
+                            "Si utiliza los 6 dados con puntuación, obtiene un nuevo lanzamiento con todos los dados."
+                        )
                     )
                 }
 
@@ -206,13 +210,15 @@ fun RulesScreen(navController: NavController) {
                     enter = fadeIn(animationSpec = tween(400)) +
                             expandVertically(animationSpec = tween(400))
                 ) {
-                    RuleSection(
+                    RuleSectionBulleted(
                         icon = R.drawable.ic_settings,
                         title = "Estrategias",
-                        content = "• Equilibra el riesgo: Decide cuándo plantarte y cuándo seguir lanzando.\n" +
-                                "• Prioriza dados de alto valor: Los 1 y 5 son valiosos individualmente.\n" +
-                                "• Busca combinaciones: Tres o más dados iguales otorgan puntuaciones altas.\n" +
-                                "• Observa a tus oponentes: Ajusta tu estrategia según sus puntuaciones."
+                        items = listOf(
+                            "Equilibra el riesgo: Decide cuándo plantarte y cuándo seguir lanzando.",
+                            "Prioriza dados de alto valor: Los 1 y 5 son valiosos individualmente.",
+                            "Busca combinaciones: Tres o más dados iguales otorgan puntuaciones altas.",
+                            "Observa a tus oponentes: Ajusta tu estrategia según sus puntuaciones."
+                        )
                     )
                 }
 
