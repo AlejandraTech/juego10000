@@ -60,6 +60,7 @@
     <string name="games_won">Victorias</string>
     <string name="win_rate">% Victoria</string>
     <string name="best_turn">Mejor Turno</string>
+    <string name="quick_access">Accesos rápidos</string>
 
     <!-- Última partida -->
     <string name="last_game">Última Partida</string>
