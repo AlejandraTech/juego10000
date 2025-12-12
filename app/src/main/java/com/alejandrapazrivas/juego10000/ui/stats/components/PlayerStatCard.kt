@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
@@ -124,20 +125,20 @@ private fun PlayerInfo(playerStat: PlayerStats) {
         // Partidas jugadas
         PlayerStatRow(
             icon = R.drawable.ic_dice,
-            text = "Partidas: ${playerStat.player.gamesPlayed}",
+            text = stringResource(R.string.games_played_count, playerStat.player.gamesPlayed),
             tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
         )
 
         // Victorias
         PlayerStatRow(
             icon = R.drawable.ic_trophy,
-            text = "Victorias: ${playerStat.player.gamesWon}",
+            text = stringResource(R.string.victories_count, playerStat.player.gamesWon),
             tint = Color(0xFFFFC107)
         )
 
         // Mejor puntuación
         Text(
-            text = "Mejor puntuación: ${playerStat.bestScore}",
+            text = stringResource(R.string.best_score, playerStat.bestScore),
             style = MaterialTheme.typography.bodyMedium,
             color = ScorePositive
         )

@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
@@ -81,7 +82,7 @@ private fun GameCardHeader(game: Game) {
             )
             Spacer(modifier = Modifier.width(dimensions.spaceSmall))
             Text(
-                text = "Partida #${game.id}",
+                text = stringResource(R.string.game_number, game.id),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -112,7 +113,7 @@ private fun GameCardDetails(game: Game, winner: Player?) {
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_trophy),
-            contentDescription = "Ganador",
+            contentDescription = stringResource(R.string.trophy),
             tint = Color(0xFFFFC107),
             modifier = Modifier.size(dimensions.spaceLarge)
         )
@@ -120,7 +121,7 @@ private fun GameCardDetails(game: Game, winner: Player?) {
         Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
         Text(
-            text = winner?.name ?: "Sin ganador",
+            text = winner?.name ?: stringResource(R.string.no_winner),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.SemiBold
         )

@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
@@ -24,7 +25,7 @@ fun TopScoresTab(topScores: List<ScoreWithPlayer>) {
     val dimensions = LocalDimensions.current
     if (topScores.isEmpty()) {
         EmptyStateMessage(
-            message = "No hay puntuaciones registradas",
+            message = stringResource(R.string.no_registered_scores),
             iconResId = R.drawable.ic_trophy
         )
     } else {
@@ -34,7 +35,7 @@ fun TopScoresTab(topScores: List<ScoreWithPlayer>) {
                 .padding(dimensions.spaceMedium)
         ) {
             Text(
-                text = "Mejores puntuaciones",
+                text = stringResource(R.string.top_scores),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = dimensions.spaceMedium)

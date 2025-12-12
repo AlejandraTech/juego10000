@@ -16,7 +16,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
@@ -35,7 +37,7 @@ fun PlayerStatsTab(
     val dimensions = LocalDimensions.current
     Column(modifier = Modifier.fillMaxSize()) {
         if (players.isEmpty()) {
-            EmptyStateMessage(message = "No hay jugadores registrados")
+            EmptyStateMessage(message = stringResource(R.string.no_registered_players))
         } else {
             // Lista de jugadores con animación de aparición
             AnimatedEntrance {

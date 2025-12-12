@@ -33,8 +33,10 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.PlayerStats
 
@@ -60,7 +62,7 @@ fun PlayerScoresChart(
                 .padding(dimensions.spaceMedium)
         ) {
             Text(
-                text = "Mejores Puntuaciones por Jugador",
+                text = stringResource(R.string.best_scores_by_player),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
@@ -169,7 +171,7 @@ fun WinRateChart(
                 .padding(dimensions.spaceMedium)
         ) {
             Text(
-                text = "Tasa de Victorias",
+                text = stringResource(R.string.win_rate_title),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface

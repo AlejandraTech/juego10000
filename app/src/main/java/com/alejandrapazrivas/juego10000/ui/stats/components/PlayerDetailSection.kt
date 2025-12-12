@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
@@ -86,7 +87,7 @@ private fun PlayerDetailHeader(player: Player) {
         )
         Spacer(modifier = Modifier.width(dimensions.spaceSmall))
         Text(
-            text = "Historial de ${player.name}",
+            text = stringResource(R.string.player_history, player.name),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
@@ -107,7 +108,7 @@ private fun PlayerGamesList(games: List<Game>, playerId: Long) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "No hay partidas registradas",
+                text = stringResource(R.string.no_registered_games),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
@@ -25,7 +26,7 @@ fun GameHistoryTab(gameHistory: List<Pair<Game, Player?>>) {
     val dimensions = LocalDimensions.current
     if (gameHistory.isEmpty()) {
         EmptyStateMessage(
-            message = "No hay partidas registradas",
+            message = stringResource(R.string.no_registered_games),
             iconResId = R.drawable.ic_dice
         )
     } else {
@@ -35,7 +36,7 @@ fun GameHistoryTab(gameHistory: List<Pair<Game, Player?>>) {
                 .padding(dimensions.spaceMedium)
         ) {
             Text(
-                text = "Historial de partidas",
+                text = stringResource(R.string.game_history),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = dimensions.spaceSmall)

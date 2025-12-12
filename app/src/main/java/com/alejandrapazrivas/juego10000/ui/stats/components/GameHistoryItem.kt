@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.domain.model.Game
@@ -30,7 +31,7 @@ fun GameHistoryItem(game: Game, playerId: Long) {
     val isWinner = game.winnerPlayerId == playerId
     val backgroundColor = if (isWinner) ScorePositive.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface
     val statusColor = if (isWinner) ScorePositive else Color.Gray
-    val statusText = if (isWinner) "Victoria" else "Derrota"
+    val statusText = if (isWinner) stringResource(R.string.victory_result) else stringResource(R.string.defeat_result)
 
     Surface(
         modifier = Modifier
@@ -49,7 +50,7 @@ fun GameHistoryItem(game: Game, playerId: Long) {
             if (isWinner) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_trophy),
-                    contentDescription = "Victoria",
+                    contentDescription = stringResource(R.string.victory_result),
                     tint = Color(0xFFFFC107),
                     modifier = Modifier.size(dimensions.iconSizeSmall + dimensions.spaceExtraSmall)
                 )
