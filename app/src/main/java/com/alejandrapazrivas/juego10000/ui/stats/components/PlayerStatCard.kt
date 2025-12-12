@@ -41,11 +41,7 @@ import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.PlayerStats
  * Tarjeta que muestra las estadísticas de un jugador
  */
 @Composable
-fun PlayerStatCard(
-    playerStat: PlayerStats,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
+fun PlayerStatCard(playerStat: PlayerStats) {
     val dimensions = LocalDimensions.current
 
     Card(
@@ -53,15 +49,8 @@ fun PlayerStatCard(
             .fillMaxWidth()
             .animateContentSize(),
         shape = CardShape,
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = if (isSelected) dimensions.spaceSmall else dimensions.elevationSmall
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isSelected)
-                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f)
-            else MaterialTheme.colorScheme.surface
-        ),
-        onClick = onClick
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensions.elevationSmall),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Row(
             modifier = Modifier

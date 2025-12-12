@@ -24,10 +24,6 @@ class StatsViewModel @Inject constructor(
     private val getGameHistoryUseCase: GetGameHistoryUseCase
 ) : ViewModel() {
 
-    // Estado para el jugador seleccionado
-    private val _selectedPlayer = MutableStateFlow<Player?>(null)
-    val selectedPlayer: StateFlow<Player?> = _selectedPlayer
-
     // Estadísticas de jugadores
     private val _playerStats = MutableStateFlow<List<PlayerStats>>(emptyList())
     val playerStats: StateFlow<List<PlayerStats>> = _playerStats
@@ -40,37 +36,10 @@ class StatsViewModel @Inject constructor(
     private val _topScores = MutableStateFlow<List<ScoreWithPlayer>>(emptyList())
     val topScores: StateFlow<List<ScoreWithPlayer>> = _topScores
 
-    // Historial de partidas del jugador seleccionado
-    private val _playerGameHistory = MutableStateFlow<List<Game>>(emptyList())
-    val playerGameHistory: StateFlow<List<Game>> = _playerGameHistory
-
     init {
-        loadAllData()
-        observeSelectedPlayer()
-    }
-
-    /**
-     * Carga todos los datos necesarios para las estadísticas
-     */
-    private fun loadAllData() {
         loadPlayerStats()
         loadGameHistory()
         loadTopScores()
-    }
-
-    /**
-     * Observa cambios en el jugador seleccionado y carga su historial de partidas
-     */
-    private fun observeSelectedPlayer() {
-        viewModelScope.launch {
-            selectedPlayer.collect { player ->
-                player?.let {
-                    loadPlayerGameHistory(it.id)
-                } ?: run {
-                    _playerGameHistory.value = emptyList()
-                }
-            }
-        }
     }
 
     /**
@@ -119,24 +88,6 @@ class StatsViewModel @Inject constructor(
             // Ordenar por puntuación más alta
             _topScores.value = topScoresList.sortedByDescending { it.score.turnScore }
         }
-    }
-
-    /**
-     * Carga el historial de partidas de un jugador específico
-     */
-    private fun loadPlayerGameHistory(playerId: Long) {
-        viewModelScope.launch {
-            getGameHistoryUseCase.getPlayerGameHistory(playerId).collect { games ->
-                _playerGameHistory.value = games
-            }
-        }
-    }
-
-    /**
-     * Selecciona un jugador para mostrar sus detalles
-     */
-    fun selectPlayer(player: Player) {
-        _selectedPlayer.value = player
     }
 
     // Clases de datos para la UI

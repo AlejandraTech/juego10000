@@ -1,10 +1,4 @@
 package com.alejandrapazrivas.juego10000.ui.stats.components
-
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
-import com.alejandrapazrivas.juego10000.domain.model.Game
-import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.PlayerStats
 
@@ -28,12 +19,7 @@ import com.alejandrapazrivas.juego10000.ui.stats.StatsViewModel.PlayerStats
  * Pestaña que muestra las estadísticas de los jugadores
  */
 @Composable
-fun PlayerStatsTab(
-    players: List<PlayerStats>,
-    selectedPlayer: Player?,
-    onPlayerSelected: (Player) -> Unit,
-    playerGames: List<Game>
-) {
+fun PlayerStatsTab(players: List<PlayerStats>) {
     val dimensions = LocalDimensions.current
     Column(modifier = Modifier.fillMaxSize()) {
         if (players.isEmpty()) {
@@ -48,15 +34,7 @@ fun PlayerStatsTab(
                         .padding(dimensions.spaceMedium),
                     verticalArrangement = Arrangement.spacedBy(dimensions.spaceSmall + dimensions.spaceExtraSmall)
                 ) {
-                    // Gráficas de estadísticas
-                    item {
-                        PlayerScoresChart(
-                            players = players,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.height(dimensions.spaceSmall))
-                    }
-
+                    // Gráfica de tasa de victorias
                     item {
                         WinRateChart(
                             players = players,
@@ -67,26 +45,8 @@ fun PlayerStatsTab(
 
                     // Lista de jugadores
                     items(players) { playerStat ->
-                        PlayerStatCard(
-                            playerStat = playerStat,
-                            isSelected = selectedPlayer?.id == playerStat.player.id,
-                            onClick = { onPlayerSelected(playerStat.player) }
-                        )
+                        PlayerStatCard(playerStat = playerStat)
                     }
-                }
-            }
-
-            // Detalles del jugador seleccionado con animación
-            AnimatedVisibility(
-                visible = selectedPlayer != null,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
-            ) {
-                selectedPlayer?.let { player ->
-                    PlayerDetailSection(
-                        player = player,
-                        games = playerGames
-                    )
                 }
             }
         }

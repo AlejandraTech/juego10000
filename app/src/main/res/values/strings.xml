@@ -215,7 +215,6 @@
     <string name="games_played_count">Partidas: %1$d</string>
     <string name="victories_count">Victorias: %1$d</string>
     <string name="round_number">Ronda %1$d</string>
-    <string name="best_scores_by_player">Mejores Puntuaciones por Jugador</string>
     <string name="win_rate_title">Tasa de Victorias</string>
     <string name="victory_result">Victoria</string>
     <string name="defeat_result">Derrota</string>

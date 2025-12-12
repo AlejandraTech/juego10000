@@ -42,8 +42,6 @@ fun StatsScreen(
     val playerStats by viewModel.playerStats.collectAsState(initial = emptyList())
     val gameHistory by viewModel.gameHistory.collectAsState(initial = emptyList())
     val topScores by viewModel.topScores.collectAsState(initial = emptyList())
-    val selectedPlayer by viewModel.selectedPlayer.collectAsState()
-    val playerGameHistory by viewModel.playerGameHistory.collectAsState(initial = emptyList())
 
     // Configuración de pestañas
     val tabs = listOf(
@@ -89,12 +87,7 @@ fun StatsScreen(
                 modifier = Modifier.weight(1f)
             ) { page ->
                 when (page) {
-                    0 -> PlayerStatsTab(
-                        players = playerStats,
-                        selectedPlayer = selectedPlayer,
-                        onPlayerSelected = { viewModel.selectPlayer(it) },
-                        playerGames = playerGameHistory
-                    )
+                    0 -> PlayerStatsTab(players = playerStats)
                     1 -> GameHistoryTab(gameHistory = gameHistory)
                     2 -> TopScoresTab(topScores = topScores)
                 }
