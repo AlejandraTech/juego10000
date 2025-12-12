@@ -13,6 +13,7 @@ import com.alejandrapazrivas.juego10000.ui.home.HomeScreen
 import com.alejandrapazrivas.juego10000.ui.player.PlayerScreen
 import com.alejandrapazrivas.juego10000.ui.rules.RulesScreen
 import com.alejandrapazrivas.juego10000.ui.settings.SettingsScreen
+import com.alejandrapazrivas.juego10000.ui.splash.SplashScreen
 import com.alejandrapazrivas.juego10000.ui.stats.StatsScreen
 import com.alejandrapazrivas.juego10000.ui.userselection.UserSelectionScreen
 
@@ -25,8 +26,9 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.UserSelection.route
+        startDestination = Screen.Splash.route
     ) {
+        addSplashScreen(navController)
         addUserSelectionScreen(navController)
         addHomeScreen(navController)
         addGameScreen(navController)
@@ -41,6 +43,7 @@ fun AppNavigation(
  * Define las rutas de navegación disponibles en la aplicación.
  */
 sealed class Screen(val route: String) {
+    object Splash : Screen("splash")
     object UserSelection : Screen("user_selection")
     object Home : Screen("home")
     object Game : Screen("game")
@@ -56,6 +59,18 @@ sealed class Screen(val route: String) {
                 append("/$arg")
             }
         }
+    }
+}
+
+private fun NavGraphBuilder.addSplashScreen(navController: NavHostController) {
+    composable(Screen.Splash.route) {
+        SplashScreen(
+            onSplashFinished = {
+                navController.navigate(Screen.UserSelection.route) {
+                    popUpTo(Screen.Splash.route) { inclusive = true }
+                }
+            }
+        )
     }
 }
 
