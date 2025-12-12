@@ -204,7 +204,7 @@
 
     <!-- Contenido -->
     <string name="game_history">Historial de partidas</string>
-    <string name="top_scores">Mejores puntuaciones</string>
+    <string name="top_scores">Puntuaciones más altas por ronda</string>
     <string name="highest_score">Máx. puntuación</string>
     <string name="no_registered_players">No hay jugadores registrados</string>
     <string name="no_registered_games">No hay partidas registradas</string>
@@ -214,7 +214,6 @@
     <string name="player_history">Historial de %1$s</string>
     <string name="games_played_count">Partidas: %1$d</string>
     <string name="victories_count">Victorias: %1$d</string>
-    <string name="best_score">Mejor puntuación: %1$d</string>
     <string name="round_number">Ronda %1$d</string>
     <string name="best_scores_by_player">Mejores Puntuaciones por Jugador</string>
     <string name="win_rate_title">Tasa de Victorias</string>

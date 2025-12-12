@@ -135,13 +135,6 @@ private fun PlayerInfo(playerStat: PlayerStats) {
             text = stringResource(R.string.victories_count, playerStat.player.gamesWon),
             tint = Color(0xFFFFC107)
         )
-
-        // Mejor puntuación
-        Text(
-            text = stringResource(R.string.best_score, playerStat.bestScore),
-            style = MaterialTheme.typography.bodyMedium,
-            color = ScorePositive
-        )
     }
 }
 
