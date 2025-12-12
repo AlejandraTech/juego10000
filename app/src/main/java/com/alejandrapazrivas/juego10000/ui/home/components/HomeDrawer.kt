@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +32,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
+import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
 
 data class DrawerMenuItem(
     val title: String,
@@ -71,6 +72,7 @@ fun HomeDrawerContent(
                     icon = R.drawable.ic_add_player,
                     title = stringResource(R.string.manage_players),
                     subtitle = stringResource(R.string.manage_players_description),
+                    accentColor = Primary,
                     onClick = {
                         onCloseDrawer()
                         onNavigateToPlayers()
@@ -81,6 +83,7 @@ fun HomeDrawerContent(
                     icon = R.drawable.ic_stats,
                     title = stringResource(R.string.statistics),
                     subtitle = stringResource(R.string.stats_description),
+                    accentColor = Secondary,
                     onClick = {
                         onCloseDrawer()
                         onNavigateToStats()
@@ -91,6 +94,7 @@ fun HomeDrawerContent(
                     icon = R.drawable.ic_rules,
                     title = stringResource(R.string.rules_title),
                     subtitle = stringResource(R.string.rules_description),
+                    accentColor = Primary,
                     onClick = {
                         onCloseDrawer()
                         onNavigateToRules()
@@ -109,6 +113,7 @@ fun HomeDrawerContent(
                     icon = R.drawable.ic_settings,
                     title = stringResource(R.string.settings),
                     subtitle = stringResource(R.string.settings_description),
+                    accentColor = Secondary,
                     onClick = {
                         onCloseDrawer()
                         onNavigateToSettings()
@@ -118,7 +123,7 @@ fun HomeDrawerContent(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Cambiar perfil - Sección separada con estilo diferente
+            // Cambiar perfil - Sección con estilo mejorado
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = dimensions.spaceMedium),
                 color = MaterialTheme.colorScheme.outlineVariant
@@ -218,6 +223,7 @@ private fun DrawerItem(
     icon: Int,
     title: String,
     subtitle: String,
+    accentColor: Color,
     onClick: () -> Unit
 ) {
     val dimensions = LocalDimensions.current
@@ -230,22 +236,30 @@ private fun DrawerItem(
             .padding(dimensions.spaceSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Icono con gradiente de color
         Box(
             modifier = Modifier
                 .size(dimensions.avatarSizeSmall)
                 .clip(RoundedCornerShape(dimensions.spaceSmall + 2.dp))
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .background(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            accentColor,
+                            accentColor.copy(alpha = 0.8f)
+                        )
+                    )
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                tint = Color.White,
                 modifier = Modifier.size(dimensions.iconSizeSmall)
             )
         }
 
-        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
+        Spacer(modifier = Modifier.width(dimensions.spaceMedium))
 
         Column {
             Text(
@@ -274,53 +288,84 @@ private fun ChangeProfileItem(
 ) {
     val dimensions = LocalDimensions.current
 
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall)
     ) {
-        // Avatar pequeño del usuario actual
-        Box(
+        Row(
             modifier = Modifier
-                .size(dimensions.iconSizeLarge + dimensions.spaceExtraSmall)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.secondaryContainer),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Secondary.copy(alpha = 0.1f),
+                            Secondary.copy(alpha = 0.05f)
+                        )
+                    )
+                )
+                .clickable(onClick = onClick)
+                .padding(dimensions.spaceSmall + 4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = currentUserName?.firstOrNull()?.uppercase() ?: "?",
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
-            )
+            // Avatar del usuario con inicial
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Secondary,
+                                Secondary.copy(alpha = 0.8f)
+                            )
+                        )
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = currentUserName?.firstOrNull()?.uppercase() ?: "?",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+
+            Spacer(modifier = Modifier.width(dimensions.spaceSmall + 4.dp))
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = currentUserName ?: stringResource(R.string.no_user),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(R.string.tap_to_change_profile),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                )
+            }
+
+            // Icono de cambio con fondo
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .background(Secondary.copy(alpha = 0.15f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_swap),
+                    contentDescription = stringResource(R.string.change_profile),
+                    tint = Secondary,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         }
-
-        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
-
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = currentUserName ?: stringResource(R.string.no_user),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = stringResource(R.string.tap_to_change_profile),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-            )
-        }
-
-        Icon(
-            painter = painterResource(id = R.drawable.ic_swap),
-            contentDescription = stringResource(R.string.change_profile),
-            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-            modifier = Modifier.size(dimensions.iconSizeSmall)
-        )
     }
 }
 
