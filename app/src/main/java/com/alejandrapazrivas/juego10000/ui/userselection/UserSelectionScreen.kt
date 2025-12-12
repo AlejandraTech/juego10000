@@ -28,12 +28,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
@@ -249,14 +249,17 @@ private fun UserSelectionContent(
 
         Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
 
+        // Botón de nuevo jugador arriba
+        AddPlayerButton(onClick = onCreatePlayer)
+
+        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
         if (showCreatePlayerHint || players.isEmpty()) {
-            EmptyPlayersState(onCreatePlayer = onCreatePlayer)
+            EmptyPlayersState()
         } else {
-            // Grid de jugadores
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+            // Lista de jugadores
+            LazyColumn(
                 contentPadding = PaddingValues(vertical = dimensions.spaceSmall),
-                horizontalArrangement = Arrangement.spacedBy(dimensions.spaceMedium),
                 verticalArrangement = Arrangement.spacedBy(dimensions.spaceMedium),
                 modifier = Modifier.weight(1f)
             ) {
@@ -265,10 +268,6 @@ private fun UserSelectionContent(
                         player = player,
                         onClick = { onPlayerSelected(player) }
                     )
-                }
-
-                item {
-                    AddPlayerCard(onClick = onCreatePlayer)
                 }
             }
         }
@@ -328,20 +327,11 @@ private fun AnimatedHeader() {
 
         Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
-        Surface(
-            shape = RoundedCornerShape(dimensions.spaceLarge),
-            color = Primary.copy(alpha = 0.1f)
-        ) {
-            Text(
-                text = stringResource(R.string.select_profile),
-                style = MaterialTheme.typography.titleMedium,
-                color = Primary,
-                modifier = Modifier.padding(
-                    horizontal = dimensions.spaceMedium,
-                    vertical = dimensions.spaceSmall
-                )
-            )
-        }
+        Text(
+            text = stringResource(R.string.select_profile),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
@@ -355,7 +345,7 @@ private fun PlayerSelectionCard(
     val isPressed by interactionSource.collectIsPressedAsState()
 
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
+        targetValue = if (isPressed) 0.98f else 1f,
         animationSpec = tween(100),
         label = "card_scale"
     )
@@ -380,16 +370,16 @@ private fun PlayerSelectionCard(
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensions.spaceMedium),
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalAlignment = Alignment.CenterVertically
         ) {
             // Avatar con gradiente y borde
             Box(
                 modifier = Modifier
-                    .size(dimensions.avatarSizeLarge)
+                    .size(dimensions.avatarSizeMedium)
                     .clip(CircleShape)
                     .background(
                         brush = Brush.radialGradient(
@@ -400,7 +390,7 @@ private fun PlayerSelectionCard(
                         )
                     )
                     .border(
-                        width = 3.dp,
+                        width = 2.dp,
                         brush = Brush.linearGradient(
                             colors = listOf(Primary, Primary.copy(alpha = 0.5f))
                         ),
@@ -410,29 +400,38 @@ private fun PlayerSelectionCard(
             ) {
                 Text(
                     text = player.name.firstOrNull()?.uppercase() ?: "?",
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+            Spacer(modifier = Modifier.width(dimensions.spaceMedium))
 
             // Nombre
             Text(
                 text = player.name,
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+
+            // Icono de flecha
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                tint = Primary.copy(alpha = 0.5f),
+                modifier = Modifier.size(dimensions.iconSizeMedium)
             )
         }
     }
 }
 
 @Composable
-private fun AddPlayerCard(
+private fun AddPlayerButton(
     onClick: () -> Unit
 ) {
     val dimensions = LocalDimensions.current
@@ -440,12 +439,12 @@ private fun AddPlayerCard(
     val isPressed by interactionSource.collectIsPressedAsState()
 
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
+        targetValue = if (isPressed) 0.97f else 1f,
         animationSpec = tween(100),
-        label = "add_card_scale"
+        label = "add_button_scale"
     )
 
-    Card(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .scale(scale)
@@ -454,74 +453,40 @@ private fun AddPlayerCard(
                 indication = null,
                 onClick = onClick
             ),
-        shape = CardShape,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        shape = RoundedCornerShape(dimensions.spaceMedium),
+        color = Primary.copy(alpha = 0.1f)
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.spaceMedium)
-                .border(
-                    width = 2.dp,
-                    brush = Brush.linearGradient(
-                        colors = listOf(
-                            Primary.copy(alpha = 0.3f),
-                            Primary.copy(alpha = 0.1f)
-                        )
-                    ),
-                    shape = RoundedCornerShape(dimensions.spaceMedium)
-                )
-                .padding(dimensions.spaceMedium),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(
+                    horizontal = dimensions.spaceMedium,
+                    vertical = dimensions.spaceSmall + dimensions.spaceExtraSmall
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
-            // Icono de añadir
-            Box(
-                modifier = Modifier
-                    .size(dimensions.avatarSizeLarge)
-                    .clip(CircleShape)
-                    .background(Primary.copy(alpha = 0.1f))
-                    .border(
-                        width = 2.dp,
-                        color = Primary.copy(alpha = 0.3f),
-                        shape = CircleShape
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.add_player),
-                    tint = Primary,
-                    modifier = Modifier.size(dimensions.spaceExtraLarge)
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = stringResource(R.string.add_player),
+                tint = Primary,
+                modifier = Modifier.size(dimensions.iconSizeMedium)
+            )
 
-            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+            Spacer(modifier = Modifier.width(dimensions.spaceSmall))
 
             Text(
                 text = stringResource(R.string.new_player),
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.SemiBold,
                 color = Primary
-            )
-
-            Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
-
-            Text(
-                text = stringResource(R.string.create_profile),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
 }
 
 @Composable
-private fun EmptyPlayersState(
-    onCreatePlayer: () -> Unit
-) {
+private fun EmptyPlayersState() {
     val dimensions = LocalDimensions.current
     val infiniteTransition = rememberInfiniteTransition(label = "empty_animation")
 
@@ -541,16 +506,18 @@ private fun EmptyPlayersState(
             .padding(dimensions.spaceLarge),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
+
         // Icono animado
         Box(
             modifier = Modifier
-                .size(dimensions.avatarSizeLarge + dimensions.buttonHeight)
+                .size(dimensions.avatarSizeLarge + dimensions.spaceLarge)
                 .scale(pulseScale)
                 .clip(CircleShape)
                 .background(
                     brush = Brush.radialGradient(
                         colors = listOf(
-                            Primary.copy(alpha = 0.2f),
+                            Primary.copy(alpha = 0.15f),
                             Primary.copy(alpha = 0.05f)
                         )
                     )
@@ -560,8 +527,8 @@ private fun EmptyPlayersState(
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = null,
-                modifier = Modifier.size(dimensions.avatarSizeMedium + dimensions.spaceExtraSmall),
-                tint = Primary
+                modifier = Modifier.size(dimensions.avatarSizeMedium),
+                tint = Primary.copy(alpha = 0.5f)
             )
         }
 
@@ -569,9 +536,9 @@ private fun EmptyPlayersState(
 
         Text(
             text = stringResource(R.string.no_players_title),
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
         )
 
         Spacer(modifier = Modifier.height(dimensions.spaceSmall))
@@ -582,45 +549,5 @@ private fun EmptyPlayersState(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
-
-        Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
-
-        // Botón de crear jugador
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(0.7f)
-                .shadow(
-                    elevation = dimensions.cardElevation,
-                    shape = RoundedCornerShape(dimensions.spaceMedium),
-                    spotColor = Primary.copy(alpha = 0.3f)
-                )
-                .clickable(onClick = onCreatePlayer),
-            shape = RoundedCornerShape(dimensions.spaceMedium),
-            colors = CardDefaults.cardColors(
-                containerColor = Primary
-            )
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(dimensions.spaceMedium),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(dimensions.iconSizeMedium)
-                )
-                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
-                Text(
-                    text = stringResource(R.string.create_player),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            }
-        }
     }
 }
