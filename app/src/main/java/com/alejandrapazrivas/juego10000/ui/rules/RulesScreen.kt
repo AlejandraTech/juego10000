@@ -89,7 +89,6 @@ fun RulesScreen(navController: NavController) {
                         text = stringResource(R.string.rules_title),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
-                        color = Primary
                     )
                 },
                 navigationIcon = {
