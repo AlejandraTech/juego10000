@@ -116,6 +116,18 @@
     <string name="minimum_points_required">Mín. 500 pts</string>
     <string name="player_needs_minimum_points">%1$s: Necesitas al menos 500 puntos para entrar en juego</string>
     <string name="score_exceeded">¡Has superado los 10,000 puntos! Para ganar, debes obtener exactamente 10,000 puntos. Pierdes tu turno y los puntos acumulados.</string>
+    <string name="score_target">/ 10,000</string>
+
+    <!-- Indicadores de turno -->
+    <string name="turn_lost_title">¡Turno perdido!</string>
+    <string name="turn_lost_message">No hay dados con puntuación</string>
+    <string name="points_saved_title">¡Puntos guardados!</string>
+    <string name="score_exceeded_title">¡Puntuación excedida!</string>
+    <string name="score_exceeded_message">Has superado los 10,000 puntos</string>
+    <string name="score_exceeded_detail">Observa los dados para ver tu tirada</string>
+
+    <!-- Accesibilidad de dados -->
+    <string name="dice_content_description">Dado con valor %1$d</string>
 
     <!-- Fin de partida -->
     <string name="game_over">¡Fin del juego!</string>
@@ -291,4 +303,35 @@
     <!-- MENSAJES Y NOTIFICACIONES        -->
     <!-- ================================ -->
     <string name="confirm_exit_game">¿Estás seguro de que quieres salir? La partida actual se perderá.</string>
+
+    <!-- Mensajes de estado del juego -->
+    <string name="invalid_game_id">ID de juego inválido</string>
+    <string name="loading_game">Cargando juego…</string>
+    <string name="game_not_found">No se encontró el juego</string>
+    <string name="error_loading_game">Error al cargar el juego: %1$s</string>
+
+    <!-- Mensajes de victoria -->
+    <string name="player_won_with_score">¡%1$s ha ganado con %2$d puntos!</string>
+    <string name="bot_won_with_score">¡Bot ha ganado con %1$d puntos!</string>
+
+    <!-- Mensajes del bot -->
+    <string name="bot_exceeded_score">¡Bot ha superado los 10,000 puntos! Pierde su turno y los puntos acumulados.</string>
+    <string name="bot_saved_points">Bot ha guardado %1$d puntos</string>
+    <string name="bot_lost_turn">¡Bot ha perdido el turno!</string>
+    <string name="error_bot_turn">Error en el turno del Bot</string>
+
+    <!-- Mensajes de dados -->
+    <string name="invalid_selection">Selección no válida</string>
+    <string name="error_creating_dice">Error al crear dados. Intenta de nuevo.</string>
+    <string name="error_rolling_dice">Error al lanzar dados: %1$s</string>
+    <string name="all_dice_score_full">¡Todos los dados puntúan! Puedes lanzar de nuevo con todos los dados. Puntuación acumulada: %1$d</string>
+    <string name="all_available_dice_score">¡Todos los dados disponibles puntúan! Puedes lanzar de nuevo. Puntuación acumulada: %1$d</string>
+
+    <!-- Mensajes de puntuación -->
+    <string name="player_saved_points">%1$s ha guardado %2$d puntos</string>
+    <string name="error_completing_game">Error al completar el juego: %1$s</string>
+    <string name="error_saving_score">Error al guardar puntuación: %1$s</string>
+    <string name="error_changing_player">Error al cambiar de jugador: %1$s</string>
+    <string name="score_exceeded_lose_turn">¡Has superado los 10,000 puntos! Pierdes tu turno y los puntos acumulados.</string>
+    <string name="score_exceeded_click_pass">¡Has superado los 10,000 puntos! Haz clic en \'Pasar Turno\'.</string>
 </resources>

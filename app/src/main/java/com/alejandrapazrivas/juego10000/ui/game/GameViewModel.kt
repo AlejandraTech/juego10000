@@ -202,12 +202,12 @@ class GameViewModel @Inject constructor(
     fun loadGame() {
         viewModelScope.launch {
             if (gameId <= 0) {
-                _message.value = "ID de juego inválido"
+                _message.value = context.getString(R.string.invalid_game_id)
                 return@launch
             }
 
             try {
-                _message.value = "Cargando juego..."
+                _message.value = context.getString(R.string.loading_game)
                 val initialGameState = gameStateUseCase.getGameState(gameId).first()
 
                 if (initialGameState != null) {
@@ -221,7 +221,7 @@ class GameViewModel @Inject constructor(
                         if (!isInGame) {
                             _message.value = context.getString(R.string.player_needs_minimum_points, currentPlayer.name)
                         } else {
-                            _message.value = "Turno de ${currentPlayer.name}"
+                            _message.value = context.getString(R.string.player_turn, currentPlayer.name)
                         }
                         checkIfBotTurn(currentPlayer)
                     }
@@ -233,10 +233,10 @@ class GameViewModel @Inject constructor(
                         }
                     }
                 } else {
-                    _message.value = "No se encontró el juego"
+                    _message.value = context.getString(R.string.game_not_found)
                 }
             } catch (e: Exception) {
-                _message.value = "Error al cargar el juego: ${e.message}"
+                _message.value = context.getString(R.string.error_loading_game, e.message ?: "")
                 Log.e("GameViewModel", "Error en loadGame: ${e.message}", e)
             }
         }
@@ -329,7 +329,7 @@ class GameViewModel @Inject constructor(
                                     saveGameUseCase.completeGame(gameId, botPlayer.id)
 
                                     _gameState.update { it.copy(isGameOver = true, winner = botPlayer, canRoll = false, canBank = true) }
-                                    _message.value = "¡Bot ha ganado con $totalScore puntos!"
+                                    _message.value = context.getString(R.string.bot_won_with_score, totalScore)
                                     _botActionInProgress.value = false
                                     _isBotTurn.value = false
 
@@ -339,7 +339,7 @@ class GameViewModel @Inject constructor(
                                     return@launch
                                 } else if (totalScore > currentGame.game.targetScore) {
                                     _gameState.update { it.copy(scoreExceeded = true) }
-                                    _message.value = "¡Bot ha superado los 10,000 puntos! Pierde su turno y los puntos acumulados."
+                                    _message.value = context.getString(R.string.bot_exceeded_score)
                                     delay(2000)
                                     _botActionInProgress.value = false
                                     _isBotTurn.value = false
@@ -350,7 +350,7 @@ class GameViewModel @Inject constructor(
                                 val updatedScores = _playerScores.value.toMutableMap()
                                 updatedScores[botPlayer.id] = totalScore
                                 _playerScores.value = updatedScores
-                                _message.value = "Bot ha guardado $score puntos"
+                                _message.value = context.getString(R.string.bot_saved_points, score)
 
                                 gameStateData["playerScore_${botPlayer.id}"] = totalScore
                                 gameStateData["playerInGame_${botPlayer.id}"] = true
@@ -359,7 +359,7 @@ class GameViewModel @Inject constructor(
                                 if (validateTurnUseCase.hasWon(totalScore, currentGame.game.targetScore)) {
                                     saveGameUseCase.completeGame(gameId, botPlayer.id)
                                     _gameState.update { it.copy(isGameOver = true, winner = botPlayer, canRoll = false, canBank = true) }
-                                    _message.value = "¡Bot ha ganado con $totalScore puntos!"
+                                    _message.value = context.getString(R.string.bot_won_with_score, totalScore)
                                     _botActionInProgress.value = false
                                     _isBotTurn.value = false
 
@@ -377,7 +377,7 @@ class GameViewModel @Inject constructor(
                             }
                         },
                         onTurnLost = {
-                            _message.value = "¡Bot ha perdido el turno!"
+                            _message.value = context.getString(R.string.bot_lost_turn)
                             viewModelScope.launch {
                                 delay(1500)
                                 _botActionInProgress.value = false
@@ -389,7 +389,7 @@ class GameViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e("GameViewModel", "Error en el turno del Bot: ${e.message}", e)
-                _message.value = "Error en el turno del Bot"
+                _message.value = context.getString(R.string.error_bot_turn)
                 _botActionInProgress.value = false
                 _isBotTurn.value = false
                 nextPlayer()
@@ -505,7 +505,7 @@ class GameViewModel @Inject constructor(
                     val isPlayerInGame = currentPlayer?.let { _playersInGame.value[it.id] } ?: true
                     _canBank.value = if (!isPlayerInGame) _currentTurnScore.value >= 500 else true
                 } else {
-                    _message.value = "Selección no válida"
+                    _message.value = context.getString(R.string.invalid_selection)
                     _canBank.value = false
                 }
             } else {
@@ -572,7 +572,7 @@ class GameViewModel @Inject constructor(
                             _allDiceScored.value = false
 
                             if (_dice.value.isEmpty()) {
-                                setEssentialMessage("Error al crear dados. Intenta de nuevo.")
+                                setEssentialMessage(context.getString(R.string.error_creating_dice))
                                 _isRolling.value = false
                                 _canRoll.value = true
                                 return@launch
@@ -613,7 +613,7 @@ class GameViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                setEssentialMessage("Error al lanzar dados: ${e.message}")
+                setEssentialMessage(context.getString(R.string.error_rolling_dice, e.message ?: ""))
                 Log.e("GameViewModel", "Error en onRollClick: ${e.message}", e)
                 _isRolling.value = false
                 _canRoll.value = true
@@ -648,8 +648,8 @@ class GameViewModel @Inject constructor(
             _allDiceScored.value = allUnlockedSelected
 
             _message.value = when {
-                allUnlockedSelected && unlockedDice.size == 6 -> "¡Todos los dados puntúan! Puedes lanzar de nuevo con todos los dados. Puntuación acumulada: ${_currentTurnScore.value}"
-                allUnlockedSelected -> "¡Todos los dados disponibles puntúan! Puedes lanzar de nuevo. Puntuación acumulada: ${_currentTurnScore.value}"
+                allUnlockedSelected && unlockedDice.size == 6 -> context.getString(R.string.all_dice_score_full, _currentTurnScore.value)
+                allUnlockedSelected -> context.getString(R.string.all_available_dice_score, _currentTurnScore.value)
                 else -> description
             }
 
@@ -771,12 +771,12 @@ class GameViewModel @Inject constructor(
                             saveGameUseCase.completeGame(gameId, currentPlayer.id)
 
                             _gameState.update { it.copy(isGameOver = true, winner = currentPlayer, canRoll = false, canBank = true) }
-                            setEssentialMessage("¡${currentPlayer.name} ha ganado con $totalScore puntos!")
+                            setEssentialMessage(context.getString(R.string.player_won_with_score, currentPlayer.name, totalScore))
 
                             if (userPreferencesManager.soundEnabled.first()) playWinSound()
                             return@launch
                         } catch (e: Exception) {
-                            setEssentialMessage("Error al completar el juego: ${e.message}")
+                            setEssentialMessage(context.getString(R.string.error_completing_game, e.message ?: ""))
                             Log.e("GameViewModel", "Error al completar el juego: ${e.message}", e)
                         }
                     } else if (totalScore > currentGame.game.targetScore) {
@@ -791,7 +791,7 @@ class GameViewModel @Inject constructor(
                         updatedScores[currentPlayer.id] = totalScore
                         _playerScores.value = updatedScores
 
-                        setEssentialMessage("${currentPlayer.name} ha guardado ${_currentTurnScore.value} puntos")
+                        setEssentialMessage(context.getString(R.string.player_saved_points, currentPlayer.name, _currentTurnScore.value))
 
                         val gameStateData = currentGame.additionalState.toMutableMap()
                         gameStateData["playerScore_${currentPlayer.id}"] = totalScore
@@ -802,7 +802,7 @@ class GameViewModel @Inject constructor(
                         if (validateTurnUseCase.hasWon(totalScore, currentGame.game.targetScore)) {
                             saveGameUseCase.completeGame(gameId, currentPlayer.id)
                             _gameState.update { it.copy(isGameOver = true, winner = currentPlayer, canRoll = false, canBank = true) }
-                            setEssentialMessage("¡${currentPlayer.name} ha ganado con $totalScore puntos!")
+                            setEssentialMessage(context.getString(R.string.player_won_with_score, currentPlayer.name, totalScore))
                             if (userPreferencesManager.soundEnabled.first()) playWinSound()
                             return@launch
                         } else {
@@ -811,7 +811,7 @@ class GameViewModel @Inject constructor(
                             nextPlayer()
                         }
                     } catch (e: Exception) {
-                        setEssentialMessage("Error al guardar puntuación: ${e.message}")
+                        setEssentialMessage(context.getString(R.string.error_saving_score, e.message ?: ""))
                         Log.e("GameViewModel", "Error en onBankClick: ${e.message}", e)
                         _canRoll.value = true
                         _canBank.value = true
@@ -846,7 +846,7 @@ class GameViewModel @Inject constructor(
                     nextPlayer?.let { checkIfBotTurn(it) }
                     if (!_isBotTurn.value) _canRoll.value = true
                 } catch (e: Exception) {
-                    setEssentialMessage("Error al cambiar de jugador: ${e.message}")
+                    setEssentialMessage(context.getString(R.string.error_changing_player, e.message ?: ""))
                     Log.e("GameViewModel", "Error en nextPlayer: ${e.message}", e)
                     if (!_isBotTurn.value) _canRoll.value = true
                 }
@@ -932,7 +932,7 @@ class GameViewModel @Inject constructor(
     }
 
     fun onScoreExceeded() {
-        _message.value = "¡Has superado los 10,000 puntos! Pierdes tu turno y los puntos acumulados."
+        _message.value = context.getString(R.string.score_exceeded_lose_turn)
         viewModelScope.launch {
             delay(500)
             _gameState.update { currentState ->
@@ -955,7 +955,7 @@ class GameViewModel @Inject constructor(
     }
 
     fun showScoreExceededMessage() {
-        _message.value = "¡Has superado los 10,000 puntos! Haz clic en 'Pasar Turno'."
+        _message.value = context.getString(R.string.score_exceeded_click_pass)
     }
 
     fun onNextPlayerClick() {

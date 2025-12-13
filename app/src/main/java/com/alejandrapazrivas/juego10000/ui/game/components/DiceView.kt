@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Dice
@@ -220,7 +221,7 @@ private fun DiceBody(
     ) {
         Icon(
             painter = painterResource(id = diceResource),
-            contentDescription = "Dado con valor ${dice.value}",
+            contentDescription = stringResource(R.string.dice_content_description, dice.value),
             modifier = Modifier.size(dimensions.diceIconSize),
             tint = Color.Unspecified
         )

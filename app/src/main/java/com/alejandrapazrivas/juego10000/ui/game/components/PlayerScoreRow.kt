@@ -259,7 +259,7 @@ private fun ScoreColumn(
             color = if (isCurrentPlayer) Primary else MaterialTheme.colorScheme.onSurface
         )
         Text(
-            text = "/ 10,000",
+            text = stringResource(R.string.score_target),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
         )

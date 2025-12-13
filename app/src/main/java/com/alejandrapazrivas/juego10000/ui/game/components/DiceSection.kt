@@ -15,6 +15,8 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Dice
 import com.alejandrapazrivas.juego10000.ui.common.components.indicator.GameIndicator
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
@@ -123,24 +125,24 @@ private fun TurnIndicators(
         GameIndicator(
             visible = showTurnLostIndicator,
             icon = Icons.Default.Close,
-            title = "¡Turno perdido!",
-            message = "No hay dados con puntuación",
+            title = stringResource(R.string.turn_lost_title),
+            message = stringResource(R.string.turn_lost_message),
             isError = true
         )
 
         GameIndicator(
             visible = showPointsSavedIndicator,
             icon = Icons.Default.Check,
-            title = "¡Puntos guardados!",
+            title = stringResource(R.string.points_saved_title),
             isError = false
         )
 
         GameIndicator(
             visible = showScoreExceededIndicator,
             icon = Icons.Default.Warning,
-            title = "¡Puntuación excedida!",
-            message = "Has superado los 10,000 puntos",
-            detailMessage = "Observa los dados para ver tu tirada",
+            title = stringResource(R.string.score_exceeded_title),
+            message = stringResource(R.string.score_exceeded_message),
+            detailMessage = stringResource(R.string.score_exceeded_detail),
             isError = true
         )
     }
