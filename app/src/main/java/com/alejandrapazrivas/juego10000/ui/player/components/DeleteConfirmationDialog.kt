@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.components.dialog.BaseDialog
+import com.alejandrapazrivas.juego10000.ui.common.components.dialog.DialogButtons
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**

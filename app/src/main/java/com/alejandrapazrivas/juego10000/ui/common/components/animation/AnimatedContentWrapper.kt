@@ -1,4 +1,4 @@
-package com.alejandrapazrivas.juego10000.ui.player.components
+package com.alejandrapazrivas.juego10000.ui.common.components.animation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
@@ -12,14 +12,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
-/**
- * Componente que envuelve su contenido con una animación de entrada.
- * 
- * @param modifier Modificador para aplicar al componente
- * @param content Contenido a mostrar con animación
- */
 @Composable
-fun AnimatedContent(
+fun AnimatedContentWrapper(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {

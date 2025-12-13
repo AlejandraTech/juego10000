@@ -1,4 +1,4 @@
-package com.alejandrapazrivas.juego10000.ui.player.components
+package com.alejandrapazrivas.juego10000.ui.common.components.card
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,17 +16,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.ScorePositive
 
 @Composable
-fun StatCard(
+fun IconStatCard(
     icon: Int,
     label: String,
     value: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    valueColor: Color = ScorePositive
 ) {
     val dimensions = LocalDimensions.current
 
@@ -63,7 +65,7 @@ fun StatCard(
                 text = value,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = ScorePositive
+                color = valueColor
             )
         }
     }
