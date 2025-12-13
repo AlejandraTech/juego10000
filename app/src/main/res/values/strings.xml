@@ -10,20 +10,13 @@
 
     <!-- Navegación -->
     <string name="back">Volver</string>
-    <string name="next">Siguiente</string>
-    <string name="previous">Anterior</string>
     <string name="menu">Menú</string>
 
     <!-- Acciones comunes -->
     <string name="close_message">Cerrar mensaje</string>
     <string name="cancel">Cancelar</string>
     <string name="confirm">Confirmar</string>
-    <string name="add">Añadir</string>
-    <string name="update">Actualizar</string>
     <string name="delete">Eliminar</string>
-    <string name="save">Guardar</string>
-    <string name="manage">Gestionar</string>
-    <string name="finish">Finalizar</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="play">Jugar</string>
@@ -51,7 +44,6 @@
 
     <!-- Tarjeta de nueva partida -->
     <string name="new_game">Nueva partida</string>
-    <string name="continue_game">Continuar partida</string>
     <string name="reach_10000_points">¡Alcanza los 10.000 puntos!</string>
     <string name="start_game">Comenzar partida</string>
 
@@ -83,8 +75,6 @@
     <string name="select_profile">Selecciona tu perfil</string>
     <string name="games_count">%1$d partidas</string>
     <string name="new_player">Nuevo jugador</string>
-    <string name="create_profile">Crear perfil</string>
-    <string name="create_player">Crear jugador</string>
     <string name="no_players_title">No hay jugadores</string>
     <string name="no_players_hint">Crea tu primer perfil para comenzar a jugar</string>
 
@@ -100,17 +90,12 @@
 
     <!-- Acciones de dados -->
     <string name="roll_dice">Lanzar dados</string>
-    <string name="roll_all_dice">Lanzar todos los dados</string>
     <string name="roll_dice_instruction">Usa el botón \'Lanzar dados\' para comenzar</string>
     <string name="select_dice_to_keep">Selecciona dados para mantener</string>
-    <string name="auto_selected_dice">Dados con puntuación seleccionados automáticamente</string>
     <string name="cannot_deselect_dice">No puedes deseleccionar dados con puntuación</string>
-    <string name="all_dice_locked">Todos los dados bloqueados. Lanzando nuevamente con todos los dados.</string>
 
     <!-- Puntuación -->
     <string name="current_score">Puntuación Actual</string>
-    <string name="current_turn_score">Puntuación actual</string>
-    <string name="total_score">Total: %1$d</string>
     <string name="bank_score">Guardar puntos</string>
     <string name="pass_turn">Pasar turno</string>
     <string name="no_score">¡Sin puntuación! Pierdes el turno</string>
@@ -131,9 +116,7 @@
     <string name="dice_content_description">Dado con valor %1$d</string>
 
     <!-- Fin de partida -->
-    <string name="game_over">¡Fin del juego!</string>
     <string name="end_game">Fin de partida</string>
-    <string name="winner">¡%1$s ha ganado!</string>
 
     <!-- ====================== -->
     <!-- PANTALLA DE VICTORIA   -->
@@ -152,17 +135,9 @@
     <string name="edit_player">Editar jugador</string>
     <string name="delete_player">Eliminar jugador</string>
     <string name="player_name">Nombre del jugador</string>
-    <string name="select_color">Selecciona un color</string>
     <string name="no_players">No hay jugadores registrados.\nAñade un jugador para comenzar.</string>
-    <string name="selected_players">Jugadores seleccionados</string>
-    <string name="no_players_selected">No hay jugadores seleccionados.\nAñade jugadores para comenzar una partida.</string>
-    <string name="player_stats">%1$d partidas · %2$d victorias</string>
     <string name="delete_player_confirmation">¿Estás seguro de que quieres eliminar a %1$s? Esta acción es permanente y el jugador se eliminará de todos los registros, incluidas estadísticas e historial de partidas.</string>
     <string name="add_players_to_start">Añade jugadores para comenzar a jugar</string>
-    <string name="player_deleted">Jugador eliminado</string>
-    <string name="player_added">Jugador añadido</string>
-    <string name="player_updated">Jugador actualizado</string>
-    <string name="player_name_required">El nombre del jugador es obligatorio</string>
 
     <!-- ====================== -->
     <!-- PANTALLA DE REGLAS     -->
@@ -199,7 +174,6 @@
     <string name="dice_value">Valor %1$d</string>
     <string name="dice_description">Dado %1$d</string>
     <string name="combinations">Combinaciones</string>
-    <string name="combination">Combinación</string>
     <string name="multipliers">Multiplicadores</string>
     <string name="three_ones">Tres 1\'s</string>
     <string name="three_twos">Tres 2\'s</string>
@@ -209,9 +183,6 @@
     <string name="three_sixes">Tres 6\'s</string>
     <string name="straight">Escalera (1-2-3-4-5-6)</string>
     <string name="three_pairs">Tres pares</string>
-    <string name="four_of_a_kind">Cuatro iguales</string>
-    <string name="five_of_a_kind">Cinco iguales</string>
-    <string name="six_of_a_kind">Seis iguales</string>
     <string name="four_of_a_kind_desc">Cuatro iguales: Doble del valor de tres iguales</string>
     <string name="five_of_a_kind_desc">Cinco iguales: Triple del valor de tres iguales</string>
     <string name="six_of_a_kind_desc">Seis iguales: Cuádruple del valor de tres iguales</string>
@@ -239,10 +210,8 @@
     <string name="games_played_count">Partidas: %1$d</string>
     <string name="victories_count">Victorias: %1$d</string>
     <string name="round_number">Ronda %1$d</string>
-    <string name="win_rate_title">Tasa de Victorias</string>
     <string name="victory_result">Victoria</string>
     <string name="defeat_result">Derrota</string>
-    <string name="unknown_player">Jugador desconocido</string>
 
     <!-- ============================ -->
     <!-- PANTALLA DE CONFIGURACIÓN    -->
