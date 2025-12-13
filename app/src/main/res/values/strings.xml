@@ -22,6 +22,14 @@
     <string name="play">Jugar</string>
     <string name="points">Puntos</string>
 
+    <!-- Formatos comunes -->
+    <string name="bullet_point">•</string>
+    <string name="points_format">%1$d pts</string>
+    <string name="number_format">%1$d.</string>
+    <string name="percentage_format">%1$d%%</string>
+    <string name="wins_total_format">%1$d/%2$d</string>
+    <string name="position_format">#%1$d</string>
+
     <!-- ========================= -->
     <!-- PANTALLA DE INICIO (HOME) -->
     <!-- ========================= -->

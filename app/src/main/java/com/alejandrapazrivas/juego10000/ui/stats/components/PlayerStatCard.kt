@@ -165,7 +165,7 @@ private fun PlayerStatCardStats(playerStat: PlayerStats) {
 private fun WinPercentage(winRate: Float) {
     Column(horizontalAlignment = Alignment.End) {
         Text(
-            text = "${(winRate * 100).toInt()}%",
+            text = stringResource(R.string.percentage_format, (winRate * 100).toInt()),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = ScorePositive
@@ -199,7 +199,7 @@ private fun WinProgressBar(wins: Int, total: Int) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "$wins/$total",
+                text = stringResource(R.string.wins_total_format, wins, total),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = ScorePositive
