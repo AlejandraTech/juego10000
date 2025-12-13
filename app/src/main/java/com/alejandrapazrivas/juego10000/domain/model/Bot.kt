@@ -97,11 +97,11 @@ class Bot(
 
     /**
      * Decide qué dados seleccionar entre los disponibles según la estrategia del bot.
-     * 
+     *
      * La selección varía según el nivel de dificultad:
-     * - Principiante: selecciona la primera opción disponible
-     * - Intermedio: selecciona aleatoriamente entre las mejores opciones
-     * - Experto: evalúa estratégicamente considerando puntuación y dados restantes
+     * - Principiante: selecciona todos los dados puntuables (estrategia segura)
+     * - Intermedio: selecciona todos los dados puntuables
+     * - Experto: selecciona todos los dados puntuables (maximiza puntuación)
      *
      * @param availableDice Lista de dados disponibles para seleccionar
      * @param scoringOptions Lista de posibles combinaciones de dados que puntúan
@@ -113,33 +113,14 @@ class Bot(
     ): List<Dice> {
         if (scoringOptions.isEmpty()) return emptyList()
 
-        // Principiante: selecciona la primera opción disponible
-        if (difficulty == BotDifficulty.BEGINNER) {
-            return scoringOptions.first()
-        }
+        // Combinar todas las opciones de puntuación en una sola lista (sin duplicados por ID)
+        val allScoringDice = scoringOptions
+            .flatten()
+            .distinctBy { it.id }
 
-        // Intermedio: selecciona aleatoriamente entre las opciones, con preferencia por las que dan más puntos
-        if (difficulty == BotDifficulty.INTERMEDIATE) {
-            val weightedOptions = scoringOptions.sortedByDescending { GameUtils.calculateScore(it) }
-            val randomIndex = if (weightedOptions.size > 1) {
-                Random.nextInt(0, minOf(2, weightedOptions.size))
-            } else {
-                0
-            }
-            return weightedOptions[randomIndex]
-        }
-
-        // Experto: evalúa estratégicamente las opciones
-        // Prefiere opciones que maximizan la puntuación pero también dejan dados para seguir lanzando
-        val scoredOptions = scoringOptions.map {
-            val score = GameUtils.calculateScore(it)
-            val remainingDice = availableDice.size - it.size
-            // Bonificación por dejar dados disponibles
-            val bonus = if (remainingDice > 0) remainingDice * 20 else 0
-            Triple(it, score, score + bonus)
-        }
-
-        return scoredOptions.maxByOrNull { it.third }?.first ?: scoringOptions.first()
+        // Todos los niveles seleccionan todos los dados puntuables
+        // La estrategia de riesgo se aplica en shouldContinueRolling, no en la selección
+        return allScoringDice
     }
 
 }

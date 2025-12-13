@@ -49,9 +49,10 @@ object DiceUtils {
         if (!com.alejandrapazrivas.juego10000.util.GameUtils.hasValidCombination(availableDice)) {
             return emptyList()
         }
-        
+
         val options = mutableListOf<List<Dice>>()
 
+        // Verificar escalera (1-2-3-4-5-6)
         if (availableDice.size == 6) {
             val values = availableDice.map { it.value }.toSet()
             if (values.size == 6 && values.containsAll(listOf(1, 2, 3, 4, 5, 6))) {
@@ -60,10 +61,11 @@ object DiceUtils {
             }
         }
 
+        // Verificar tres pares
         if (availableDice.size == 6) {
             val valueCounts = availableDice.groupBy { it.value }
                 .mapValues { it.value.size }
-            
+
             if (valueCounts.size == 3 && valueCounts.values.all { it == 2 }) {
                 options.add(availableDice)
                 return options
@@ -72,20 +74,21 @@ object DiceUtils {
 
         val diceByValue = availableDice.groupBy { it.value }
 
-        for (count in 6 downTo 3) {
-            diceByValue.forEach { (value, diceList) ->
-                if (diceList.size >= count) {
-                    options.add(diceList.take(count))
-                }
+        // Añadir grupos de 3 o más dados como opciones (todos los dados del grupo)
+        diceByValue.forEach { (_, diceList) ->
+            if (diceList.size >= 3) {
+                options.add(diceList)
             }
         }
 
+        // Añadir 1s y 5s individuales como opciones separadas
+        // Solo si no están ya incluidos en un grupo de 3+
         val ones = availableDice.filter { it.value == 1 }
         val fives = availableDice.filter { it.value == 5 }
-        
-        if (ones.isNotEmpty()) options.add(ones)
-        if (fives.isNotEmpty()) options.add(fives)
-        
+
+        if (ones.isNotEmpty() && ones.size < 3) options.add(ones)
+        if (fives.isNotEmpty() && fives.size < 3) options.add(fives)
+
         return options
     }
 }

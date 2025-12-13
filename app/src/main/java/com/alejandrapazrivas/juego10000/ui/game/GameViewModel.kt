@@ -665,6 +665,7 @@ class GameViewModel @Inject constructor(
 
         val scoringDice = mutableListOf<Dice>()
 
+        // Verificar escalera (1-2-3-4-5-6)
         if (availableDice.size == 6) {
             val values = availableDice.map { it.value }.toSet()
             if (values.size == 6 && values.containsAll(listOf(1, 2, 3, 4, 5, 6))) {
@@ -672,6 +673,7 @@ class GameViewModel @Inject constructor(
             }
         }
 
+        // Verificar tres pares
         if (availableDice.size == 6) {
             val valueCounts = availableDice.groupBy { it.value }.mapValues { it.value.size }
             if (valueCounts.size == 3 && valueCounts.values.all { it == 2 }) {
@@ -681,28 +683,25 @@ class GameViewModel @Inject constructor(
 
         val diceByValue = availableDice.groupBy { it.value }
 
-        for (count in 6 downTo 3) {
-            diceByValue.forEach { (_, diceList) ->
-                if (diceList.size >= count) {
-                    scoringDice.addAll(diceList.take(count))
-                }
+        // Añadir grupos de 3 o más dados (tomando TODOS los dados del grupo)
+        diceByValue.forEach { (_, diceList) ->
+            if (diceList.size >= 3) {
+                scoringDice.addAll(diceList)
             }
         }
 
+        // Añadir 1s y 5s individuales que no estén ya incluidos en un grupo de 3+
         val remainingDice = availableDice.filter { it !in scoringDice }
 
         remainingDice.filter { it.value == 1 }.forEach { die ->
-            if (scoringDice.count { it.value == 1 } < 3) {
-                scoringDice.add(die)
-            }
+            scoringDice.add(die)
         }
 
         remainingDice.filter { it.value == 5 }.forEach { die ->
-            if (scoringDice.count { it.value == 5 } < 3) {
-                scoringDice.add(die)
-            }
+            scoringDice.add(die)
         }
 
+        // Fallback: si no hay dados puntuables, buscar combinaciones básicas
         if (scoringDice.isEmpty()) {
             scoringDice.addAll(availableDice.filter { it.value == 1 })
             scoringDice.addAll(availableDice.filter { it.value == 5 })
