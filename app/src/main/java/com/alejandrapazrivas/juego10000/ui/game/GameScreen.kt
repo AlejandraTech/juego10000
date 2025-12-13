@@ -2,37 +2,23 @@ package com.alejandrapazrivas.juego10000.ui.game
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.EaseInOutQuad
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -43,17 +29,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ads.AdConstants
+import com.alejandrapazrivas.juego10000.domain.model.BotDifficulty
+import com.alejandrapazrivas.juego10000.domain.model.Dice
+import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
 import com.alejandrapazrivas.juego10000.ui.common.components.backgrounds.AnimatedBackground
 import com.alejandrapazrivas.juego10000.ui.common.components.backgrounds.BackgroundConfig
@@ -61,19 +47,18 @@ import com.alejandrapazrivas.juego10000.ui.common.components.toast.GameMessageHa
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalWindowInfo
-import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.common.theme.ScreenOrientation
-import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
+import com.alejandrapazrivas.juego10000.ui.game.components.BotTurnIndicator
 import com.alejandrapazrivas.juego10000.ui.game.components.DiceSection
+import com.alejandrapazrivas.juego10000.ui.game.components.ExitConfirmationDialog
 import com.alejandrapazrivas.juego10000.ui.game.components.GameActionButtons
+import com.alejandrapazrivas.juego10000.ui.game.components.GameStartMessage
 import com.alejandrapazrivas.juego10000.ui.game.components.GameTopAppBar
+import com.alejandrapazrivas.juego10000.ui.game.components.RoundIndicator
 import com.alejandrapazrivas.juego10000.ui.game.components.ScoreDisplayCard
 import com.alejandrapazrivas.juego10000.ui.game.components.ScoreboardSection
-import com.alejandrapazrivas.juego10000.ui.gamewinner.GameVictoryScreen
-import com.alejandrapazrivas.juego10000.domain.model.Dice
-import com.alejandrapazrivas.juego10000.domain.model.Player
-import com.alejandrapazrivas.juego10000.domain.model.BotDifficulty
 import com.alejandrapazrivas.juego10000.ui.game.model.GameUiState
+import com.alejandrapazrivas.juego10000.ui.gamewinner.GameVictoryScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -348,27 +333,6 @@ private fun GameContent(
 }
 
 @Composable
-private fun RoundIndicator(round: Int) {
-    val dimensions = LocalDimensions.current
-
-    Box(
-        modifier = Modifier
-            .padding(vertical = dimensions.spaceSmall)
-            .clip(RoundedCornerShape(40))
-            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
-            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceExtraSmall)
-    ) {
-        Text(
-            text = stringResource(R.string.round, round),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(horizontal = dimensions.spaceSmall)
-        )
-    }
-}
-
-@Composable
 private fun ScoreboardCard(
     players: List<Player>,
     playerScores: Map<Long, Int>,
@@ -460,61 +424,6 @@ private fun DiceAreaCard(
 }
 
 @Composable
-private fun GameStartMessage(currentPlayer: Player?) {
-    val dimensions = LocalDimensions.current
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = currentPlayer?.let {
-                stringResource(R.string.player_turn, it.name)
-            } ?: stringResource(R.string.select_dice_to_keep),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
-
-        Text(
-            text = stringResource(R.string.roll_dice_instruction),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
-        )
-    }
-}
-
-@Composable
-private fun BotTurnIndicator() {
-    val dimensions = LocalDimensions.current
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(R.string.bot_turn),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
-
-        CircularProgressIndicator(
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(dimensions.progressIndicatorSize),
-            strokeWidth = 4.dp
-        )
-    }
-}
-
-@Composable
 private fun DiceAreaContent(
     gameState: GameUiState,
     isBotTurn: Boolean,
@@ -552,37 +461,4 @@ private fun DiceAreaContent(
             )
         }
     }
-}
-
-@Composable
-private fun ExitConfirmationDialog(
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(R.string.confirm),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(R.string.confirm_exit_game),
-                style = MaterialTheme.typography.bodyMedium
-            )
-        },
-        confirmButton = {
-            Button(onClick = onConfirm) {
-                Text(text = stringResource(R.string.yes))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.no))
-            }
-        }
-    )
 }
