@@ -2,9 +2,7 @@ package com.alejandrapazrivas.juego10000.ui.settings
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,41 +10,29 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ads.AdConstants
 import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
-import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
 import com.alejandrapazrivas.juego10000.ui.common.theme.Juego10000Theme
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
-import com.alejandrapazrivas.juego10000.ui.settings.components.SettingItem
+import com.alejandrapazrivas.juego10000.ui.settings.components.CreditsCard
+import com.alejandrapazrivas.juego10000.ui.settings.components.PrivacyPolicyCard
 import com.alejandrapazrivas.juego10000.ui.settings.components.SettingsCard
+import com.alejandrapazrivas.juego10000.ui.settings.components.SettingsTopAppBar
+import com.alejandrapazrivas.juego10000.ui.settings.components.SoundAttribution
+import com.alejandrapazrivas.juego10000.ui.settings.model.SettingItem
 
 /**
  * Pantalla de configuraciones de la aplicación
@@ -58,13 +44,12 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val dimensions = LocalDimensions.current
-    // Obtener el estado actual de las preferencias
     val soundEnabled by viewModel.soundEnabled.collectAsState()
     val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
     val darkMode by viewModel.darkMode.collectAsState()
 
     Scaffold(
-        topBar = { SettingsTopBar(navController) }
+        topBar = { SettingsTopAppBar(onBackClick = { navController.navigateUp() }) }
     ) { paddingValues ->
         SettingsContent(
             soundEnabled = soundEnabled,
@@ -82,38 +67,6 @@ fun SettingsScreen(
 }
 
 /**
- * Barra superior de la pantalla de configuraciones
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun SettingsTopBar(navController: NavController) {
-    val dimensions = LocalDimensions.current
-    TopAppBar(
-        title = {
-            Text(
-                text = stringResource(R.string.settings),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = { navController.navigateUp() }) {
-                Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = stringResource(R.string.back),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-            titleContentColor = MaterialTheme.colorScheme.onSurface
-        ),
-        modifier = Modifier.shadow(elevation = dimensions.spaceExtraSmall)
-    )
-}
-
-/**
  * Contenido principal de la pantalla de configuraciones
  */
 @Composable
@@ -128,6 +81,20 @@ private fun SettingsContent(
 ) {
     val dimensions = LocalDimensions.current
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+
+    val soundAttributions = remember {
+        listOf(
+            SoundAttribution(
+                textResId = R.string.sound_attribution_1,
+                url = "https://pixabay.com/sound-effects/dice-roll-201898/"
+            ),
+            SoundAttribution(
+                textResId = R.string.sound_attribution_2,
+                url = "https://pixabay.com/sound-effects/brass-fanfare-with-timpani-and-winchimes-reverberated-146260/"
+            )
+        )
+    }
 
     Column(modifier = modifier) {
         Column(
@@ -135,182 +102,38 @@ private fun SettingsContent(
                 .weight(1f)
                 .verticalScroll(scrollState)
         ) {
-            SettingsCard(
-            title = stringResource(R.string.game_preferences),
-            settings = listOf(
-                SettingItem(
-                    title = stringResource(R.string.sound_effects),
-                    description = stringResource(R.string.enable_sound_effects),
-                    checked = soundEnabled,
-                    onCheckedChange = onSoundEnabledChange
-                ),
-                SettingItem(
-                    title = stringResource(R.string.vibration),
-                    description = stringResource(R.string.enable_vibration),
-                    checked = vibrationEnabled,
-                    onCheckedChange = onVibrationEnabledChange
-                )
+            GamePreferencesSection(
+                soundEnabled = soundEnabled,
+                vibrationEnabled = vibrationEnabled,
+                onSoundEnabledChange = onSoundEnabledChange,
+                onVibrationEnabledChange = onVibrationEnabledChange
             )
-        )
 
-        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
-        SettingsCard(
-            title = stringResource(R.string.appearance),
-            settings = listOf(
-                SettingItem(
-                    title = stringResource(R.string.dark_mode),
-                    description = stringResource(R.string.enable_dark_mode),
-                    checked = darkMode,
-                    onCheckedChange = onDarkModeChange
-                )
+            AppearanceSection(
+                darkMode = darkMode,
+                onDarkModeChange = onDarkModeChange
             )
-        )
 
-        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
-        // Privacy Policy Card
-        val context = LocalContext.current
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
+            PrivacyPolicyCard(
+                onClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(AdConstants.PRIVACY_POLICY_URL))
                     context.startActivity(intent)
-                },
-            shape = CardShape,
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface
+                }
             )
-        ) {
-            Column(
-                modifier = Modifier.padding(dimensions.spaceMedium)
-            ) {
-                Text(
-                    text = stringResource(R.string.legal),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
 
-                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = stringResource(R.string.privacy_policy),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = stringResource(R.string.privacy_policy_description),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                        )
-                    }
-                    Icon(
-                        imageVector = Icons.Rounded.KeyboardArrowRight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                    )
+            CreditsCard(
+                attributions = soundAttributions,
+                onAttributionClick = { url ->
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    context.startActivity(intent)
                 }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
-
-        // Credits Card
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = CardShape,
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface
             )
-        ) {
-            Column(
-                modifier = Modifier.padding(dimensions.spaceMedium)
-            ) {
-                Text(
-                    text = stringResource(R.string.credits),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(modifier = Modifier.height(dimensions.spaceMedium))
-
-                Text(
-                    text = stringResource(R.string.sound_credits),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Spacer(modifier = Modifier.height(dimensions.spaceSmall))
-
-                // First sound attribution
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://pixabay.com/sound-effects/dice-roll-201898/")
-                            )
-                            context.startActivity(intent)
-                        }
-                        .padding(vertical = dimensions.spaceExtraSmall),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.sound_attribution_1),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Icon(
-                        imageVector = Icons.Rounded.KeyboardArrowRight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                    )
-                }
-
-                // Second sound attribution
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://pixabay.com/sound-effects/brass-fanfare-with-timpani-and-winchimes-reverberated-146260/")
-                            )
-                            context.startActivity(intent)
-                        }
-                        .padding(vertical = dimensions.spaceExtraSmall),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.sound_attribution_2),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Icon(
-                        imageVector = Icons.Rounded.KeyboardArrowRight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(dimensions.spaceSmall))
-
-                Text(
-                    text = stringResource(R.string.pixabay_attribution),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                )
-            }
-        }
 
             Spacer(modifier = Modifier.height(dimensions.spaceMedium))
         }
@@ -320,6 +143,50 @@ private fun SettingsContent(
             modifier = Modifier.fillMaxWidth()
         )
     }
+}
+
+@Composable
+private fun GamePreferencesSection(
+    soundEnabled: Boolean,
+    vibrationEnabled: Boolean,
+    onSoundEnabledChange: (Boolean) -> Unit,
+    onVibrationEnabledChange: (Boolean) -> Unit
+) {
+    SettingsCard(
+        title = stringResource(R.string.game_preferences),
+        settings = listOf(
+            SettingItem(
+                title = stringResource(R.string.sound_effects),
+                description = stringResource(R.string.enable_sound_effects),
+                checked = soundEnabled,
+                onCheckedChange = onSoundEnabledChange
+            ),
+            SettingItem(
+                title = stringResource(R.string.vibration),
+                description = stringResource(R.string.enable_vibration),
+                checked = vibrationEnabled,
+                onCheckedChange = onVibrationEnabledChange
+            )
+        )
+    )
+}
+
+@Composable
+private fun AppearanceSection(
+    darkMode: Boolean,
+    onDarkModeChange: (Boolean) -> Unit
+) {
+    SettingsCard(
+        title = stringResource(R.string.appearance),
+        settings = listOf(
+            SettingItem(
+                title = stringResource(R.string.dark_mode),
+                description = stringResource(R.string.enable_dark_mode),
+                checked = darkMode,
+                onCheckedChange = onDarkModeChange
+            )
+        )
+    )
 }
 
 @Preview(showBackground = true)

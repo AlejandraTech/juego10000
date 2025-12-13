@@ -18,16 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
-
-/**
- * Modelo de datos para un elemento de configuración
- */
-data class SettingItem(
-    val title: String,
-    val description: String,
-    val checked: Boolean,
-    val onCheckedChange: (Boolean) -> Unit
-)
+import com.alejandrapazrivas.juego10000.ui.settings.model.SettingItem
 
 /**
  * Componente que muestra una fila de configuración con un switch
