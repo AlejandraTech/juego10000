@@ -13,14 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-data class UserSelectionUiState(
-    val isLoading: Boolean = true,
-    val players: List<Player> = emptyList(),
-    val selectedUserId: Long = 0L,
-    val navigateToHome: Boolean = false,
-    val showCreatePlayerHint: Boolean = false
-)
+import com.alejandrapazrivas.juego10000.ui.userselection.model.UserSelectionUiState
 
 @HiltViewModel
 class UserSelectionViewModel @Inject constructor(
