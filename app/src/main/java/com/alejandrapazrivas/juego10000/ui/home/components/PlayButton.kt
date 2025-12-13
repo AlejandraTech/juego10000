@@ -42,11 +42,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.AccentOrange
+import com.alejandrapazrivas.juego10000.ui.common.theme.GoldColor
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
-
-private val AccentColor = Color(0xFFFF6B35)
-private val SecondaryAccent = Color(0xFFFFD700)
 
 /**
  * Botón principal de jugar con anillos animados.
@@ -158,8 +157,8 @@ private fun OuterRing(
             brush = Brush.sweepGradient(
                 colors = listOf(
                     Primary,
-                    AccentColor,
-                    SecondaryAccent,
+                    AccentOrange,
+                    GoldColor,
                     Primary.copy(alpha = 0.3f),
                     Primary
                 )
@@ -189,10 +188,10 @@ private fun InnerRing(
         drawArc(
             brush = Brush.sweepGradient(
                 colors = listOf(
-                    SecondaryAccent.copy(alpha = 0.8f),
+                    GoldColor.copy(alpha = 0.8f),
                     Primary.copy(alpha = 0.5f),
-                    AccentColor.copy(alpha = 0.6f),
-                    SecondaryAccent.copy(alpha = 0.3f)
+                    AccentOrange.copy(alpha = 0.6f),
+                    GoldColor.copy(alpha = 0.3f)
                 )
             ),
             startAngle = 45f,
@@ -252,7 +251,7 @@ private fun MainButton(
                     colors = listOf(
                         Primary,
                         Primary.copy(alpha = 0.9f),
-                        AccentColor.copy(alpha = 0.8f)
+                        AccentOrange.copy(alpha = 0.8f)
                     ),
                     start = Offset(0f, 0f),
                     end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)

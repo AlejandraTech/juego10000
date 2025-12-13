@@ -21,7 +21,7 @@ fun EmptyPlayersList(
     EmptyState(
         icon = painterResource(id = R.drawable.ic_add_player),
         title = stringResource(id = R.string.no_players),
-        description = "Añade jugadores para comenzar a jugar",
+        description = stringResource(id = R.string.add_players_to_start),
         actionButtonText = stringResource(id = R.string.add_player),
         actionButtonIcon = Icons.Default.Add,
         onActionClick = onAddPlayer,

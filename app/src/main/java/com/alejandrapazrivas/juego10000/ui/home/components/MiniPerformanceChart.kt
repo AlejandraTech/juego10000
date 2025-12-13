@@ -30,8 +30,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 @Composable
@@ -58,7 +60,7 @@ fun MiniPerformanceChart(
                 .padding(dimensions.spaceMedium)
         ) {
             Text(
-                text = "Rendimiento Reciente",
+                text = stringResource(R.string.recent_performance),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
@@ -67,7 +69,7 @@ fun MiniPerformanceChart(
             Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
             Text(
-                text = if (scores.isNotEmpty()) "Últimas ${scores.size} partidas" else "Sin datos",
+                text = if (scores.isNotEmpty()) stringResource(R.string.last_games_count, scores.size) else stringResource(R.string.no_data),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
@@ -105,9 +107,9 @@ fun MiniPerformanceChart(
                     val maxScore = scores.maxOrNull() ?: 0
                     val avgScore = if (scores.isNotEmpty()) scores.average().toInt() else 0
 
-                    ChartStat(label = "Máximo", value = maxScore.toString())
-                    ChartStat(label = "Promedio", value = avgScore.toString())
-                    ChartStat(label = "Partidas", value = scores.size.toString())
+                    ChartStat(label = stringResource(R.string.maximum), value = maxScore.toString())
+                    ChartStat(label = stringResource(R.string.average), value = avgScore.toString())
+                    ChartStat(label = stringResource(R.string.games_played), value = scores.size.toString())
                 }
             } else {
                 Box(
@@ -126,7 +128,7 @@ fun MiniPerformanceChart(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Juega partidas para ver tu rendimiento",
+                        text = stringResource(R.string.play_games_to_see_performance),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )

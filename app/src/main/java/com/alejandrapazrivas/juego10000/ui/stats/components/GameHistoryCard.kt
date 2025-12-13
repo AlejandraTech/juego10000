@@ -30,6 +30,7 @@ import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
+import com.alejandrapazrivas.juego10000.ui.common.theme.AmberColor
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
 
 /**
@@ -134,7 +135,7 @@ private fun GameCardDetails(game: Game, winner: Player?) {
         Icon(
             painter = painterResource(id = R.drawable.ic_trophy),
             contentDescription = stringResource(R.string.trophy),
-            tint = Color(0xFFFFC107),
+            tint = AmberColor,
             modifier = Modifier.size(dimensions.spaceLarge)
         )
 

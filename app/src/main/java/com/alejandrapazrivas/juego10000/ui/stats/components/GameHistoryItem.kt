@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.domain.model.Game
+import com.alejandrapazrivas.juego10000.ui.common.theme.AmberColor
 import com.alejandrapazrivas.juego10000.ui.common.theme.ScorePositive
 
 /**
@@ -51,7 +52,7 @@ fun GameHistoryItem(game: Game, playerId: Long) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_trophy),
                     contentDescription = stringResource(R.string.victory_result),
-                    tint = Color(0xFFFFC107),
+                    tint = AmberColor,
                     modifier = Modifier.size(dimensions.iconSizeSmall + dimensions.spaceExtraSmall)
                 )
                 Spacer(modifier = Modifier.width(dimensions.spaceSmall))

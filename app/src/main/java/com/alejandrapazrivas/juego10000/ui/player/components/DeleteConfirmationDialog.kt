@@ -53,7 +53,7 @@ fun DeleteConfirmationDialog(
                 Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
                 Text(
-                    text = "¿Estás seguro de que quieres eliminar a $playerName? Esta acción es permanente y el jugador se eliminará de todos los registros, incluidas estadísticas e historial de partidas.",
+                    text = stringResource(id = R.string.delete_player_confirmation, playerName),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurfaceVariant

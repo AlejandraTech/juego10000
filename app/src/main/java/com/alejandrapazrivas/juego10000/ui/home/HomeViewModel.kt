@@ -1,7 +1,9 @@
 package com.alejandrapazrivas.juego10000.ui.home
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.data.preferences.UserPreferencesManager
 import com.alejandrapazrivas.juego10000.domain.model.BotDifficulty
 import com.alejandrapazrivas.juego10000.domain.model.Player
@@ -24,6 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val application: Application,
     private val getPlayersUseCase: GetPlayersUseCase,
     private val createGameUseCase: CreateGameUseCase,
     private val userPreferencesManager: UserPreferencesManager,
@@ -157,7 +160,7 @@ class HomeViewModel @Inject constructor(
     fun onNewGameClick() {
         val currentUser = _uiState.value.currentUser
         if (currentUser == null) {
-            _uiState.update { it.copy(errorMessage = "No hay usuario seleccionado. Selecciona un perfil primero.") }
+            _uiState.update { it.copy(errorMessage = application.getString(R.string.no_user_selected_error)) }
             return
         }
 
@@ -177,7 +180,7 @@ class HomeViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     showGameModeDialog = false,
-                    errorMessage = "No hay otros jugadores disponibles. Crea más jugadores primero."
+                    errorMessage = application.getString(R.string.no_other_players_error)
                 )
             }
             return
@@ -234,7 +237,7 @@ class HomeViewModel @Inject constructor(
             try {
                 val currentState = _uiState.value
                 val currentUser = currentState.currentUser
-                    ?: throw IllegalArgumentException("No hay usuario seleccionado")
+                    ?: throw IllegalArgumentException(application.getString(R.string.no_user_selected_error))
 
                 // Construir lista de jugadores según el modo
                 val playerIds: List<Long>
@@ -247,10 +250,10 @@ class HomeViewModel @Inject constructor(
                 } else {
                     // Modo multijugador: usuario actual + oponentes seleccionados
                     if (currentState.selectedPlayers.isEmpty()) {
-                        throw IllegalArgumentException("Selecciona al menos un oponente")
+                        throw IllegalArgumentException(application.getString(R.string.select_at_least_one_opponent))
                     }
                     if (currentState.selectedPlayers.size > 5) {
-                        throw IllegalArgumentException("Máximo 5 oponentes permitidos")
+                        throw IllegalArgumentException(application.getString(R.string.max_opponents_allowed))
                     }
                     // El usuario actual siempre va primero en la lista
                     playerIds = listOf(currentUser.id) + currentState.selectedPlayers.map { it.id }
@@ -265,7 +268,7 @@ class HomeViewModel @Inject constructor(
                         targetScore = 10000,
                         gameMode = gameMode,
                         includeBotPlayer = true,
-                        botName = "Bot"
+                        botName = application.getString(R.string.bot_name)
                     )
                 } else {
                     // Modo multijugador normal

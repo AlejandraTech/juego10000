@@ -25,10 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.common.theme.VictoryGreen
+import com.alejandrapazrivas.juego10000.ui.common.theme.VictoryGreenDark
 import com.alejandrapazrivas.juego10000.ui.home.model.LastGameInfo
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -44,8 +47,8 @@ fun LastGameCard(
     val isVictory = lastGame.isVictory
     val gradientColors = if (isVictory) {
         listOf(
-            Color(0xFF10B981),
-            Color(0xFF059669)
+            VictoryGreen,
+            VictoryGreenDark
         )
     } else {
         listOf(
@@ -102,7 +105,7 @@ fun LastGameCard(
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = if (isVictory) "¡Victoria!" else "Última Partida",
+                        text = if (isVictory) stringResource(R.string.victory_exclamation) else stringResource(R.string.last_game),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = textColor
@@ -111,9 +114,9 @@ fun LastGameCard(
                     Spacer(modifier = Modifier.height(dimensions.spaceExtraSmall))
 
                     val gameMode = if (lastGame.game.gameMode == "SINGLE_PLAYER") {
-                        "vs Bot"
+                        stringResource(R.string.vs_bot)
                     } else {
-                        "Multijugador"
+                        stringResource(R.string.multiplayer_mode)
                     }
 
                     Text(
@@ -124,7 +127,7 @@ fun LastGameCard(
 
                     if (lastGame.winnerName != null) {
                         Text(
-                            text = "Ganador: ${lastGame.winnerName}",
+                            text = stringResource(R.string.winner_label, lastGame.winnerName),
                             style = MaterialTheme.typography.bodySmall,
                             color = textColor.copy(alpha = 0.8f)
                         )
@@ -142,7 +145,7 @@ fun LastGameCard(
                         color = textColor
                     )
                     Text(
-                        text = "puntos",
+                        text = stringResource(R.string.points_label),
                         style = MaterialTheme.typography.bodySmall,
                         color = textColor.copy(alpha = 0.7f)
                     )

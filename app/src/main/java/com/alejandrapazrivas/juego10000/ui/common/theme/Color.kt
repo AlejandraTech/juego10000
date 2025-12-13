@@ -45,6 +45,15 @@ object GameColors {
     val Gold = Color(0xFFFFD700)
     val GoldDark = Color(0xFFDAA520)
     val GoldLight = Color(0xFFFFF8DC)
+    val Amber = Color(0xFFFFC107) // Para iconos de trofeo
+
+    // Colores de acento
+    val AccentOrange = Color(0xFFFF6B35)
+    val Indigo = Color(0xFF6366F1)
+
+    // Colores de victoria (verde)
+    val Victory = Color(0xFF10B981)
+    val VictoryDark = Color(0xFF059669)
 }
 
 val ScorePositive = GameColors.ScorePositive
@@ -53,3 +62,12 @@ val ScorePositive = GameColors.ScorePositive
 val GoldColor = GameColors.Gold
 val GoldDark = GameColors.GoldDark
 val GoldLight = GameColors.GoldLight
+val AmberColor = GameColors.Amber
+
+// Colores de acento (acceso directo)
+val AccentOrange = GameColors.AccentOrange
+val Indigo = GameColors.Indigo
+
+// Colores de victoria (acceso directo)
+val VictoryGreen = GameColors.Victory
+val VictoryGreenDark = GameColors.VictoryDark

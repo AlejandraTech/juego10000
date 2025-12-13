@@ -31,10 +31,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.theme.Indigo
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.home.model.UserStats
 
@@ -47,7 +49,7 @@ fun QuickStatsSection(
 
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = "Tus Estadísticas",
+            text = stringResource(R.string.your_stats),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -59,7 +61,7 @@ fun QuickStatsSection(
             horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
         ) {
             StatCard(
-                title = "Partidas",
+                title = stringResource(R.string.games_played),
                 value = stats.totalGamesPlayed.toString(),
                 icon = R.drawable.ic_dice,
                 gradientColors = listOf(
@@ -69,7 +71,7 @@ fun QuickStatsSection(
                 modifier = Modifier.weight(1f)
             )
             StatCard(
-                title = "Victorias",
+                title = stringResource(R.string.games_won),
                 value = stats.totalWins.toString(),
                 icon = R.drawable.ic_trophy,
                 gradientColors = listOf(
@@ -87,7 +89,7 @@ fun QuickStatsSection(
             horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
         ) {
             StatCard(
-                title = "Mejor Turno",
+                title = stringResource(R.string.best_turn),
                 value = stats.bestTurnScore.toString(),
                 icon = R.drawable.ic_stats,
                 gradientColors = listOf(
@@ -97,12 +99,12 @@ fun QuickStatsSection(
                 modifier = Modifier.weight(1f)
             )
             StatCard(
-                title = "% Victorias",
+                title = stringResource(R.string.win_rate),
                 value = "${stats.winRate.toInt()}%",
                 icon = R.drawable.ic_stats,
                 gradientColors = listOf(
-                    Color(0xFF6366F1),
-                    Color(0xFF6366F1).copy(alpha = 0.7f)
+                    Indigo,
+                    Indigo.copy(alpha = 0.7f)
                 ),
                 modifier = Modifier.weight(1f)
             )

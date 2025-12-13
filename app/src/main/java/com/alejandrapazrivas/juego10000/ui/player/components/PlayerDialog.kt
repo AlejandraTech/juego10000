@@ -60,7 +60,7 @@ fun PlayerDialog(
                     },
                     placeholder = {
                         Text(
-                            text = "Nombre del jugador",
+                            text = stringResource(id = R.string.player_name),
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                         )
                     },
