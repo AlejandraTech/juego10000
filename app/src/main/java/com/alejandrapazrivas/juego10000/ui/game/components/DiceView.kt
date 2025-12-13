@@ -44,6 +44,7 @@ import com.alejandrapazrivas.juego10000.ui.common.theme.GoldColor
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
+import com.alejandrapazrivas.juego10000.ui.common.util.getDiceDrawable
 
 /**
  * Componente visual para un dado individual con animaciones y estados visuales.
@@ -65,7 +66,7 @@ fun DiceView(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    val diceResource = getDiceResource(dice.value)
+    val diceResource = getDiceDrawable(dice.value)
 
     val infiniteTransition = rememberInfiniteTransition(label = "diceRoll")
 
@@ -269,14 +270,3 @@ private fun getDiceBackgroundBrush(dice: Dice): Brush {
     }
 }
 
-private fun getDiceResource(value: Int): Int {
-    return when (value) {
-        1 -> R.drawable.dice_1
-        2 -> R.drawable.dice_2
-        3 -> R.drawable.dice_3
-        4 -> R.drawable.dice_4
-        5 -> R.drawable.dice_5
-        6 -> R.drawable.dice_6
-        else -> R.drawable.dice_1
-    }
-}

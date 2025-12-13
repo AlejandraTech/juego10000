@@ -21,11 +21,9 @@ import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
+import com.alejandrapazrivas.juego10000.ui.common.util.getDiceDrawable
 import com.alejandrapazrivas.juego10000.ui.rules.components.base.ScoreRow
 
-/**
- * Fila moderna que muestra la puntuación de un valor de dado específico.
- */
 @Composable
 fun DiceScoreRow(diceValue: Int, points: Int) {
     val dimensions = LocalDimensions.current
@@ -33,42 +31,41 @@ fun DiceScoreRow(diceValue: Int, points: Int) {
     ScoreRow(
         points = points,
         leadingContent = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Dado con fondo redondeado
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Primary.copy(alpha = 0.1f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(
-                            id = when (diceValue) {
-                                1 -> R.drawable.dice_1
-                                2 -> R.drawable.dice_2
-                                3 -> R.drawable.dice_3
-                                4 -> R.drawable.dice_4
-                                5 -> R.drawable.dice_5
-                                else -> R.drawable.dice_6
-                            }
-                        ),
-                        contentDescription = stringResource(R.string.dice_description, diceValue),
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
-
-                Text(
-                    text = stringResource(R.string.dice_value, diceValue),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
+            DiceScoreLeadingContent(
+                diceValue = diceValue,
+                dimensions = dimensions
+            )
         }
     )
+}
+
+@Composable
+private fun DiceScoreLeadingContent(
+    diceValue: Int,
+    dimensions: com.alejandrapazrivas.juego10000.ui.common.theme.Dimensions
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Primary.copy(alpha = 0.1f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(id = getDiceDrawable(diceValue)),
+                contentDescription = stringResource(R.string.dice_description, diceValue),
+                modifier = Modifier.size(24.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
+
+        Text(
+            text = stringResource(R.string.dice_value, diceValue),
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
 }
