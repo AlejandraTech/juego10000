@@ -2,17 +2,12 @@ package com.alejandrapazrivas.juego10000.ui.splash
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -22,7 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,18 +27,21 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.ui.common.components.backgrounds.AnimatedBackground
 import com.alejandrapazrivas.juego10000.ui.common.components.backgrounds.BackgroundConfig
+import com.alejandrapazrivas.juego10000.ui.common.components.loading.LoadingIndicator
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import kotlinx.coroutines.delay
 
+private const val LOGO_ANIMATION_DURATION = 600
+private const val FADE_ANIMATION_DURATION = 400
+private const val SPLASH_DISPLAY_DURATION = 800L
+
 @Composable
-fun SplashScreen(
-    onSplashFinished: () -> Unit
-) {
+fun SplashScreen(onSplashFinished: () -> Unit) {
     val dimensions = LocalDimensions.current
 
     val logoScale = remember { Animatable(0f) }
@@ -54,19 +51,17 @@ fun SplashScreen(
     LaunchedEffect(Unit) {
         logoScale.animateTo(
             targetValue = 1f,
-            animationSpec = tween(600, easing = FastOutSlowInEasing)
+            animationSpec = tween(LOGO_ANIMATION_DURATION, easing = FastOutSlowInEasing)
         )
         logoAlpha.animateTo(
             targetValue = 1f,
-            animationSpec = tween(400)
+            animationSpec = tween(FADE_ANIMATION_DURATION)
         )
-
         textAlpha.animateTo(
             targetValue = 1f,
-            animationSpec = tween(400)
+            animationSpec = tween(FADE_ANIMATION_DURATION)
         )
-
-        delay(800)
+        delay(SPLASH_DISPLAY_DURATION)
         onSplashFinished()
     }
 
@@ -114,9 +109,7 @@ private fun SplashContent(
 
         Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
-        LoadingIndicator(
-            modifier = Modifier.alpha(textAlpha)
-        )
+        LoadingIndicator(modifier = Modifier.alpha(textAlpha))
     }
 }
 
@@ -124,7 +117,7 @@ private fun SplashContent(
 private fun LogoBox(
     scale: Float,
     alpha: Float,
-    size: androidx.compose.ui.unit.Dp
+    size: Dp
 ) {
     Box(
         modifier = Modifier
@@ -148,62 +141,4 @@ private fun LogoBox(
             modifier = Modifier.size(size)
         )
     }
-}
-
-@Composable
-private fun LoadingIndicator(
-    modifier: Modifier = Modifier
-) {
-    val infiniteTransition = rememberInfiniteTransition(label = "loading")
-
-    val dotScale1 by infiniteTransition.animateFloat(
-        initialValue = 0.5f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(600, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "dot1"
-    )
-
-    val dotScale2 by infiniteTransition.animateFloat(
-        initialValue = 0.5f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(600, delayMillis = 150, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "dot2"
-    )
-
-    val dotScale3 by infiniteTransition.animateFloat(
-        initialValue = 0.5f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(600, delayMillis = 300, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "dot3"
-    )
-
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        LoadingDot(scale = dotScale1)
-        LoadingDot(scale = dotScale2)
-        LoadingDot(scale = dotScale3)
-    }
-}
-
-@Composable
-private fun LoadingDot(scale: Float) {
-    Box(
-        modifier = Modifier
-            .size(10.dp)
-            .scale(scale)
-            .clip(CircleShape)
-            .background(Primary.copy(alpha = 0.6f))
-    )
 }
