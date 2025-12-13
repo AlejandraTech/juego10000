@@ -32,6 +32,9 @@ class SettingsViewModel @Inject constructor(
     val darkMode: StateFlow<Boolean> = userPreferencesManager.darkMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(flowStopTimeout), false)
 
+    val language: StateFlow<String> = userPreferencesManager.language
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(flowStopTimeout), UserPreferencesManager.LANGUAGE_SYSTEM)
+
     /**
      * Actualiza la preferencia de sonido
      */
@@ -51,6 +54,13 @@ class SettingsViewModel @Inject constructor(
      */
     fun setDarkMode(enabled: Boolean) {
         updatePreference { userPreferencesManager.setDarkMode(enabled) }
+    }
+
+    /**
+     * Actualiza la preferencia de idioma
+     */
+    fun setLanguage(language: String) {
+        updatePreference { userPreferencesManager.setLanguage(language) }
     }
 
     /**

@@ -28,6 +28,7 @@ import com.alejandrapazrivas.juego10000.ui.common.components.ads.BannerAd
 import com.alejandrapazrivas.juego10000.ui.common.theme.Juego10000Theme
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.settings.components.CreditsCard
+import com.alejandrapazrivas.juego10000.ui.settings.components.LanguageCard
 import com.alejandrapazrivas.juego10000.ui.settings.components.PrivacyPolicyCard
 import com.alejandrapazrivas.juego10000.ui.settings.components.SettingsCard
 import com.alejandrapazrivas.juego10000.ui.settings.components.SettingsTopAppBar
@@ -47,6 +48,7 @@ fun SettingsScreen(
     val soundEnabled by viewModel.soundEnabled.collectAsState()
     val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
     val darkMode by viewModel.darkMode.collectAsState()
+    val language by viewModel.language.collectAsState()
 
     Scaffold(
         topBar = { SettingsTopAppBar(onBackClick = { navController.navigateUp() }) }
@@ -55,9 +57,11 @@ fun SettingsScreen(
             soundEnabled = soundEnabled,
             vibrationEnabled = vibrationEnabled,
             darkMode = darkMode,
+            language = language,
             onSoundEnabledChange = { viewModel.setSoundEnabled(it) },
             onVibrationEnabledChange = { viewModel.setVibrationEnabled(it) },
             onDarkModeChange = { viewModel.setDarkMode(it) },
+            onLanguageChange = { viewModel.setLanguage(it) },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -74,9 +78,11 @@ private fun SettingsContent(
     soundEnabled: Boolean,
     vibrationEnabled: Boolean,
     darkMode: Boolean,
+    language: String,
     onSoundEnabledChange: (Boolean) -> Unit,
     onVibrationEnabledChange: (Boolean) -> Unit,
     onDarkModeChange: (Boolean) -> Unit,
+    onLanguageChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val dimensions = LocalDimensions.current
@@ -114,6 +120,13 @@ private fun SettingsContent(
             AppearanceSection(
                 darkMode = darkMode,
                 onDarkModeChange = onDarkModeChange
+            )
+
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
+            LanguageCard(
+                currentLanguage = language,
+                onLanguageChange = onLanguageChange
             )
 
             Spacer(modifier = Modifier.height(dimensions.spaceMedium))

@@ -237,6 +237,14 @@
     <string name="dark_mode">Modo oscuro</string>
     <string name="enable_dark_mode">Cambiar a tema oscuro</string>
 
+    <!-- Idioma -->
+    <string name="language">Idioma</string>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_english">Inglés</string>
+    <string name="language_system">Predeterminado del sistema</string>
+    <string name="restart_required">Se requiere reiniciar para aplicar los cambios</string>
+
     <!-- Legal -->
     <string name="legal">Legal</string>
     <string name="privacy_policy">Política de Privacidad</string>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ==================== -->
+    <!-- COMMON / GENERAL     -->
+    <!-- ==================== -->
+
+    <!-- App name -->
+    <string name="app_name">Game 10000</string>
+    <string name="version">Version %1$s</string>
+
+    <!-- Navigation -->
+    <string name="back">Back</string>
+    <string name="menu">Menu</string>
+
+    <!-- Common actions -->
+    <string name="close_message">Close message</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="play">Play</string>
+    <string name="points">Points</string>
+
+    <!-- Common formats -->
+    <string name="bullet_point">•</string>
+    <string name="points_format">%1$d pts</string>
+    <string name="number_format">%1$d.</string>
+    <string name="percentage_format">%1$d%%</string>
+    <string name="wins_total_format">%1$d/%2$d</string>
+    <string name="position_format">#%1$d</string>
+
+    <!-- ========================= -->
+    <!-- HOME SCREEN               -->
+    <!-- ========================= -->
+
+    <!-- Side menu (Drawer) -->
+    <string name="game_section">Game</string>
+    <string name="settings_section">Settings</string>
+    <string name="manage_players">Manage players</string>
+    <string name="manage_players_description">Add, edit or delete</string>
+    <string name="statistics">Statistics</string>
+    <string name="stats_description">View history and records</string>
+    <string name="rules">Rules</string>
+    <string name="rules_title">Game Rules</string>
+    <string name="rules_description">How to play and scoring</string>
+    <string name="settings">Settings</string>
+    <string name="settings_description">Sound, vibration and more</string>
+    <string name="no_user">No user</string>
+    <string name="tap_to_change_profile">Tap to change profile</string>
+    <string name="change_profile">Change profile</string>
+
+    <!-- New game card -->
+    <string name="new_game">New game</string>
+    <string name="reach_10000_points">Reach 10,000 points!</string>
+    <string name="start_game">Start game</string>
+
+    <!-- Quick stats -->
+    <string name="your_stats">Your Stats</string>
+    <string name="games_played">Games</string>
+    <string name="games_won">Wins</string>
+    <string name="win_rate">Win %</string>
+    <string name="best_turn">Best Turn</string>
+    <string name="quick_access">Quick access</string>
+
+    <!-- Last game -->
+    <string name="last_game">Last Game</string>
+    <string name="victory_exclamation">Victory!</string>
+    <string name="vs_bot">vs Bot</string>
+    <string name="winner_label">Winner: %1$s</string>
+
+    <!-- Performance chart -->
+    <string name="recent_performance">Recent Performance</string>
+    <string name="last_games_count">Last %1$d games</string>
+    <string name="no_data">No data</string>
+    <string name="maximum">Maximum</string>
+    <string name="average">Average</string>
+    <string name="play_games_to_see_performance">Play games to see your performance</string>
+
+    <!-- ========================== -->
+    <!-- USER SELECTION             -->
+    <!-- ========================== -->
+    <string name="select_profile">Select your profile</string>
+    <string name="games_count">%1$d games</string>
+    <string name="new_player">New player</string>
+    <string name="no_players_title">No players</string>
+    <string name="no_players_hint">Create your first profile to start playing</string>
+
+    <!-- ==================== -->
+    <!-- GAME SCREEN          -->
+    <!-- ==================== -->
+
+    <!-- Round and turn info -->
+    <string name="round">Round %1$d</string>
+    <string name="player_turn">%1$s\'s turn</string>
+    <string name="bot_turn">Bot\'s turn…</string>
+    <string name="scoreboard">Scoreboard</string>
+
+    <!-- Dice actions -->
+    <string name="roll_dice">Roll dice</string>
+    <string name="roll_dice_instruction">Use the \'Roll dice\' button to start</string>
+    <string name="select_dice_to_keep">Select dice to keep</string>
+    <string name="cannot_deselect_dice">You cannot deselect scoring dice</string>
+
+    <!-- Scoring -->
+    <string name="current_score">Current Score</string>
+    <string name="bank_score">Bank score</string>
+    <string name="pass_turn">Pass turn</string>
+    <string name="no_score">No score! You lose your turn</string>
+    <string name="minimum_points_required">Min. 500 pts</string>
+    <string name="player_needs_minimum_points">%1$s: You need at least 500 points to enter the game</string>
+    <string name="score_exceeded">You exceeded 10,000 points! To win, you must get exactly 10,000 points. You lose your turn and accumulated points.</string>
+    <string name="score_target">/ 10,000</string>
+
+    <!-- Turn indicators -->
+    <string name="turn_lost_title">Turn lost!</string>
+    <string name="turn_lost_message">No scoring dice</string>
+    <string name="points_saved_title">Points saved!</string>
+    <string name="score_exceeded_title">Score exceeded!</string>
+    <string name="score_exceeded_message">You exceeded 10,000 points</string>
+    <string name="score_exceeded_detail">Check the dice to see your roll</string>
+
+    <!-- Dice accessibility -->
+    <string name="dice_content_description">Dice with value %1$d</string>
+
+    <!-- End of game -->
+    <string name="end_game">End game</string>
+
+    <!-- ====================== -->
+    <!-- VICTORY SCREEN         -->
+    <!-- ====================== -->
+    <string name="victory">VICTORY!</string>
+    <string name="trophy">Trophy</string>
+    <string name="final_score">Final score</string>
+    <string name="back_to_main_menu">Back to main menu</string>
+    <string name="champion_label">CHAMPION</string>
+    <string name="points_label">pts</string>
+
+    <!-- ======================== -->
+    <!-- PLAYER MANAGEMENT        -->
+    <!-- ======================== -->
+    <string name="add_player">Add player</string>
+    <string name="edit_player">Edit player</string>
+    <string name="delete_player">Delete player</string>
+    <string name="player_name">Player name</string>
+    <string name="no_players">No registered players.\nAdd a player to start.</string>
+    <string name="delete_player_confirmation">Are you sure you want to delete %1$s? This action is permanent and the player will be removed from all records, including statistics and game history.</string>
+    <string name="add_players_to_start">Add players to start playing</string>
+
+    <!-- ====================== -->
+    <!-- RULES SCREEN           -->
+    <!-- ====================== -->
+
+    <!-- Rules header -->
+    <string name="rules_header_title">Game 10000 Rules</string>
+    <string name="rules_header_subtitle">Learn to play and master the game</string>
+
+    <!-- Main sections -->
+    <string name="game_objective">Game Objective</string>
+    <string name="objective_content">Be the first player to reach 10,000 points to win the game.</string>
+
+    <string name="game_entry">Game Entry</string>
+    <string name="entry_content">To start accumulating points, each player must score at least 500 points on their first turn. Until this score is achieved, points will not be recorded on the scoreboard.</string>
+
+    <string name="turn_mechanics">Turn Mechanics</string>
+    <string name="turn_mechanic_1">Each player rolls 6 dice on their turn.</string>
+    <string name="turn_mechanic_2">After each roll, you must set aside at least one scoring die.</string>
+    <string name="turn_mechanic_3">You can choose to reroll the remaining dice to accumulate more points.</string>
+    <string name="turn_mechanic_4">If you roll no scoring dice, you lose all points accumulated that turn and pass to the next player.</string>
+    <string name="turn_mechanic_5">You can choose to \'bank\' at any time and add accumulated points to your total.</string>
+    <string name="turn_mechanic_6">If you use all 6 dice for scoring, you get a new roll with all dice.</string>
+
+    <string name="strategies">Strategies</string>
+    <string name="strategy_1">Balance risk: Decide when to bank and when to keep rolling.</string>
+    <string name="strategy_2">Prioritize high-value dice: 1s and 5s are valuable individually.</string>
+    <string name="strategy_3">Look for combinations: Three or more matching dice give high scores.</string>
+    <string name="strategy_4">Watch your opponents: Adjust your strategy based on their scores.</string>
+
+    <!-- Scoring system -->
+    <string name="scoring_system">Scoring System</string>
+    <string name="individual_dice">Individual Dice</string>
+    <string name="dice_value">Value %1$d</string>
+    <string name="dice_description">Die %1$d</string>
+    <string name="combinations">Combinations</string>
+    <string name="multipliers">Multipliers</string>
+    <string name="three_ones">Three 1\'s</string>
+    <string name="three_twos">Three 2\'s</string>
+    <string name="three_threes">Three 3\'s</string>
+    <string name="three_fours">Three 4\'s</string>
+    <string name="three_fives">Three 5\'s</string>
+    <string name="three_sixes">Three 6\'s</string>
+    <string name="straight">Straight (1-2-3-4-5-6)</string>
+    <string name="three_pairs">Three pairs</string>
+    <string name="four_of_a_kind_desc">Four of a kind: Double the three of a kind value</string>
+    <string name="five_of_a_kind_desc">Five of a kind: Triple the three of a kind value</string>
+    <string name="six_of_a_kind_desc">Six of a kind: Quadruple the three of a kind value</string>
+
+    <!-- ========================== -->
+    <!-- STATISTICS SCREEN          -->
+    <!-- ========================== -->
+
+    <!-- Tabs -->
+    <string name="tab_players">Players</string>
+    <string name="tab_history">History</string>
+    <string name="tab_records">Records</string>
+
+    <!-- Content -->
+    <string name="game_history">Game history</string>
+    <string name="top_scores">Highest scores per round</string>
+    <string name="highest_score">Max. score</string>
+    <string name="no_registered_players">No registered players</string>
+    <string name="players_count">%1$d players</string>
+    <string name="no_registered_games">No registered games</string>
+    <string name="no_registered_scores">No registered scores</string>
+    <string name="game_number">Game #%1$d</string>
+    <string name="no_winner">No winner</string>
+    <string name="player_history">%1$s\'s history</string>
+    <string name="games_played_count">Games: %1$d</string>
+    <string name="victories_count">Wins: %1$d</string>
+    <string name="round_number">Round %1$d</string>
+    <string name="victory_result">Victory</string>
+    <string name="defeat_result">Defeat</string>
+
+    <!-- ============================ -->
+    <!-- SETTINGS SCREEN              -->
+    <!-- ============================ -->
+
+    <!-- Game preferences -->
+    <string name="game_preferences">Game Preferences</string>
+    <string name="sound_effects">Sound effects</string>
+    <string name="enable_sound_effects">Enable sound effects in game</string>
+    <string name="vibration">Vibration</string>
+    <string name="enable_vibration">Enable vibration when rolling dice</string>
+
+    <!-- Appearance -->
+    <string name="appearance">Appearance</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="enable_dark_mode">Switch to dark theme</string>
+
+    <!-- Language -->
+    <string name="language">Language</string>
+    <string name="select_language">Select language</string>
+    <string name="language_spanish">Spanish</string>
+    <string name="language_english">English</string>
+    <string name="language_system">System default</string>
+    <string name="restart_required">Restart required to apply changes</string>
+
+    <!-- Legal -->
+    <string name="legal">Legal</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_description">View our privacy policy</string>
+
+    <!-- Credits -->
+    <string name="credits">Credits</string>
+    <string name="sound_credits">Sound Effects</string>
+    <string name="pixabay_attribution">Sound Effect from Pixabay</string>
+    <string name="sound_attribution_1">Sound Effect by u_ngsgp0r6zb</string>
+    <string name="sound_attribution_2">Sound Effect by u_ss015dykrt</string>
+
+    <!-- ================================ -->
+    <!-- DIALOGS                          -->
+    <!-- ================================ -->
+
+    <!-- Game mode dialog -->
+    <string name="game_mode">Game mode</string>
+    <string name="select_game_mode_description">Select the game mode for this match</string>
+    <string name="multiplayer_mode">Multiplayer</string>
+    <string name="multiplayer_description">Play with friends on the same device.</string>
+    <string name="single_player_mode">Single Player</string>
+    <string name="single_player_description">Play against a smart bot.</string>
+
+    <!-- Bot difficulty dialog -->
+    <string name="select_bot_difficulty">Select Bot level</string>
+    <string name="select_difficulty_description">Select the bot difficulty for the match</string>
+    <string name="bot_name">Bot</string>
+    <string name="bot_beginner">Beginner</string>
+    <string name="beginner_description">For new or casual players.</string>
+    <string name="bot_intermediate">Intermediate</string>
+    <string name="intermediate_description">For experienced players.</string>
+    <string name="bot_expert">Expert</string>
+    <string name="expert_description">For advanced players.</string>
+
+    <!-- Opponent selection dialog -->
+    <string name="select_opponents">Select Opponents</string>
+    <string name="select_opponents_description">Select between 1 and 5 opponents for the match</string>
+    <string name="opponent_selected">Opponent selected</string>
+    <string name="click_to_select">Click to select</string>
+
+    <!-- ================================ -->
+    <!-- MESSAGES AND NOTIFICATIONS       -->
+    <!-- ================================ -->
+    <string name="confirm_exit_game">Are you sure you want to exit? The current game will be lost.</string>
+
+    <!-- Home messages -->
+    <string name="no_user_selected_error">No user selected. Select a profile first.</string>
+    <string name="no_other_players_error">No other players available. Create more players first.</string>
+    <string name="select_at_least_one_opponent">Select at least one opponent</string>
+    <string name="max_opponents_allowed">Maximum 5 opponents allowed</string>
+
+    <!-- Game state messages -->
+    <string name="invalid_game_id">Invalid game ID</string>
+    <string name="loading_game">Loading game…</string>
+    <string name="game_not_found">Game not found</string>
+    <string name="error_loading_game">Error loading game: %1$s</string>
+
+    <!-- Victory messages -->
+    <string name="player_won_with_score">%1$s won with %2$d points!</string>
+    <string name="bot_won_with_score">Bot won with %1$d points!</string>
+
+    <!-- Bot messages -->
+    <string name="bot_exceeded_score">Bot exceeded 10,000 points! Loses turn and accumulated points.</string>
+    <string name="bot_saved_points">Bot saved %1$d points</string>
+    <string name="bot_lost_turn">Bot lost the turn!</string>
+    <string name="error_bot_turn">Error in Bot\'s turn</string>
+
+    <!-- Dice messages -->
+    <string name="invalid_selection">Invalid selection</string>
+    <string name="error_creating_dice">Error creating dice. Try again.</string>
+    <string name="error_rolling_dice">Error rolling dice: %1$s</string>
+    <string name="all_dice_score_full">All dice score! You can roll again with all dice. Accumulated score: %1$d</string>
+    <string name="all_available_dice_score">All available dice score! You can roll again. Accumulated score: %1$d</string>
+
+    <!-- Score messages -->
+    <string name="player_saved_points">%1$s saved %2$d points</string>
+    <string name="error_completing_game">Error completing game: %1$s</string>
+    <string name="error_saving_score">Error saving score: %1$s</string>
+    <string name="error_changing_player">Error changing player: %1$s</string>
+    <string name="score_exceeded_lose_turn">You exceeded 10,000 points! You lose your turn and accumulated points.</string>
+    <string name="score_exceeded_click_pass">You exceeded 10,000 points! Click \'Pass Turn\'.</string>
+</resources>

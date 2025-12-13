@@ -36,6 +36,13 @@ class UserPreferencesManager @Inject constructor(
         val LAST_ACTIVE_GAME = longPreferencesKey("last_active_game")
         val BOT_DIFFICULTY = stringPreferencesKey("bot_difficulty")
         val SELECTED_USER_ID = longPreferencesKey("selected_user_id")
+        val LANGUAGE = stringPreferencesKey("language")
+    }
+
+    companion object {
+        const val LANGUAGE_SYSTEM = "system"
+        const val LANGUAGE_SPANISH = "es"
+        const val LANGUAGE_ENGLISH = "en"
     }
 
     /**
@@ -81,6 +88,9 @@ class UserPreferencesManager @Inject constructor(
     val lastActiveGame: Flow<Long> = getLongPreference(PreferencesKeys.LAST_ACTIVE_GAME, 0L)
     val botDifficulty: Flow<String?> = getStringPreference(PreferencesKeys.BOT_DIFFICULTY)
     val selectedUserId: Flow<Long> = getLongPreference(PreferencesKeys.SELECTED_USER_ID, 0L)
+    val language: Flow<String> = dataStore.data.map { preferences ->
+        preferences[PreferencesKeys.LANGUAGE] ?: LANGUAGE_SYSTEM
+    }
 
     // Métodos públicos para establecer preferencias
     suspend fun setSoundEnabled(enabled: Boolean) = 
@@ -103,4 +113,7 @@ class UserPreferencesManager @Inject constructor(
 
     suspend fun clearSelectedUser() =
         setPreference(PreferencesKeys.SELECTED_USER_ID, 0L)
+
+    suspend fun setLanguage(language: String) =
+        setPreference(PreferencesKeys.LANGUAGE, language)
 }
