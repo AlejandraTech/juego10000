@@ -15,6 +15,7 @@
     <string name="menu">Menú</string>
 
     <!-- Acciones comunes -->
+    <string name="close_message">Cerrar mensaje</string>
     <string name="cancel">Cancelar</string>
     <string name="confirm">Confirmar</string>
     <string name="add">Añadir</string>

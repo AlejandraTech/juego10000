@@ -208,7 +208,7 @@ fun EmptyStateMessage(
     message: String,
     icon: Painter,
     modifier: Modifier = Modifier,
-    iconTint: Color = Color.Gray.copy(alpha = 0.7f)
+    iconTint: Color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
 ) {
     val dimensions = LocalDimensions.current
 
@@ -248,7 +248,7 @@ fun EmptyStateMessage(
                 text = message,
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = dimensions.spaceExtraLarge)
             )
         }

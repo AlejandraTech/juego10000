@@ -23,9 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.alejandrapazrivas.juego10000.R
 
 /**
  * Tipos de toast para diferentes situaciones
@@ -113,7 +115,7 @@ fun GameToast(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Cerrar mensaje",
+                        contentDescription = stringResource(id = R.string.close_message),
                         tint = textColor,
                         modifier = Modifier.size(16.dp)
                     )
