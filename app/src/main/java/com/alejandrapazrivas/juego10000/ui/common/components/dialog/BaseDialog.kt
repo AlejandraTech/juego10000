@@ -1,4 +1,4 @@
-package com.alejandrapazrivas.juego10000.ui.player.components
+package com.alejandrapazrivas.juego10000.ui.common.components.dialog
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,18 +12,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.window.Dialog
-import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import androidx.compose.ui.window.DialogProperties
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
- * Componente base para diálogos con estilo común.
- * 
+ * Componente base para diálogos con estilo consistente en toda la aplicación.
+ * Proporciona un Card con sombra, bordes redondeados y padding estándar.
+ *
  * @param onDismiss Callback para cerrar el diálogo
+ * @param dismissOnBackPress Si se puede cerrar con el botón back (default: true)
+ * @param dismissOnClickOutside Si se puede cerrar tocando fuera (default: true)
  * @param content Contenido del diálogo
  */
 @Composable
 fun BaseDialog(
     onDismiss: () -> Unit,
+    dismissOnBackPress: Boolean = true,
+    dismissOnClickOutside: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val dimensions = LocalDimensions.current
@@ -31,8 +36,8 @@ fun BaseDialog(
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true
+            dismissOnBackPress = dismissOnBackPress,
+            dismissOnClickOutside = dismissOnClickOutside
         )
     ) {
         Card(

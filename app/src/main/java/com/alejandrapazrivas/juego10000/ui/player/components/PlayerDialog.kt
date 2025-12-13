@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.components.dialog.BaseDialog
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
