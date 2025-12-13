@@ -22,6 +22,7 @@ import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.ui.common.theme.AmberColor
 import com.alejandrapazrivas.juego10000.ui.common.theme.ScorePositive
+import com.alejandrapazrivas.juego10000.ui.common.util.DateFormatUtils
 
 /**
  * Elemento que muestra una partida en el historial de un jugador específico

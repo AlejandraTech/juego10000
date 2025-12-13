@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
-import com.alejandrapazrivas.juego10000.domain.model.Score
 import com.alejandrapazrivas.juego10000.domain.repository.ScoreRepository
 import com.alejandrapazrivas.juego10000.domain.usecase.GetGameHistoryUseCase
 import com.alejandrapazrivas.juego10000.domain.usecase.GetPlayersUseCase
+import com.alejandrapazrivas.juego10000.ui.stats.model.PlayerStats
+import com.alejandrapazrivas.juego10000.ui.stats.model.ScoreWithPlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -85,20 +88,7 @@ class StatsViewModel @Inject constructor(
                 }
             }
 
-            // Ordenar por puntuación más alta
             _topScores.value = topScoresList.sortedByDescending { it.score.turnScore }
         }
     }
-
-    // Clases de datos para la UI
-    data class PlayerStats(
-        val player: Player,
-        val bestScore: Int,
-        val averageScore: Float
-    )
-
-    data class ScoreWithPlayer(
-        val score: Score,
-        val player: Player
-    )
 }

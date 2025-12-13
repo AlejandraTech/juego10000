@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,6 +32,7 @@ import com.alejandrapazrivas.juego10000.domain.model.Game
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.AmberColor
 import com.alejandrapazrivas.juego10000.ui.common.theme.CardShape
+import com.alejandrapazrivas.juego10000.ui.common.util.DateFormatUtils
 
 /**
  * Tarjeta que muestra la información de una partida en el historial
@@ -68,7 +69,7 @@ fun GameHistoryCard(
 
             Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
-            Divider(
+            HorizontalDivider(
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
                 modifier = Modifier.padding(vertical = dimensions.spaceExtraSmall)
             )
