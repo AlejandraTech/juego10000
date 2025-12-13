@@ -1,14 +1,18 @@
 package com.alejandrapazrivas.juego10000.ui.game.components
 
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ExitToApp
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import com.alejandrapazrivas.juego10000.R
+import com.alejandrapazrivas.juego10000.ui.common.components.dialog.BaseDialog
+import com.alejandrapazrivas.juego10000.ui.common.components.dialog.DialogButtons
+import com.alejandrapazrivas.juego10000.ui.common.components.dialog.DialogHeader
+import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 
 /**
  * Diálogo de confirmación para salir del juego.
@@ -22,30 +26,25 @@ fun ExitConfirmationDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(R.string.confirm),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(R.string.confirm_exit_game),
-                style = MaterialTheme.typography.bodyMedium
-            )
-        },
-        confirmButton = {
-            Button(onClick = onConfirm) {
-                Text(text = stringResource(R.string.yes))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.no))
-            }
-        }
-    )
+    val dimensions = LocalDimensions.current
+
+    BaseDialog(onDismiss = onDismiss) {
+        DialogHeader(
+            title = stringResource(R.string.confirm),
+            description = stringResource(R.string.confirm_exit_game),
+            icon = Icons.AutoMirrored.Rounded.ExitToApp,
+            iconTint = MaterialTheme.colorScheme.error,
+            iconBackgroundColor = MaterialTheme.colorScheme.error.copy(alpha = 0.1f)
+        )
+
+        Spacer(modifier = Modifier.height(dimensions.spaceLarge))
+
+        DialogButtons(
+            onCancel = onDismiss,
+            onConfirm = onConfirm,
+            confirmText = stringResource(R.string.yes),
+            confirmColor = MaterialTheme.colorScheme.error,
+            confirmTextColor = MaterialTheme.colorScheme.onError
+        )
+    }
 }
