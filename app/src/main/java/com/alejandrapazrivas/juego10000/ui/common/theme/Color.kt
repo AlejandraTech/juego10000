@@ -40,6 +40,16 @@ object DarkColors {
 // Colores específicos del juego
 object GameColors {
     val ScorePositive = Color(0xFF4CAF50)
+
+    // Colores dorados para victorias y acentos
+    val Gold = Color(0xFFFFD700)
+    val GoldDark = Color(0xFFDAA520)
+    val GoldLight = Color(0xFFFFF8DC)
 }
 
 val ScorePositive = GameColors.ScorePositive
+
+// Colores dorados (acceso directo)
+val GoldColor = GameColors.Gold
+val GoldDark = GameColors.GoldDark
+val GoldLight = GameColors.GoldLight

@@ -40,11 +40,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alejandrapazrivas.juego10000.R
 import com.alejandrapazrivas.juego10000.domain.model.Dice
+import com.alejandrapazrivas.juego10000.ui.common.theme.GoldColor
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 import com.alejandrapazrivas.juego10000.ui.common.theme.Primary
 import com.alejandrapazrivas.juego10000.ui.common.theme.Secondary
-
-private val AccentColor = Color(0xFFFFD700) // Dorado
 
 /**
  * Componente visual para un dado individual con animaciones y estados visuales.
@@ -258,7 +257,7 @@ private fun getDiceBackgroundBrush(dice: Dice): Brush {
         dice.isSelected -> Brush.linearGradient(
             colors = listOf(
                 Secondary.copy(alpha = 0.15f),
-                AccentColor.copy(alpha = 0.2f)
+                GoldColor.copy(alpha = 0.2f)
             )
         )
         else -> Brush.linearGradient(
