@@ -47,7 +47,9 @@ fun LanguageCard(
     val languageOptions = listOf(
         UserPreferencesManager.LANGUAGE_SYSTEM to stringResource(R.string.language_system),
         UserPreferencesManager.LANGUAGE_SPANISH to stringResource(R.string.language_spanish),
-        UserPreferencesManager.LANGUAGE_ENGLISH to stringResource(R.string.language_english)
+        UserPreferencesManager.LANGUAGE_ENGLISH to stringResource(R.string.language_english),
+        UserPreferencesManager.LANGUAGE_CATALAN to stringResource(R.string.language_catalan),
+        UserPreferencesManager.LANGUAGE_FRENCH to stringResource(R.string.language_french)
     )
 
     val currentLanguageName = languageOptions.find { it.first == currentLanguage }?.second

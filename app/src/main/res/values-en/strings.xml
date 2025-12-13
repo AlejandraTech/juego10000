@@ -242,6 +242,8 @@
     <string name="select_language">Select language</string>
     <string name="language_spanish">Spanish</string>
     <string name="language_english">English</string>
+    <string name="language_catalan">Catalan</string>
+    <string name="language_french">French</string>
     <string name="language_system">System default</string>
     <string name="restart_required">Restart required to apply changes</string>
 

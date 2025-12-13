@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ==================== -->
+    <!-- COMUNS / GENERALS    -->
+    <!-- ==================== -->
+
+    <!-- Nom de l'aplicació -->
+    <string name="app_name">Joc 10000</string>
+    <string name="version">Versió %1$s</string>
+
+    <!-- Navegació -->
+    <string name="back">Tornar</string>
+    <string name="menu">Menú</string>
+
+    <!-- Accions comunes -->
+    <string name="close_message">Tancar missatge</string>
+    <string name="cancel">Cancel·lar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="delete">Eliminar</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="play">Jugar</string>
+    <string name="points">Punts</string>
+
+    <!-- Formats comuns -->
+    <string name="bullet_point">•</string>
+    <string name="points_format">%1$d pts</string>
+    <string name="number_format">%1$d.</string>
+    <string name="percentage_format">%1$d%%</string>
+    <string name="wins_total_format">%1$d/%2$d</string>
+    <string name="position_format">#%1$d</string>
+
+    <!-- ========================= -->
+    <!-- PANTALLA D'INICI (HOME)   -->
+    <!-- ========================= -->
+
+    <!-- Menú lateral (Drawer) -->
+    <string name="game_section">Joc</string>
+    <string name="settings_section">Configuració</string>
+    <string name="manage_players">Gestionar jugadors</string>
+    <string name="manage_players_description">Afegir, editar o eliminar</string>
+    <string name="statistics">Estadístiques</string>
+    <string name="stats_description">Veure historial i rècords</string>
+    <string name="rules">Regles</string>
+    <string name="rules_title">Regles del Joc</string>
+    <string name="rules_description">Com jugar i puntuacions</string>
+    <string name="settings">Configuració</string>
+    <string name="settings_description">So, vibració i més</string>
+    <string name="no_user">Sense usuari</string>
+    <string name="tap_to_change_profile">Toca per canviar de perfil</string>
+    <string name="change_profile">Canviar perfil</string>
+
+    <!-- Targeta de nova partida -->
+    <string name="new_game">Nova partida</string>
+    <string name="reach_10000_points">Aconsegueix els 10.000 punts!</string>
+    <string name="start_game">Començar partida</string>
+
+    <!-- Estadístiques ràpides -->
+    <string name="your_stats">Les teves Estadístiques</string>
+    <string name="games_played">Partides</string>
+    <string name="games_won">Victòries</string>
+    <string name="win_rate">% Victòria</string>
+    <string name="best_turn">Millor Torn</string>
+    <string name="quick_access">Accessos ràpids</string>
+
+    <!-- Última partida -->
+    <string name="last_game">Última Partida</string>
+    <string name="victory_exclamation">Victòria!</string>
+    <string name="vs_bot">vs Bot</string>
+    <string name="winner_label">Guanyador: %1$s</string>
+
+    <!-- Gràfica de rendiment -->
+    <string name="recent_performance">Rendiment Recent</string>
+    <string name="last_games_count">Últimes %1$d partides</string>
+    <string name="no_data">Sense dades</string>
+    <string name="maximum">Màxim</string>
+    <string name="average">Mitjana</string>
+    <string name="play_games_to_see_performance">Juga partides per veure el teu rendiment</string>
+
+    <!-- ========================== -->
+    <!-- SELECCIÓ D'USUARI          -->
+    <!-- ========================== -->
+    <string name="select_profile">Selecciona el teu perfil</string>
+    <string name="games_count">%1$d partides</string>
+    <string name="new_player">Nou jugador</string>
+    <string name="no_players_title">No hi ha jugadors</string>
+    <string name="no_players_hint">Crea el teu primer perfil per començar a jugar</string>
+
+    <!-- ==================== -->
+    <!-- PANTALLA DE JOC      -->
+    <!-- ==================== -->
+
+    <!-- Informació de ronda i torn -->
+    <string name="round">Ronda %1$d</string>
+    <string name="player_turn">Torn de %1$s</string>
+    <string name="bot_turn">Torn del Bot…</string>
+    <string name="scoreboard">Taula de puntuacions</string>
+
+    <!-- Accions de daus -->
+    <string name="roll_dice">Llançar daus</string>
+    <string name="roll_dice_instruction">Utilitza el botó \'Llançar daus\' per començar</string>
+    <string name="select_dice_to_keep">Selecciona daus per mantenir</string>
+    <string name="cannot_deselect_dice">No pots desseleccionar daus amb puntuació</string>
+
+    <!-- Puntuació -->
+    <string name="current_score">Puntuació Actual</string>
+    <string name="bank_score">Guardar punts</string>
+    <string name="pass_turn">Passar torn</string>
+    <string name="no_score">Sense puntuació! Perds el torn</string>
+    <string name="minimum_points_required">Mín. 500 pts</string>
+    <string name="player_needs_minimum_points">%1$s: Necessites almenys 500 punts per entrar en joc</string>
+    <string name="score_exceeded">Has superat els 10.000 punts! Per guanyar, has d\'obtenir exactament 10.000 punts. Perds el torn i els punts acumulats.</string>
+    <string name="score_target">/ 10.000</string>
+
+    <!-- Indicadors de torn -->
+    <string name="turn_lost_title">Torn perdut!</string>
+    <string name="turn_lost_message">No hi ha daus amb puntuació</string>
+    <string name="points_saved_title">Punts guardats!</string>
+    <string name="score_exceeded_title">Puntuació superada!</string>
+    <string name="score_exceeded_message">Has superat els 10.000 punts</string>
+    <string name="score_exceeded_detail">Observa els daus per veure la teva tirada</string>
+
+    <!-- Accessibilitat de daus -->
+    <string name="dice_content_description">Dau amb valor %1$d</string>
+
+    <!-- Fi de partida -->
+    <string name="end_game">Fi de partida</string>
+
+    <!-- ====================== -->
+    <!-- PANTALLA DE VICTÒRIA   -->
+    <!-- ====================== -->
+    <string name="victory">VICTÒRIA!</string>
+    <string name="trophy">Trofeu</string>
+    <string name="final_score">Puntuació final</string>
+    <string name="back_to_main_menu">Tornar al menú principal</string>
+    <string name="champion_label">CAMPIÓ</string>
+    <string name="points_label">pts</string>
+
+    <!-- ======================== -->
+    <!-- GESTIÓ DE JUGADORS       -->
+    <!-- ======================== -->
+    <string name="add_player">Afegir jugador</string>
+    <string name="edit_player">Editar jugador</string>
+    <string name="delete_player">Eliminar jugador</string>
+    <string name="player_name">Nom del jugador</string>
+    <string name="no_players">No hi ha jugadors registrats.\nAfegeix un jugador per començar.</string>
+    <string name="delete_player_confirmation">Estàs segur que vols eliminar a %1$s? Aquesta acció és permanent i el jugador s\'eliminarà de tots els registres, incloent estadístiques i historial de partides.</string>
+    <string name="add_players_to_start">Afegeix jugadors per començar a jugar</string>
+
+    <!-- ====================== -->
+    <!-- PANTALLA DE REGLES     -->
+    <!-- ====================== -->
+
+    <!-- Capçalera de regles -->
+    <string name="rules_header_title">Regles del Joc 10000</string>
+    <string name="rules_header_subtitle">Aprèn a jugar i domina el joc</string>
+
+    <!-- Seccions principals -->
+    <string name="game_objective">Objectiu del Joc</string>
+    <string name="objective_content">Ser el primer jugador en assolir 10.000 punts per guanyar la partida.</string>
+
+    <string name="game_entry">Entrada en Joc</string>
+    <string name="entry_content">Per començar a acumular punts, cada jugador ha d\'obtenir almenys 500 punts en el seu primer torn. Fins que no s\'aconsegueixi aquesta puntuació, no es registraran punts al marcador.</string>
+
+    <string name="turn_mechanics">Mecànica de Torns</string>
+    <string name="turn_mechanic_1">Cada jugador llança 6 daus en el seu torn.</string>
+    <string name="turn_mechanic_2">Després de cada llançament, ha d\'apartar almenys un dau amb puntuació.</string>
+    <string name="turn_mechanic_3">Pot triar rellançar els daus restants per acumular més punts.</string>
+    <string name="turn_mechanic_4">Si en algun llançament no obté cap dau amb puntuació, perd tots els punts acumulats en aquest torn i passa al següent jugador.</string>
+    <string name="turn_mechanic_5">El jugador pot decidir \'plantar-se\' en qualsevol moment i sumar els punts acumulats al seu total.</string>
+    <string name="turn_mechanic_6">Si utilitza els 6 daus amb puntuació, obté un nou llançament amb tots els daus.</string>
+
+    <string name="strategies">Estratègies</string>
+    <string name="strategy_1">Equilibra el risc: Decideix quan plantar-te i quan seguir llançant.</string>
+    <string name="strategy_2">Prioritza daus d\'alt valor: Els 1 i 5 són valuosos individualment.</string>
+    <string name="strategy_3">Busca combinacions: Tres o més daus iguals atorguen puntuacions altes.</string>
+    <string name="strategy_4">Observa els teus oponents: Ajusta la teva estratègia segons les seves puntuacions.</string>
+
+    <!-- Sistema de puntuació -->
+    <string name="scoring_system">Sistema de Puntuació</string>
+    <string name="individual_dice">Daus Individuals</string>
+    <string name="dice_value">Valor %1$d</string>
+    <string name="dice_description">Dau %1$d</string>
+    <string name="combinations">Combinacions</string>
+    <string name="multipliers">Multiplicadors</string>
+    <string name="three_ones">Tres 1\'s</string>
+    <string name="three_twos">Tres 2\'s</string>
+    <string name="three_threes">Tres 3\'s</string>
+    <string name="three_fours">Tres 4\'s</string>
+    <string name="three_fives">Tres 5\'s</string>
+    <string name="three_sixes">Tres 6\'s</string>
+    <string name="straight">Escala (1-2-3-4-5-6)</string>
+    <string name="three_pairs">Tres parelles</string>
+    <string name="four_of_a_kind_desc">Quatre iguals: Doble del valor de tres iguals</string>
+    <string name="five_of_a_kind_desc">Cinc iguals: Triple del valor de tres iguals</string>
+    <string name="six_of_a_kind_desc">Sis iguals: Quàdruple del valor de tres iguals</string>
+
+    <!-- ========================== -->
+    <!-- PANTALLA D'ESTADÍSTIQUES   -->
+    <!-- ========================== -->
+
+    <!-- Pestanyes -->
+    <string name="tab_players">Jugadors</string>
+    <string name="tab_history">Historial</string>
+    <string name="tab_records">Rècords</string>
+
+    <!-- Contingut -->
+    <string name="game_history">Historial de partides</string>
+    <string name="top_scores">Puntuacions més altes per ronda</string>
+    <string name="highest_score">Màx. puntuació</string>
+    <string name="no_registered_players">No hi ha jugadors registrats</string>
+    <string name="players_count">%1$d jugadors</string>
+    <string name="no_registered_games">No hi ha partides registrades</string>
+    <string name="no_registered_scores">No hi ha puntuacions registrades</string>
+    <string name="game_number">Partida #%1$d</string>
+    <string name="no_winner">Sense guanyador</string>
+    <string name="player_history">Historial de %1$s</string>
+    <string name="games_played_count">Partides: %1$d</string>
+    <string name="victories_count">Victòries: %1$d</string>
+    <string name="round_number">Ronda %1$d</string>
+    <string name="victory_result">Victòria</string>
+    <string name="defeat_result">Derrota</string>
+
+    <!-- ============================ -->
+    <!-- PANTALLA DE CONFIGURACIÓ     -->
+    <!-- ============================ -->
+
+    <!-- Preferències de joc -->
+    <string name="game_preferences">Preferències de Joc</string>
+    <string name="sound_effects">Efectes de so</string>
+    <string name="enable_sound_effects">Activar efectes de so al joc</string>
+    <string name="vibration">Vibració</string>
+    <string name="enable_vibration">Activar vibració en llançar daus</string>
+
+    <!-- Aparença -->
+    <string name="appearance">Aparença</string>
+    <string name="dark_mode">Mode fosc</string>
+    <string name="enable_dark_mode">Canviar a tema fosc</string>
+
+    <!-- Idioma -->
+    <string name="language">Idioma</string>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="language_spanish">Espanyol</string>
+    <string name="language_english">Anglès</string>
+    <string name="language_catalan">Català</string>
+    <string name="language_french">Francès</string>
+    <string name="language_system">Predeterminat del sistema</string>
+    <string name="restart_required">Es requereix reiniciar per aplicar els canvis</string>
+
+    <!-- Legal -->
+    <string name="legal">Legal</string>
+    <string name="privacy_policy">Política de Privacitat</string>
+    <string name="privacy_policy_description">Veure la nostra política de privacitat</string>
+
+    <!-- Crèdits -->
+    <string name="credits">Crèdits</string>
+    <string name="sound_credits">Efectes de So</string>
+    <string name="pixabay_attribution">Sound Effect de Pixabay</string>
+    <string name="sound_attribution_1">Sound Effect by u_ngsgp0r6zb</string>
+    <string name="sound_attribution_2">Sound Effect by u_ss015dykrt</string>
+
+    <!-- ================================ -->
+    <!-- DIÀLEGS                          -->
+    <!-- ================================ -->
+
+    <!-- Diàleg de mode de joc -->
+    <string name="game_mode">Mode de joc</string>
+    <string name="select_game_mode_description">Selecciona el mode de joc per a aquesta partida</string>
+    <string name="multiplayer_mode">Multijugador</string>
+    <string name="multiplayer_description">Juga amb amics al mateix dispositiu.</string>
+    <string name="single_player_mode">Partida Individual</string>
+    <string name="single_player_description">Juga contra un bot intel·ligent.</string>
+
+    <!-- Diàleg de dificultat del bot -->
+    <string name="select_bot_difficulty">Selecciona el nivell del Bot</string>
+    <string name="select_difficulty_description">Selecciona la dificultat del bot per a la partida</string>
+    <string name="bot_name">Bot</string>
+    <string name="bot_beginner">Principiant</string>
+    <string name="beginner_description">Per a jugadors nous o casuals.</string>
+    <string name="bot_intermediate">Intermedi</string>
+    <string name="intermediate_description">Per a jugadors amb experiència.</string>
+    <string name="bot_expert">Expert</string>
+    <string name="expert_description">Per a jugadors avançats.</string>
+
+    <!-- Diàleg de selecció d'oponents -->
+    <string name="select_opponents">Seleccionar Oponents</string>
+    <string name="select_opponents_description">Selecciona entre 1 i 5 oponents per a la partida</string>
+    <string name="opponent_selected">Oponent seleccionat</string>
+    <string name="click_to_select">Fes clic per seleccionar</string>
+
+    <!-- ================================ -->
+    <!-- MISSATGES I NOTIFICACIONS        -->
+    <!-- ================================ -->
+    <string name="confirm_exit_game">Estàs segur que vols sortir? La partida actual es perdrà.</string>
+
+    <!-- Missatges de Home -->
+    <string name="no_user_selected_error">No hi ha usuari seleccionat. Selecciona un perfil primer.</string>
+    <string name="no_other_players_error">No hi ha altres jugadors disponibles. Crea més jugadors primer.</string>
+    <string name="select_at_least_one_opponent">Selecciona almenys un oponent</string>
+    <string name="max_opponents_allowed">Màxim 5 oponents permesos</string>
+
+    <!-- Missatges d'estat del joc -->
+    <string name="invalid_game_id">ID de joc invàlid</string>
+    <string name="loading_game">Carregant joc…</string>
+    <string name="game_not_found">No s\'ha trobat el joc</string>
+    <string name="error_loading_game">Error en carregar el joc: %1$s</string>
+
+    <!-- Missatges de victòria -->
+    <string name="player_won_with_score">%1$s ha guanyat amb %2$d punts!</string>
+    <string name="bot_won_with_score">Bot ha guanyat amb %1$d punts!</string>
+
+    <!-- Missatges del bot -->
+    <string name="bot_exceeded_score">Bot ha superat els 10.000 punts! Perd el torn i els punts acumulats.</string>
+    <string name="bot_saved_points">Bot ha guardat %1$d punts</string>
+    <string name="bot_lost_turn">Bot ha perdut el torn!</string>
+    <string name="error_bot_turn">Error en el torn del Bot</string>
+
+    <!-- Missatges de daus -->
+    <string name="invalid_selection">Selecció no vàlida</string>
+    <string name="error_creating_dice">Error en crear daus. Torna-ho a intentar.</string>
+    <string name="error_rolling_dice">Error en llançar daus: %1$s</string>
+    <string name="all_dice_score_full">Tots els daus puntuen! Pots llançar de nou amb tots els daus. Puntuació acumulada: %1$d</string>
+    <string name="all_available_dice_score">Tots els daus disponibles puntuen! Pots llançar de nou. Puntuació acumulada: %1$d</string>
+
+    <!-- Missatges de puntuació -->
+    <string name="player_saved_points">%1$s ha guardat %2$d punts</string>
+    <string name="error_completing_game">Error en completar el joc: %1$s</string>
+    <string name="error_saving_score">Error en guardar puntuació: %1$s</string>
+    <string name="error_changing_player">Error en canviar de jugador: %1$s</string>
+    <string name="score_exceeded_lose_turn">Has superat els 10.000 punts! Perds el torn i els punts acumulats.</string>
+    <string name="score_exceeded_click_pass">Has superat els 10.000 punts! Fes clic a \'Passar Torn\'.</string>
+</resources>

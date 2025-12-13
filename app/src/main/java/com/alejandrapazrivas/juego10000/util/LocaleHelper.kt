@@ -14,12 +14,14 @@ object LocaleHelper {
 
     /**
      * Aplica el idioma guardado en las preferencias
-     * @param languageCode Código del idioma ("es", "en", "system")
+     * @param languageCode Código del idioma ("es", "en", "ca", "fr", "system")
      */
     fun setLocale(languageCode: String) {
         val localeList = when (languageCode) {
             UserPreferencesManager.LANGUAGE_SPANISH -> LocaleListCompat.forLanguageTags("es")
             UserPreferencesManager.LANGUAGE_ENGLISH -> LocaleListCompat.forLanguageTags("en")
+            UserPreferencesManager.LANGUAGE_CATALAN -> LocaleListCompat.forLanguageTags("ca")
+            UserPreferencesManager.LANGUAGE_FRENCH -> LocaleListCompat.forLanguageTags("fr")
             else -> LocaleListCompat.getEmptyLocaleList() // System default
         }
         AppCompatDelegate.setApplicationLocales(localeList)

@@ -43,6 +43,8 @@ class UserPreferencesManager @Inject constructor(
         const val LANGUAGE_SYSTEM = "system"
         const val LANGUAGE_SPANISH = "es"
         const val LANGUAGE_ENGLISH = "en"
+        const val LANGUAGE_CATALAN = "ca"
+        const val LANGUAGE_FRENCH = "fr"
     }
 
     /**

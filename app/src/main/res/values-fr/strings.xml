@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ==================== -->
+    <!-- COMMUNS / GÉNÉRAUX   -->
+    <!-- ==================== -->
+
+    <!-- Nom de l'application -->
+    <string name="app_name">Jeu 10000</string>
+    <string name="version">Version %1$s</string>
+
+    <!-- Navigation -->
+    <string name="back">Retour</string>
+    <string name="menu">Menu</string>
+
+    <!-- Actions communes -->
+    <string name="close_message">Fermer le message</string>
+    <string name="cancel">Annuler</string>
+    <string name="confirm">Confirmer</string>
+    <string name="delete">Supprimer</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="play">Jouer</string>
+    <string name="points">Points</string>
+
+    <!-- Formats communs -->
+    <string name="bullet_point">•</string>
+    <string name="points_format">%1$d pts</string>
+    <string name="number_format">%1$d.</string>
+    <string name="percentage_format">%1$d%%</string>
+    <string name="wins_total_format">%1$d/%2$d</string>
+    <string name="position_format">#%1$d</string>
+
+    <!-- ========================= -->
+    <!-- ÉCRAN D'ACCUEIL (HOME)    -->
+    <!-- ========================= -->
+
+    <!-- Menu latéral (Drawer) -->
+    <string name="game_section">Jeu</string>
+    <string name="settings_section">Paramètres</string>
+    <string name="manage_players">Gérer les joueurs</string>
+    <string name="manage_players_description">Ajouter, modifier ou supprimer</string>
+    <string name="statistics">Statistiques</string>
+    <string name="stats_description">Voir l\'historique et les records</string>
+    <string name="rules">Règles</string>
+    <string name="rules_title">Règles du Jeu</string>
+    <string name="rules_description">Comment jouer et scores</string>
+    <string name="settings">Configuration</string>
+    <string name="settings_description">Son, vibration et plus</string>
+    <string name="no_user">Aucun utilisateur</string>
+    <string name="tap_to_change_profile">Appuyez pour changer de profil</string>
+    <string name="change_profile">Changer de profil</string>
+
+    <!-- Carte nouvelle partie -->
+    <string name="new_game">Nouvelle partie</string>
+    <string name="reach_10000_points">Atteignez 10 000 points !</string>
+    <string name="start_game">Commencer la partie</string>
+
+    <!-- Statistiques rapides -->
+    <string name="your_stats">Vos Statistiques</string>
+    <string name="games_played">Parties</string>
+    <string name="games_won">Victoires</string>
+    <string name="win_rate">% Victoire</string>
+    <string name="best_turn">Meilleur Tour</string>
+    <string name="quick_access">Accès rapides</string>
+
+    <!-- Dernière partie -->
+    <string name="last_game">Dernière Partie</string>
+    <string name="victory_exclamation">Victoire !</string>
+    <string name="vs_bot">vs Bot</string>
+    <string name="winner_label">Gagnant : %1$s</string>
+
+    <!-- Graphique de performance -->
+    <string name="recent_performance">Performance Récente</string>
+    <string name="last_games_count">%1$d dernières parties</string>
+    <string name="no_data">Aucune donnée</string>
+    <string name="maximum">Maximum</string>
+    <string name="average">Moyenne</string>
+    <string name="play_games_to_see_performance">Jouez des parties pour voir votre performance</string>
+
+    <!-- ========================== -->
+    <!-- SÉLECTION D'UTILISATEUR    -->
+    <!-- ========================== -->
+    <string name="select_profile">Sélectionnez votre profil</string>
+    <string name="games_count">%1$d parties</string>
+    <string name="new_player">Nouveau joueur</string>
+    <string name="no_players_title">Aucun joueur</string>
+    <string name="no_players_hint">Créez votre premier profil pour commencer à jouer</string>
+
+    <!-- ==================== -->
+    <!-- ÉCRAN DE JEU         -->
+    <!-- ==================== -->
+
+    <!-- Informations de manche et tour -->
+    <string name="round">Manche %1$d</string>
+    <string name="player_turn">Tour de %1$s</string>
+    <string name="bot_turn">Tour du Bot…</string>
+    <string name="scoreboard">Tableau des scores</string>
+
+    <!-- Actions de dés -->
+    <string name="roll_dice">Lancer les dés</string>
+    <string name="roll_dice_instruction">Utilisez le bouton \'Lancer les dés\' pour commencer</string>
+    <string name="select_dice_to_keep">Sélectionnez les dés à garder</string>
+    <string name="cannot_deselect_dice">Vous ne pouvez pas désélectionner les dés avec score</string>
+
+    <!-- Score -->
+    <string name="current_score">Score Actuel</string>
+    <string name="bank_score">Sauvegarder les points</string>
+    <string name="pass_turn">Passer le tour</string>
+    <string name="no_score">Aucun score ! Vous perdez votre tour</string>
+    <string name="minimum_points_required">Min. 500 pts</string>
+    <string name="player_needs_minimum_points">%1$s : Vous avez besoin d\'au moins 500 points pour entrer dans le jeu</string>
+    <string name="score_exceeded">Vous avez dépassé 10 000 points ! Pour gagner, vous devez obtenir exactement 10 000 points. Vous perdez votre tour et les points accumulés.</string>
+    <string name="score_target">/ 10 000</string>
+
+    <!-- Indicateurs de tour -->
+    <string name="turn_lost_title">Tour perdu !</string>
+    <string name="turn_lost_message">Aucun dé avec score</string>
+    <string name="points_saved_title">Points sauvegardés !</string>
+    <string name="score_exceeded_title">Score dépassé !</string>
+    <string name="score_exceeded_message">Vous avez dépassé 10 000 points</string>
+    <string name="score_exceeded_detail">Observez les dés pour voir votre lancer</string>
+
+    <!-- Accessibilité des dés -->
+    <string name="dice_content_description">Dé avec valeur %1$d</string>
+
+    <!-- Fin de partie -->
+    <string name="end_game">Fin de partie</string>
+
+    <!-- ====================== -->
+    <!-- ÉCRAN DE VICTOIRE      -->
+    <!-- ====================== -->
+    <string name="victory">VICTOIRE !</string>
+    <string name="trophy">Trophée</string>
+    <string name="final_score">Score final</string>
+    <string name="back_to_main_menu">Retour au menu principal</string>
+    <string name="champion_label">CHAMPION</string>
+    <string name="points_label">pts</string>
+
+    <!-- ======================== -->
+    <!-- GESTION DES JOUEURS      -->
+    <!-- ======================== -->
+    <string name="add_player">Ajouter un joueur</string>
+    <string name="edit_player">Modifier le joueur</string>
+    <string name="delete_player">Supprimer le joueur</string>
+    <string name="player_name">Nom du joueur</string>
+    <string name="no_players">Aucun joueur enregistré.\nAjoutez un joueur pour commencer.</string>
+    <string name="delete_player_confirmation">Êtes-vous sûr de vouloir supprimer %1$s ? Cette action est permanente et le joueur sera supprimé de tous les registres, y compris les statistiques et l\'historique des parties.</string>
+    <string name="add_players_to_start">Ajoutez des joueurs pour commencer à jouer</string>
+
+    <!-- ====================== -->
+    <!-- ÉCRAN DES RÈGLES       -->
+    <!-- ====================== -->
+
+    <!-- En-tête des règles -->
+    <string name="rules_header_title">Règles du Jeu 10000</string>
+    <string name="rules_header_subtitle">Apprenez à jouer et maîtrisez le jeu</string>
+
+    <!-- Sections principales -->
+    <string name="game_objective">Objectif du Jeu</string>
+    <string name="objective_content">Être le premier joueur à atteindre 10 000 points pour gagner la partie.</string>
+
+    <string name="game_entry">Entrée en Jeu</string>
+    <string name="entry_content">Pour commencer à accumuler des points, chaque joueur doit obtenir au moins 500 points lors de son premier tour. Tant que ce score n\'est pas atteint, les points ne seront pas enregistrés au tableau.</string>
+
+    <string name="turn_mechanics">Mécanique des Tours</string>
+    <string name="turn_mechanic_1">Chaque joueur lance 6 dés à son tour.</string>
+    <string name="turn_mechanic_2">Après chaque lancer, vous devez mettre de côté au moins un dé avec score.</string>
+    <string name="turn_mechanic_3">Vous pouvez choisir de relancer les dés restants pour accumuler plus de points.</string>
+    <string name="turn_mechanic_4">Si lors d\'un lancer vous n\'obtenez aucun dé avec score, vous perdez tous les points accumulés ce tour et passez au joueur suivant.</string>
+    <string name="turn_mechanic_5">Le joueur peut décider de \'s\'arrêter\' à tout moment et ajouter les points accumulés à son total.</string>
+    <string name="turn_mechanic_6">Si vous utilisez les 6 dés avec score, vous obtenez un nouveau lancer avec tous les dés.</string>
+
+    <string name="strategies">Stratégies</string>
+    <string name="strategy_1">Équilibrez le risque : Décidez quand vous arrêter et quand continuer à lancer.</string>
+    <string name="strategy_2">Priorisez les dés de haute valeur : Les 1 et 5 sont précieux individuellement.</string>
+    <string name="strategy_3">Cherchez les combinaisons : Trois dés identiques ou plus donnent des scores élevés.</string>
+    <string name="strategy_4">Observez vos adversaires : Ajustez votre stratégie selon leurs scores.</string>
+
+    <!-- Système de score -->
+    <string name="scoring_system">Système de Score</string>
+    <string name="individual_dice">Dés Individuels</string>
+    <string name="dice_value">Valeur %1$d</string>
+    <string name="dice_description">Dé %1$d</string>
+    <string name="combinations">Combinaisons</string>
+    <string name="multipliers">Multiplicateurs</string>
+    <string name="three_ones">Trois 1</string>
+    <string name="three_twos">Trois 2</string>
+    <string name="three_threes">Trois 3</string>
+    <string name="three_fours">Trois 4</string>
+    <string name="three_fives">Trois 5</string>
+    <string name="three_sixes">Trois 6</string>
+    <string name="straight">Suite (1-2-3-4-5-6)</string>
+    <string name="three_pairs">Trois paires</string>
+    <string name="four_of_a_kind_desc">Quatre identiques : Double de la valeur de trois identiques</string>
+    <string name="five_of_a_kind_desc">Cinq identiques : Triple de la valeur de trois identiques</string>
+    <string name="six_of_a_kind_desc">Six identiques : Quadruple de la valeur de trois identiques</string>
+
+    <!-- ========================== -->
+    <!-- ÉCRAN DES STATISTIQUES     -->
+    <!-- ========================== -->
+
+    <!-- Onglets -->
+    <string name="tab_players">Joueurs</string>
+    <string name="tab_history">Historique</string>
+    <string name="tab_records">Records</string>
+
+    <!-- Contenu -->
+    <string name="game_history">Historique des parties</string>
+    <string name="top_scores">Scores les plus élevés par manche</string>
+    <string name="highest_score">Score max.</string>
+    <string name="no_registered_players">Aucun joueur enregistré</string>
+    <string name="players_count">%1$d joueurs</string>
+    <string name="no_registered_games">Aucune partie enregistrée</string>
+    <string name="no_registered_scores">Aucun score enregistré</string>
+    <string name="game_number">Partie #%1$d</string>
+    <string name="no_winner">Aucun gagnant</string>
+    <string name="player_history">Historique de %1$s</string>
+    <string name="games_played_count">Parties : %1$d</string>
+    <string name="victories_count">Victoires : %1$d</string>
+    <string name="round_number">Manche %1$d</string>
+    <string name="victory_result">Victoire</string>
+    <string name="defeat_result">Défaite</string>
+
+    <!-- ============================ -->
+    <!-- ÉCRAN DE CONFIGURATION       -->
+    <!-- ============================ -->
+
+    <!-- Préférences de jeu -->
+    <string name="game_preferences">Préférences de Jeu</string>
+    <string name="sound_effects">Effets sonores</string>
+    <string name="enable_sound_effects">Activer les effets sonores dans le jeu</string>
+    <string name="vibration">Vibration</string>
+    <string name="enable_vibration">Activer la vibration lors du lancer de dés</string>
+
+    <!-- Apparence -->
+    <string name="appearance">Apparence</string>
+    <string name="dark_mode">Mode sombre</string>
+    <string name="enable_dark_mode">Passer au thème sombre</string>
+
+    <!-- Langue -->
+    <string name="language">Langue</string>
+    <string name="select_language">Sélectionner la langue</string>
+    <string name="language_spanish">Espagnol</string>
+    <string name="language_english">Anglais</string>
+    <string name="language_catalan">Catalan</string>
+    <string name="language_french">Français</string>
+    <string name="language_system">Par défaut du système</string>
+    <string name="restart_required">Redémarrage requis pour appliquer les changements</string>
+
+    <!-- Juridique -->
+    <string name="legal">Juridique</string>
+    <string name="privacy_policy">Politique de Confidentialité</string>
+    <string name="privacy_policy_description">Voir notre politique de confidentialité</string>
+
+    <!-- Crédits -->
+    <string name="credits">Crédits</string>
+    <string name="sound_credits">Effets Sonores</string>
+    <string name="pixabay_attribution">Sound Effect de Pixabay</string>
+    <string name="sound_attribution_1">Sound Effect by u_ngsgp0r6zb</string>
+    <string name="sound_attribution_2">Sound Effect by u_ss015dykrt</string>
+
+    <!-- ================================ -->
+    <!-- DIALOGUES                        -->
+    <!-- ================================ -->
+
+    <!-- Dialogue mode de jeu -->
+    <string name="game_mode">Mode de jeu</string>
+    <string name="select_game_mode_description">Sélectionnez le mode de jeu pour cette partie</string>
+    <string name="multiplayer_mode">Multijoueur</string>
+    <string name="multiplayer_description">Jouez avec des amis sur le même appareil.</string>
+    <string name="single_player_mode">Partie Solo</string>
+    <string name="single_player_description">Jouez contre un bot intelligent.</string>
+
+    <!-- Dialogue difficulté du bot -->
+    <string name="select_bot_difficulty">Sélectionnez le niveau du Bot</string>
+    <string name="select_difficulty_description">Sélectionnez la difficulté du bot pour la partie</string>
+    <string name="bot_name">Bot</string>
+    <string name="bot_beginner">Débutant</string>
+    <string name="beginner_description">Pour les nouveaux joueurs ou occasionnels.</string>
+    <string name="bot_intermediate">Intermédiaire</string>
+    <string name="intermediate_description">Pour les joueurs expérimentés.</string>
+    <string name="bot_expert">Expert</string>
+    <string name="expert_description">Pour les joueurs avancés.</string>
+
+    <!-- Dialogue sélection d'adversaires -->
+    <string name="select_opponents">Sélectionner les Adversaires</string>
+    <string name="select_opponents_description">Sélectionnez entre 1 et 5 adversaires pour la partie</string>
+    <string name="opponent_selected">Adversaire sélectionné</string>
+    <string name="click_to_select">Cliquez pour sélectionner</string>
+
+    <!-- ================================ -->
+    <!-- MESSAGES ET NOTIFICATIONS        -->
+    <!-- ================================ -->
+    <string name="confirm_exit_game">Êtes-vous sûr de vouloir quitter ? La partie en cours sera perdue.</string>
+
+    <!-- Messages d'accueil -->
+    <string name="no_user_selected_error">Aucun utilisateur sélectionné. Sélectionnez d\'abord un profil.</string>
+    <string name="no_other_players_error">Aucun autre joueur disponible. Créez d\'abord plus de joueurs.</string>
+    <string name="select_at_least_one_opponent">Sélectionnez au moins un adversaire</string>
+    <string name="max_opponents_allowed">Maximum 5 adversaires autorisés</string>
+
+    <!-- Messages d'état du jeu -->
+    <string name="invalid_game_id">ID de jeu invalide</string>
+    <string name="loading_game">Chargement du jeu…</string>
+    <string name="game_not_found">Jeu non trouvé</string>
+    <string name="error_loading_game">Erreur lors du chargement du jeu : %1$s</string>
+
+    <!-- Messages de victoire -->
+    <string name="player_won_with_score">%1$s a gagné avec %2$d points !</string>
+    <string name="bot_won_with_score">Le Bot a gagné avec %1$d points !</string>
+
+    <!-- Messages du bot -->
+    <string name="bot_exceeded_score">Le Bot a dépassé 10 000 points ! Il perd son tour et les points accumulés.</string>
+    <string name="bot_saved_points">Le Bot a sauvegardé %1$d points</string>
+    <string name="bot_lost_turn">Le Bot a perdu son tour !</string>
+    <string name="error_bot_turn">Erreur lors du tour du Bot</string>
+
+    <!-- Messages de dés -->
+    <string name="invalid_selection">Sélection invalide</string>
+    <string name="error_creating_dice">Erreur lors de la création des dés. Réessayez.</string>
+    <string name="error_rolling_dice">Erreur lors du lancer de dés : %1$s</string>
+    <string name="all_dice_score_full">Tous les dés marquent ! Vous pouvez relancer avec tous les dés. Score accumulé : %1$d</string>
+    <string name="all_available_dice_score">Tous les dés disponibles marquent ! Vous pouvez relancer. Score accumulé : %1$d</string>
+
+    <!-- Messages de score -->
+    <string name="player_saved_points">%1$s a sauvegardé %2$d points</string>
+    <string name="error_completing_game">Erreur lors de la fin du jeu : %1$s</string>
+    <string name="error_saving_score">Erreur lors de la sauvegarde du score : %1$s</string>
+    <string name="error_changing_player">Erreur lors du changement de joueur : %1$s</string>
+    <string name="score_exceeded_lose_turn">Vous avez dépassé 10 000 points ! Vous perdez votre tour et les points accumulés.</string>
+    <string name="score_exceeded_click_pass">Vous avez dépassé 10 000 points ! Cliquez sur \'Passer le Tour\'.</string>
+</resources>
