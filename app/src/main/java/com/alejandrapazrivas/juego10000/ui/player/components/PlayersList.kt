@@ -20,18 +20,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
+import com.alejandrapazrivas.juego10000.ui.player.model.PlayerWithBestTurn
 import kotlinx.coroutines.delay
 
 /**
  * Componente que muestra una lista de jugadores.
- * 
- * @param players Lista de jugadores a mostrar
+ *
+ * @param playersWithBestTurn Lista de jugadores con su mejor puntuación de turno
  * @param onEditPlayer Callback para editar un jugador
  * @param onDeletePlayer Callback para eliminar un jugador
  */
 @Composable
 fun PlayersList(
-    players: List<Player>,
+    playersWithBestTurn: List<PlayerWithBestTurn>,
     onEditPlayer: (Player) -> Unit,
     onDeletePlayer: (Player) -> Unit
 ) {
@@ -44,9 +45,9 @@ fun PlayersList(
         verticalArrangement = Arrangement.spacedBy(dimensions.spaceSmall + dimensions.spaceExtraSmall)
     ) {
         itemsIndexed(
-            items = players,
-            key = { _, player -> player.id }
-        ) { index, player ->
+            items = playersWithBestTurn,
+            key = { _, playerWithBestTurn -> playerWithBestTurn.player.id }
+        ) { index, playerWithBestTurn ->
             var visible by remember { mutableStateOf(false) }
 
             LaunchedEffect(Unit) {
@@ -56,9 +57,10 @@ fun PlayersList(
 
             AnimatedPlayerCard(
                 visible = visible,
-                player = player,
-                onEditPlayer = { onEditPlayer(player) },
-                onDeletePlayer = { onDeletePlayer(player) }
+                player = playerWithBestTurn.player,
+                bestTurnScore = playerWithBestTurn.bestTurnScore,
+                onEditPlayer = { onEditPlayer(playerWithBestTurn.player) },
+                onDeletePlayer = { onDeletePlayer(playerWithBestTurn.player) }
             )
         }
 
@@ -75,6 +77,7 @@ fun PlayersList(
 private fun AnimatedPlayerCard(
     visible: Boolean,
     player: Player,
+    bestTurnScore: Int,
     onEditPlayer: () -> Unit,
     onDeletePlayer: () -> Unit
 ) {
@@ -88,6 +91,7 @@ private fun AnimatedPlayerCard(
     ) {
         PlayerCard(
             player = player,
+            bestTurnScore = bestTurnScore,
             onEditPlayer = onEditPlayer,
             onDeletePlayer = onDeletePlayer
         )

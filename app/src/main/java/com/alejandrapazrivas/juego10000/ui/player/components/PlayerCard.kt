@@ -41,6 +41,7 @@ import com.alejandrapazrivas.juego10000.ui.common.theme.LocalDimensions
 @Composable
 fun PlayerCard(
     player: Player,
+    bestTurnScore: Int,
     onEditPlayer: () -> Unit,
     onDeletePlayer: () -> Unit
 ) {
@@ -80,7 +81,7 @@ fun PlayerCard(
 
             Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
-            PlayerStatsRow(player = player)
+            PlayerStatsRow(player = player, bestTurnScore = bestTurnScore)
         }
     }
 }
@@ -174,7 +175,7 @@ private fun ActionButton(
 }
 
 @Composable
-private fun PlayerStatsRow(player: Player) {
+private fun PlayerStatsRow(player: Player, bestTurnScore: Int) {
     val dimensions = LocalDimensions.current
 
     Row(
@@ -202,7 +203,7 @@ private fun PlayerStatsRow(player: Player) {
         IconStatCard(
             icon = R.drawable.ic_stats,
             label = stringResource(id = R.string.highest_score),
-            value = player.highestScore.toString(),
+            value = bestTurnScore.toString(),
             modifier = Modifier.weight(1f)
         )
     }

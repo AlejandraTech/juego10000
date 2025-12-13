@@ -31,17 +31,18 @@ import com.alejandrapazrivas.juego10000.ui.player.components.PlayerTopAppBar
 import com.alejandrapazrivas.juego10000.ui.player.components.PlayersList
 import com.alejandrapazrivas.juego10000.ui.player.model.PlayerDialogState
 import com.alejandrapazrivas.juego10000.ui.player.model.PlayerUiState
+import com.alejandrapazrivas.juego10000.ui.player.model.PlayerWithBestTurn
 
 @Composable
 fun PlayerScreen(
     navController: NavController,
     viewModel: PlayerViewModel = hiltViewModel()
 ) {
-    val players by viewModel.players.collectAsState(initial = emptyList())
+    val playersWithBestTurn by viewModel.playersWithBestTurn.collectAsState(initial = emptyList())
     var uiState by remember { mutableStateOf(PlayerUiState()) }
 
     PlayerScreenContent(
-        players = players,
+        playersWithBestTurn = playersWithBestTurn,
         uiState = uiState,
         onBackClick = { navController.popBackStack() },
         onAddClick = { uiState = PlayerUiState(dialogState = PlayerDialogState.Add) },
@@ -73,7 +74,7 @@ fun PlayerScreen(
 
 @Composable
 private fun PlayerScreenContent(
-    players: List<com.alejandrapazrivas.juego10000.domain.model.Player>,
+    playersWithBestTurn: List<PlayerWithBestTurn>,
     uiState: PlayerUiState,
     onBackClick: () -> Unit,
     onAddClick: () -> Unit,
@@ -111,11 +112,11 @@ private fun PlayerScreenContent(
         ) {
             Box(modifier = Modifier.weight(1f)) {
                 AnimatedContentWrapper {
-                    if (players.isEmpty()) {
+                    if (playersWithBestTurn.isEmpty()) {
                         EmptyPlayersList(onAddPlayer = onAddClick)
                     } else {
                         PlayersList(
-                            players = players,
+                            playersWithBestTurn = playersWithBestTurn,
                             onEditPlayer = onEditPlayer,
                             onDeletePlayer = onDeletePlayer
                         )

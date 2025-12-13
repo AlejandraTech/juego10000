@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alejandrapazrivas.juego10000.domain.model.Player
 import com.alejandrapazrivas.juego10000.domain.repository.PlayerRepository
+import com.alejandrapazrivas.juego10000.ui.player.model.PlayerWithBestTurn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,8 +20,11 @@ class PlayerViewModel @Inject constructor(
         private const val BOT_PLAYER_NAME = "Bot"
     }
 
-    val players: Flow<List<Player>> = playerRepository.getAllActivePlayers().map { players ->
-        players.filter { it.name != BOT_PLAYER_NAME }
+    val playersWithBestTurn: Flow<List<PlayerWithBestTurn>> = playerRepository.getAllActivePlayers().map { players ->
+        players.filter { it.name != BOT_PLAYER_NAME }.map { player ->
+            val bestTurnScore = playerRepository.getPlayerBestTurnScore(player.id)
+            PlayerWithBestTurn(player = player, bestTurnScore = bestTurnScore)
+        }
     }
 
     fun createPlayer(name: String) {
