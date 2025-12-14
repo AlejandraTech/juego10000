@@ -46,7 +46,7 @@ fun UserGreetingHeader(
         Spacer(modifier = Modifier.height(dimensions.spaceSmall))
 
         Text(
-            text = if (userName.isNotEmpty()) "¡Hola, $userName!" else stringResource(R.string.app_name),
+            text = if (userName.isNotEmpty()) stringResource(R.string.greeting_user, userName) else stringResource(R.string.app_name),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground

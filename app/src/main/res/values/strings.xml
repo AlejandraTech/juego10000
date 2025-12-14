@@ -47,6 +47,7 @@
     <string name="settings">Configuración</string>
     <string name="settings_description">Sonido, vibración y más</string>
     <string name="no_user">Sin usuario</string>
+    <string name="greeting_user">¡Hola, %1$s!</string>
     <string name="tap_to_change_profile">Toca para cambiar de perfil</string>
     <string name="change_profile">Cambiar perfil</string>
 

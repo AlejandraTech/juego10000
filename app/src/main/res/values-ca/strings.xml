@@ -47,6 +47,7 @@
     <string name="settings">Configuració</string>
     <string name="settings_description">So, vibració i més</string>
     <string name="no_user">Sense usuari</string>
+    <string name="greeting_user">Hola, %1$s!</string>
     <string name="tap_to_change_profile">Toca per canviar de perfil</string>
     <string name="change_profile">Canviar perfil</string>
 
