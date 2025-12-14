@@ -5,7 +5,7 @@
     <!-- ==================== -->
 
     <!-- Nombre de la aplicación -->
-    <string name="app_name">Juego 10000</string>
+    <string name="app_name">Rokub 10000</string>
     <string name="version">Versión %1$s</string>
 
     <!-- Navegación -->
@@ -152,7 +152,7 @@
     <!-- ====================== -->
 
     <!-- Encabezado de reglas -->
-    <string name="rules_header_title">Reglas del Juego 10000</string>
+    <string name="rules_header_title">Reglas del Rokub 10000</string>
     <string name="rules_header_subtitle">Aprende a jugar y dominar el juego</string>
 
     <!-- Secciones principales -->

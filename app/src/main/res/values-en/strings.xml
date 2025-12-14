@@ -5,7 +5,7 @@
     <!-- ==================== -->
 
     <!-- App name -->
-    <string name="app_name">Game 10000</string>
+    <string name="app_name">Rokub 10000</string>
     <string name="version">Version %1$s</string>
 
     <!-- Navigation -->
@@ -152,7 +152,7 @@
     <!-- ====================== -->
 
     <!-- Rules header -->
-    <string name="rules_header_title">Game 10000 Rules</string>
+    <string name="rules_header_title">Rokub 10000 Rules</string>
     <string name="rules_header_subtitle">Learn to play and master the game</string>
 
     <!-- Main sections -->
