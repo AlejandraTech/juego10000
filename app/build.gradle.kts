@@ -16,17 +16,17 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.bigotitech.juego10000"
+    namespace = "com.bigotitech.rokub10000"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.bigotitech.juego10000"
+        applicationId = "com.bigotitech.rokub10000"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.bigotitech.juego10000.HiltTestRunner"
+        testInstrumentationRunner = "com.bigotitech.rokub10000.HiltTestRunner"
 
         // AdMob IDs desde local.properties
         buildConfigField("String", "ADMOB_APP_ID", "\"${localProperties.getProperty("ADMOB_APP_ID", "")}\"")
