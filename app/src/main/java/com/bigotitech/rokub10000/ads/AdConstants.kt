@@ -22,5 +22,5 @@ object AdConstants {
     const val BANNER_HEIGHT_DP = 50
 
     // Privacy Policy URL
-    const val PRIVACY_POLICY_URL = "https://bigotitech.github.io/juego10000-privacy/"
+    const val PRIVACY_POLICY_URL = "https://bigotitech.github.io/rokub10000-privacy/"
 }

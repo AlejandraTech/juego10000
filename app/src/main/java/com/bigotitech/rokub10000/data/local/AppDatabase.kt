@@ -48,7 +48,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun scoreDao(): ScoreDao
 
     companion object {
-        private const val DATABASE_NAME = "juego10000.db"
+        private const val DATABASE_NAME = "rokub10000.db"
 
         @Volatile
         private var INSTANCE: AppDatabase? = null
