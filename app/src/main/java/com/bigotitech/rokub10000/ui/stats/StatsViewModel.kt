@@ -2,6 +2,7 @@ package com.bigotitech.rokub10000.ui.stats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bigotitech.rokub10000.data.preferences.UserPreferencesManager
 import com.bigotitech.rokub10000.domain.model.Game
 import com.bigotitech.rokub10000.domain.model.Player
 import com.bigotitech.rokub10000.domain.repository.ScoreRepository
@@ -10,9 +11,13 @@ import com.bigotitech.rokub10000.domain.usecase.GetPlayersUseCase
 import com.bigotitech.rokub10000.ui.stats.model.PlayerStats
 import com.bigotitech.rokub10000.ui.stats.model.ScoreWithPlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +29,8 @@ import javax.inject.Inject
 class StatsViewModel @Inject constructor(
     private val scoreRepository: ScoreRepository,
     private val getPlayersUseCase: GetPlayersUseCase,
-    private val getGameHistoryUseCase: GetGameHistoryUseCase
+    private val getGameHistoryUseCase: GetGameHistoryUseCase,
+    private val userPreferencesManager: UserPreferencesManager
 ) : ViewModel() {
 
     // Estadísticas de jugadores
@@ -64,11 +70,30 @@ class StatsViewModel @Inject constructor(
     }
 
     /**
-     * Carga el historial de todas las partidas
+     * Carga el historial de partidas del usuario seleccionado
      */
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadGameHistory() {
         viewModelScope.launch {
-            getGameHistoryUseCase().collect { history ->
+            val playersFlow = getPlayersUseCase()
+            val currentUserIdFlow = userPreferencesManager.selectedUserId
+
+            combine(currentUserIdFlow, playersFlow) { currentUserId, players ->
+                Pair(currentUserId, players)
+            }.flatMapLatest { (currentUserId, players) ->
+                if (currentUserId > 0) {
+                    getGameHistoryUseCase.getPlayerGameHistory(currentUserId).combine(flowOf(players)) { games, playerList ->
+                        games.map { game ->
+                            val winner = game.winnerPlayerId?.let { winnerId ->
+                                playerList.find { it.id == winnerId }
+                            }
+                            Pair(game, winner)
+                        }
+                    }
+                } else {
+                    flowOf(emptyList())
+                }
+            }.collect { history ->
                 _gameHistory.value = history
             }
         }
