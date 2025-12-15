@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -32,6 +33,8 @@ class UserPreferencesManager @Inject constructor(
     private object PreferencesKeys {
         val SOUND_ENABLED = booleanPreferencesKey("sound_enabled")
         val VIBRATION_ENABLED = booleanPreferencesKey("vibration_enabled")
+        val MUSIC_ENABLED = booleanPreferencesKey("music_enabled")
+        val MUSIC_VOLUME = floatPreferencesKey("music_volume")
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val LAST_ACTIVE_GAME = longPreferencesKey("last_active_game")
         val BOT_DIFFICULTY = stringPreferencesKey("bot_difficulty")
@@ -75,6 +78,15 @@ class UserPreferencesManager @Inject constructor(
     }
 
     /**
+     * Método genérico para obtener un valor Float de las preferencias
+     */
+    private fun getFloatPreference(key: Preferences.Key<Float>, defaultValue: Float): Flow<Float> {
+        return dataStore.data.map { preferences ->
+            preferences[key] ?: defaultValue
+        }
+    }
+
+    /**
      * Método genérico para establecer un valor en las preferencias
      */
     private suspend fun <T> setPreference(key: Preferences.Key<T>, value: T) {
@@ -86,6 +98,8 @@ class UserPreferencesManager @Inject constructor(
     // Propiedades públicas para acceder a las preferencias
     val soundEnabled: Flow<Boolean> = getBooleanPreference(PreferencesKeys.SOUND_ENABLED, true)
     val vibrationEnabled: Flow<Boolean> = getBooleanPreference(PreferencesKeys.VIBRATION_ENABLED, true)
+    val musicEnabled: Flow<Boolean> = getBooleanPreference(PreferencesKeys.MUSIC_ENABLED, true)
+    val musicVolume: Flow<Float> = getFloatPreference(PreferencesKeys.MUSIC_VOLUME, 0.5f)
     val darkMode: Flow<Boolean> = getBooleanPreference(PreferencesKeys.DARK_MODE, false)
     val lastActiveGame: Flow<Long> = getLongPreference(PreferencesKeys.LAST_ACTIVE_GAME, 0L)
     val botDifficulty: Flow<String?> = getStringPreference(PreferencesKeys.BOT_DIFFICULTY)
@@ -98,8 +112,14 @@ class UserPreferencesManager @Inject constructor(
     suspend fun setSoundEnabled(enabled: Boolean) = 
         setPreference(PreferencesKeys.SOUND_ENABLED, enabled)
 
-    suspend fun setVibrationEnabled(enabled: Boolean) = 
+    suspend fun setVibrationEnabled(enabled: Boolean) =
         setPreference(PreferencesKeys.VIBRATION_ENABLED, enabled)
+
+    suspend fun setMusicEnabled(enabled: Boolean) =
+        setPreference(PreferencesKeys.MUSIC_ENABLED, enabled)
+
+    suspend fun setMusicVolume(volume: Float) =
+        setPreference(PreferencesKeys.MUSIC_VOLUME, volume.coerceIn(0f, 1f))
 
     suspend fun setDarkMode(enabled: Boolean) = 
         setPreference(PreferencesKeys.DARK_MODE, enabled)

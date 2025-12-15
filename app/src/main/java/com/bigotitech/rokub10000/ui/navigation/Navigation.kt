@@ -1,13 +1,18 @@
 package com.bigotitech.rokub10000.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bigotitech.rokub10000.audio.BackgroundMusicManager
 import com.bigotitech.rokub10000.ui.game.GameScreen
 import com.bigotitech.rokub10000.ui.home.HomeScreen
 import com.bigotitech.rokub10000.ui.player.PlayerScreen
@@ -22,8 +27,39 @@ import com.bigotitech.rokub10000.ui.userselection.UserSelectionScreen
  */
 @Composable
 fun AppNavigation(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    backgroundMusicManager: BackgroundMusicManager? = null
 ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    // Controlar música según la pantalla actual
+    LaunchedEffect(currentRoute) {
+        backgroundMusicManager?.let { musicManager ->
+            val isGameScreen = currentRoute?.startsWith(Screen.Game.route) == true
+
+            if (isGameScreen) {
+                musicManager.pauseMusic()
+            } else if (currentRoute != null && currentRoute != Screen.Splash.route) {
+                musicManager.resumeMusic()
+            }
+        }
+    }
+
+    // Iniciar música cuando salimos del splash
+    LaunchedEffect(currentRoute) {
+        if (currentRoute == Screen.UserSelection.route) {
+            backgroundMusicManager?.startMusic()
+        }
+    }
+
+    // Limpiar recursos al destruir
+    DisposableEffect(Unit) {
+        onDispose {
+            backgroundMusicManager?.stopMusic()
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = Screen.Splash.route

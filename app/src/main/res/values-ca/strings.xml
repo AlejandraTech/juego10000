@@ -232,6 +232,9 @@
     <string name="enable_sound_effects">Activar efectes de so al joc</string>
     <string name="vibration">Vibració</string>
     <string name="enable_vibration">Activar vibració en llançar daus</string>
+    <string name="background_music">Música de fons</string>
+    <string name="enable_background_music">Activar música de fons a l\'aplicació</string>
+    <string name="music_volume">Volum de la música</string>
 
     <!-- Aparença -->
     <string name="appearance">Aparença</string>

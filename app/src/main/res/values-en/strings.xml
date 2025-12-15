@@ -232,6 +232,9 @@
     <string name="enable_sound_effects">Enable sound effects in game</string>
     <string name="vibration">Vibration</string>
     <string name="enable_vibration">Enable vibration when rolling dice</string>
+    <string name="background_music">Background music</string>
+    <string name="enable_background_music">Enable background music in the app</string>
+    <string name="music_volume">Music volume</string>
 
     <!-- Appearance -->
     <string name="appearance">Appearance</string>

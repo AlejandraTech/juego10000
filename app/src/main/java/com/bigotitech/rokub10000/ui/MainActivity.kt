@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.bigotitech.rokub10000.audio.BackgroundMusicManager
 import com.bigotitech.rokub10000.data.preferences.UserPreferencesManager
 import com.bigotitech.rokub10000.ui.common.theme.Juego10000Theme
 import com.bigotitech.rokub10000.ui.navigation.AppNavigation
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var userPreferencesManager: UserPreferencesManager
+
+    @Inject
+    lateinit var backgroundMusicManager: BackgroundMusicManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +41,24 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation()
+                    AppNavigation(backgroundMusicManager = backgroundMusicManager)
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        backgroundMusicManager.pauseMusic()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        backgroundMusicManager.resumeMusic()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        backgroundMusicManager.release()
     }
 }

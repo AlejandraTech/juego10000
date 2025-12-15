@@ -232,6 +232,9 @@
     <string name="enable_sound_effects">Activer les effets sonores dans le jeu</string>
     <string name="vibration">Vibration</string>
     <string name="enable_vibration">Activer la vibration lors du lancer de dés</string>
+    <string name="background_music">Musique de fond</string>
+    <string name="enable_background_music">Activer la musique de fond dans l\'application</string>
+    <string name="music_volume">Volume de la musique</string>
 
     <!-- Apparence -->
     <string name="appearance">Apparence</string>

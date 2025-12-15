@@ -232,6 +232,9 @@
     <string name="enable_sound_effects">Activar efectos de sonido en el juego</string>
     <string name="vibration">Vibración</string>
     <string name="enable_vibration">Activar vibración al lanzar dados</string>
+    <string name="background_music">Música de fondo</string>
+    <string name="enable_background_music">Activar música de fondo en la aplicación</string>
+    <string name="music_volume">Volumen de música</string>
 
     <!-- Apariencia -->
     <string name="appearance">Apariencia</string>

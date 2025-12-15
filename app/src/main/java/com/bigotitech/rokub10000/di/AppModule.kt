@@ -1,6 +1,7 @@
 package com.bigotitech.rokub10000.di
 
 import android.content.Context
+import com.bigotitech.rokub10000.audio.BackgroundMusicManager
 import com.bigotitech.rokub10000.data.preferences.UserPreferencesManager
 import com.google.gson.Gson
 import dagger.Module
@@ -27,7 +28,16 @@ object AppModule {
     ): UserPreferencesManager {
         return UserPreferencesManager(context)
     }
-    
+
+    @Provides
+    @Singleton
+    fun provideBackgroundMusicManager(
+        @ApplicationContext context: Context,
+        userPreferencesManager: UserPreferencesManager
+    ): BackgroundMusicManager {
+        return BackgroundMusicManager(context, userPreferencesManager)
+    }
+
     @Provides
     @Singleton
     fun provideGson(): Gson {

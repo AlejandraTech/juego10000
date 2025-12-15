@@ -29,6 +29,12 @@ class SettingsViewModel @Inject constructor(
     val vibrationEnabled: StateFlow<Boolean> = userPreferencesManager.vibrationEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(flowStopTimeout), true)
 
+    val musicEnabled: StateFlow<Boolean> = userPreferencesManager.musicEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(flowStopTimeout), true)
+
+    val musicVolume: StateFlow<Float> = userPreferencesManager.musicVolume
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(flowStopTimeout), 0.5f)
+
     val darkMode: StateFlow<Boolean> = userPreferencesManager.darkMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(flowStopTimeout), false)
 
@@ -47,6 +53,20 @@ class SettingsViewModel @Inject constructor(
      */
     fun setVibrationEnabled(enabled: Boolean) {
         updatePreference { userPreferencesManager.setVibrationEnabled(enabled) }
+    }
+
+    /**
+     * Actualiza la preferencia de música de fondo
+     */
+    fun setMusicEnabled(enabled: Boolean) {
+        updatePreference { userPreferencesManager.setMusicEnabled(enabled) }
+    }
+
+    /**
+     * Actualiza el volumen de la música de fondo
+     */
+    fun setMusicVolume(volume: Float) {
+        updatePreference { userPreferencesManager.setMusicVolume(volume) }
     }
 
     /**

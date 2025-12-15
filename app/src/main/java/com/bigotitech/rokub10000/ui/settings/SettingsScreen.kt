@@ -29,6 +29,7 @@ import com.bigotitech.rokub10000.ui.common.theme.Juego10000Theme
 import com.bigotitech.rokub10000.ui.common.theme.LocalDimensions
 import com.bigotitech.rokub10000.ui.settings.components.CreditsCard
 import com.bigotitech.rokub10000.ui.settings.components.LanguageCard
+import com.bigotitech.rokub10000.ui.settings.components.MusicSettingsCard
 import com.bigotitech.rokub10000.ui.settings.components.PrivacyPolicyCard
 import com.bigotitech.rokub10000.ui.settings.components.SettingsCard
 import com.bigotitech.rokub10000.ui.settings.components.SettingsTopAppBar
@@ -47,6 +48,8 @@ fun SettingsScreen(
     val dimensions = LocalDimensions.current
     val soundEnabled by viewModel.soundEnabled.collectAsState()
     val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
+    val musicEnabled by viewModel.musicEnabled.collectAsState()
+    val musicVolume by viewModel.musicVolume.collectAsState()
     val darkMode by viewModel.darkMode.collectAsState()
     val language by viewModel.language.collectAsState()
 
@@ -56,10 +59,14 @@ fun SettingsScreen(
         SettingsContent(
             soundEnabled = soundEnabled,
             vibrationEnabled = vibrationEnabled,
+            musicEnabled = musicEnabled,
+            musicVolume = musicVolume,
             darkMode = darkMode,
             language = language,
             onSoundEnabledChange = { viewModel.setSoundEnabled(it) },
             onVibrationEnabledChange = { viewModel.setVibrationEnabled(it) },
+            onMusicEnabledChange = { viewModel.setMusicEnabled(it) },
+            onMusicVolumeChange = { viewModel.setMusicVolume(it) },
             onDarkModeChange = { viewModel.setDarkMode(it) },
             onLanguageChange = { viewModel.setLanguage(it) },
             modifier = Modifier
@@ -77,10 +84,14 @@ fun SettingsScreen(
 private fun SettingsContent(
     soundEnabled: Boolean,
     vibrationEnabled: Boolean,
+    musicEnabled: Boolean,
+    musicVolume: Float,
     darkMode: Boolean,
     language: String,
     onSoundEnabledChange: (Boolean) -> Unit,
     onVibrationEnabledChange: (Boolean) -> Unit,
+    onMusicEnabledChange: (Boolean) -> Unit,
+    onMusicVolumeChange: (Float) -> Unit,
     onDarkModeChange: (Boolean) -> Unit,
     onLanguageChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -113,6 +124,15 @@ private fun SettingsContent(
                 vibrationEnabled = vibrationEnabled,
                 onSoundEnabledChange = onSoundEnabledChange,
                 onVibrationEnabledChange = onVibrationEnabledChange
+            )
+
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+
+            MusicSettingsCard(
+                musicEnabled = musicEnabled,
+                musicVolume = musicVolume,
+                onMusicEnabledChange = onMusicEnabledChange,
+                onMusicVolumeChange = onMusicVolumeChange
             )
 
             Spacer(modifier = Modifier.height(dimensions.spaceMedium))
