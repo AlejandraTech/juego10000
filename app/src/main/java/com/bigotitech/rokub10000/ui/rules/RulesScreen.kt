@@ -66,7 +66,7 @@ private fun RulesScreenContent(
         containerColor = Color.Transparent,
         topBar = { RulesTopAppBar(onBackClick = onBackClick) }
     ) { paddingValues ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
@@ -80,18 +80,29 @@ private fun RulesScreenContent(
                 )
                 .padding(paddingValues)
         ) {
-            RulesContentColumn(uiState = uiState)
+            RulesContentColumn(
+                uiState = uiState,
+                modifier = Modifier.weight(1f)
+            )
+
+            BannerAd(
+                adUnitId = AdConstants.BANNER_RULES,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
 
 @Composable
-private fun RulesContentColumn(uiState: RulesUiState) {
+private fun RulesContentColumn(
+    uiState: RulesUiState,
+    modifier: Modifier = Modifier
+) {
     val dimensions = LocalDimensions.current
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
+            .fillMaxWidth()
             .padding(horizontal = dimensions.spaceMedium)
             .verticalScroll(rememberScrollState())
     ) {
@@ -138,13 +149,6 @@ private fun RulesContentColumn(uiState: RulesUiState) {
         AnimatedRuleSection(visible = uiState.isSectionVisible(RulesSection.STRATEGIES)) {
             StrategiesSection()
         }
-
-        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
-
-        BannerAd(
-            adUnitId = AdConstants.BANNER_RULES,
-            modifier = Modifier.fillMaxWidth()
-        )
 
         Spacer(modifier = Modifier.height(dimensions.spaceLarge))
     }

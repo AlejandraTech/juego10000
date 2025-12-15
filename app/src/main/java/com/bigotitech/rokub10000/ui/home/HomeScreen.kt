@@ -214,41 +214,46 @@ private fun HomeContent(
     val dimensions = LocalDimensions.current
 
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(dimensions.spaceMedium))
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
-        UserGreetingHeader(userName = userName)
+            UserGreetingHeader(userName = userName)
 
-        Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
+            Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
 
-        PlayButton(onPlayClick = onPlayClick)
+            PlayButton(onPlayClick = onPlayClick)
 
-        Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
+            Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
 
-        QuickStatsRow(
-            gamesPlayed = gamesPlayed,
-            wins = wins,
-            winRate = winRate
-        )
+            QuickStatsRow(
+                gamesPlayed = gamesPlayed,
+                wins = wins,
+                winRate = winRate
+            )
 
-        Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
+            Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
 
-        QuickAccessSection(
-            onStatsClick = onStatsClick,
-            onRulesClick = onRulesClick,
-            onPlayersClick = onPlayersClick
-        )
+            QuickAccessSection(
+                onStatsClick = onStatsClick,
+                onRulesClick = onRulesClick,
+                onPlayersClick = onPlayersClick
+            )
 
-        Spacer(modifier = Modifier.height(dimensions.spaceLarge))
+            Spacer(modifier = Modifier.height(dimensions.spaceLarge))
+        }
 
         BannerAd(
             adUnitId = AdConstants.BANNER_HOME,
             modifier = Modifier.fillMaxWidth()
         )
-
-        Spacer(modifier = Modifier.height(dimensions.spaceExtraLarge))
     }
 }
 
