@@ -7,9 +7,11 @@ import com.bigotitech.rokub10000.domain.model.Player
 import com.bigotitech.rokub10000.domain.usecase.GetPlayersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +25,9 @@ class UserSelectionViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(UserSelectionUiState())
     val uiState: StateFlow<UserSelectionUiState> = _uiState.asStateFlow()
+
+    val language: StateFlow<String> = userPreferencesManager.language
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UserPreferencesManager.LANGUAGE_SYSTEM)
 
     init {
         loadPlayersOnStart()
@@ -80,5 +85,11 @@ class UserSelectionViewModel @Inject constructor(
 
     fun onNavigationHandled() {
         _uiState.update { it.copy(navigateToHome = false) }
+    }
+
+    fun setLanguage(language: String) {
+        viewModelScope.launch {
+            userPreferencesManager.setLanguage(language)
+        }
     }
 }

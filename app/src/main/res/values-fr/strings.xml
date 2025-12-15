@@ -241,11 +241,17 @@
     <!-- Langue -->
     <string name="language">Langue</string>
     <string name="select_language">Sélectionner la langue</string>
+    <string name="select_language_description">Choisissez la langue de l\'application</string>
     <string name="language_spanish">Espagnol</string>
+    <string name="language_spanish_description">Utiliser l\'espagnol</string>
     <string name="language_english">Anglais</string>
+    <string name="language_english_description">Utiliser l\'anglais</string>
     <string name="language_catalan">Catalan</string>
+    <string name="language_catalan_description">Utiliser le catalan</string>
     <string name="language_french">Français</string>
+    <string name="language_french_description">Utiliser le français</string>
     <string name="language_system">Par défaut du système</string>
+    <string name="language_system_description">Utiliser la langue de l\'appareil</string>
 
     <!-- Juridique -->
     <string name="legal">Juridique</string>

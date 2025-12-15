@@ -241,11 +241,17 @@
     <!-- Idioma -->
     <string name="language">Idioma</string>
     <string name="select_language">Seleccionar idioma</string>
+    <string name="select_language_description">Tria l\'idioma de l\'aplicació</string>
     <string name="language_spanish">Espanyol</string>
+    <string name="language_spanish_description">Usar espanyol com a idioma</string>
     <string name="language_english">Anglès</string>
+    <string name="language_english_description">Usar anglès com a idioma</string>
     <string name="language_catalan">Català</string>
+    <string name="language_catalan_description">Usar català com a idioma</string>
     <string name="language_french">Francès</string>
+    <string name="language_french_description">Usar francès com a idioma</string>
     <string name="language_system">Predeterminat del sistema</string>
+    <string name="language_system_description">Usar l\'idioma del dispositiu</string>
 
     <!-- Legal -->
     <string name="legal">Legal</string>

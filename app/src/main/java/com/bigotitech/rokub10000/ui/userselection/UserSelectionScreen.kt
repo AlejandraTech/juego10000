@@ -25,6 +25,7 @@ import com.bigotitech.rokub10000.ui.userselection.components.AddPlayerButton
 import com.bigotitech.rokub10000.ui.userselection.components.AnimatedBackground
 import com.bigotitech.rokub10000.ui.userselection.components.AnimatedHeader
 import com.bigotitech.rokub10000.ui.userselection.components.EmptyPlayersState
+import com.bigotitech.rokub10000.ui.userselection.components.LanguageSelectorButton
 import com.bigotitech.rokub10000.ui.userselection.components.PlayerSelectionCard
 
 /**
@@ -37,6 +38,8 @@ fun UserSelectionScreen(
     viewModel: UserSelectionViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val currentLanguage by viewModel.language.collectAsState()
+    val dimensions = LocalDimensions.current
 
     LaunchedEffect(Unit) {
         viewModel.loadPlayers()
@@ -61,6 +64,15 @@ fun UserSelectionScreen(
                 onCreatePlayer = onNavigateToPlayers
             )
         }
+
+        // Botón de idioma en la esquina superior derecha
+        LanguageSelectorButton(
+            currentLanguage = currentLanguage,
+            onLanguageChange = { viewModel.setLanguage(it) },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(dimensions.spaceMedium)
+        )
     }
 }
 

@@ -7,14 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,11 +25,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.bigotitech.rokub10000.R
 import com.bigotitech.rokub10000.data.preferences.UserPreferencesManager
+import com.bigotitech.rokub10000.ui.common.components.dialog.LanguageSelectionDialog
 import com.bigotitech.rokub10000.ui.common.theme.CardShape
 import com.bigotitech.rokub10000.ui.common.theme.LocalDimensions
 
 /**
- * Tarjeta de configuración de idioma con selector dropdown
+ * Tarjeta de configuración de idioma que muestra un diálogo al hacer clic
  */
 @Composable
 fun LanguageCard(
@@ -42,21 +39,20 @@ fun LanguageCard(
     modifier: Modifier = Modifier
 ) {
     val dimensions = LocalDimensions.current
-    var expanded by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
-    val languageOptions = listOf(
-        UserPreferencesManager.LANGUAGE_SYSTEM to stringResource(R.string.language_system),
-        UserPreferencesManager.LANGUAGE_SPANISH to stringResource(R.string.language_spanish),
-        UserPreferencesManager.LANGUAGE_ENGLISH to stringResource(R.string.language_english),
-        UserPreferencesManager.LANGUAGE_CATALAN to stringResource(R.string.language_catalan),
-        UserPreferencesManager.LANGUAGE_FRENCH to stringResource(R.string.language_french)
-    )
-
-    val currentLanguageName = languageOptions.find { it.first == currentLanguage }?.second
-        ?: stringResource(R.string.language_system)
+    val currentLanguageName = when (currentLanguage) {
+        UserPreferencesManager.LANGUAGE_SPANISH -> stringResource(R.string.language_spanish)
+        UserPreferencesManager.LANGUAGE_ENGLISH -> stringResource(R.string.language_english)
+        UserPreferencesManager.LANGUAGE_CATALAN -> stringResource(R.string.language_catalan)
+        UserPreferencesManager.LANGUAGE_FRENCH -> stringResource(R.string.language_french)
+        else -> stringResource(R.string.language_system)
+    }
 
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { showDialog = true },
         shape = CardShape,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -74,64 +70,38 @@ fun LanguageCard(
 
             Spacer(modifier = Modifier.height(dimensions.spaceMedium))
 
-            Column {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { expanded = true },
-                    verticalAlignment = Alignment.CenterVertically
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
                 ) {
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.select_language),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = currentLanguageName,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-
-                    Icon(
-                        imageVector = Icons.Rounded.KeyboardArrowDown,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    Text(
+                        text = stringResource(R.string.select_language),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        text = currentLanguageName,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
 
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    languageOptions.forEach { (code, name) ->
-                        DropdownMenuItem(
-                            text = {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(text = name)
-                                    if (code == currentLanguage) {
-                                        Spacer(modifier = Modifier.width(dimensions.spaceSmall))
-                                        Icon(
-                                            imageVector = Icons.Rounded.Check,
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.primary
-                                        )
-                                    }
-                                }
-                            },
-                            onClick = {
-                                onLanguageChange(code)
-                                expanded = false
-                            }
-                        )
-                    }
-                }
+                Icon(
+                    imageVector = Icons.Rounded.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                )
             }
-
         }
+    }
+
+    if (showDialog) {
+        LanguageSelectionDialog(
+            currentLanguage = currentLanguage,
+            onDismiss = { showDialog = false },
+            onLanguageSelected = onLanguageChange
+        )
     }
 }
