@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Juego 10000"
+rootProject.name = "Rokub 10000"
 include(":app")

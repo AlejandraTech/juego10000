@@ -12,7 +12,7 @@ import javax.inject.Inject
  * está anotada con @HiltAndroidApp para habilitar la generación de componentes de Hilt.
  */
 @HiltAndroidApp
-class Juego10000Application : Application() {
+class Rokub10000Application : Application() {
 
     @Inject
     lateinit var adManager: AdManager

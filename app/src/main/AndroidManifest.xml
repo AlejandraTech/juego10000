@@ -8,14 +8,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.bigotitech.rokub10000.Juego10000Application"
+        android:name="com.bigotitech.rokub10000.Rokub10000Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Juego10000"
+        android:theme="@style/Theme.Rokub10000"
         tools:targetApi="33">
 
         <!-- AdMob App ID (se lee desde local.properties) -->
@@ -28,7 +28,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Juego10000">
+            android:theme="@style/Theme.Rokub10000">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
