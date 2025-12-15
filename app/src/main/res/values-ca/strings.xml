@@ -246,7 +246,6 @@
     <string name="language_catalan">Català</string>
     <string name="language_french">Francès</string>
     <string name="language_system">Predeterminat del sistema</string>
-    <string name="restart_required">Es requereix reiniciar per aplicar els canvis</string>
 
     <!-- Legal -->
     <string name="legal">Legal</string>

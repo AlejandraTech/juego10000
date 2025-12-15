@@ -246,7 +246,6 @@
     <string name="language_catalan">Catalan</string>
     <string name="language_french">French</string>
     <string name="language_system">System default</string>
-    <string name="restart_required">Restart required to apply changes</string>
 
     <!-- Legal -->
     <string name="legal">Legal</string>

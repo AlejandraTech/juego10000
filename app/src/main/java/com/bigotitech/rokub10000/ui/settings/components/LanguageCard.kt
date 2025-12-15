@@ -132,13 +132,6 @@ fun LanguageCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spaceSmall))
-
-            Text(
-                text = stringResource(R.string.restart_required),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-            )
         }
     }
 }
