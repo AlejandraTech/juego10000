@@ -235,6 +235,7 @@
     <string name="background_music">Background music</string>
     <string name="enable_background_music">Enable background music in the app</string>
     <string name="music_volume">Music volume</string>
+    <string name="audio_control_description">Control the app background music</string>
 
     <!-- Appearance -->
     <string name="appearance">Appearance</string>

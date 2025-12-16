@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -24,6 +26,7 @@ import com.bigotitech.rokub10000.ui.common.theme.Primary
 import com.bigotitech.rokub10000.ui.userselection.components.AddPlayerButton
 import com.bigotitech.rokub10000.ui.userselection.components.AnimatedBackground
 import com.bigotitech.rokub10000.ui.userselection.components.AnimatedHeader
+import com.bigotitech.rokub10000.ui.userselection.components.AudioControlButton
 import com.bigotitech.rokub10000.ui.userselection.components.EmptyPlayersState
 import com.bigotitech.rokub10000.ui.userselection.components.LanguageSelectorButton
 import com.bigotitech.rokub10000.ui.userselection.components.PlayerSelectionCard
@@ -39,6 +42,8 @@ fun UserSelectionScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val currentLanguage by viewModel.language.collectAsState()
+    val musicEnabled by viewModel.musicEnabled.collectAsState()
+    val musicVolume by viewModel.musicVolume.collectAsState()
     val dimensions = LocalDimensions.current
 
     LaunchedEffect(Unit) {
@@ -65,14 +70,26 @@ fun UserSelectionScreen(
             )
         }
 
-        // Botón de idioma en la esquina superior derecha
-        LanguageSelectorButton(
-            currentLanguage = currentLanguage,
-            onLanguageChange = { viewModel.setLanguage(it) },
+        // Botones de control en la esquina superior derecha
+        Row(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(dimensions.spaceMedium)
-        )
+        ) {
+            AudioControlButton(
+                musicEnabled = musicEnabled,
+                musicVolume = musicVolume,
+                onMusicEnabledChange = { viewModel.setMusicEnabled(it) },
+                onMusicVolumeChange = { viewModel.setMusicVolume(it) }
+            )
+
+            Spacer(modifier = Modifier.width(dimensions.spaceSmall))
+
+            LanguageSelectorButton(
+                currentLanguage = currentLanguage,
+                onLanguageChange = { viewModel.setLanguage(it) }
+            )
+        }
     }
 }
 

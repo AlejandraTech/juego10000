@@ -235,6 +235,7 @@
     <string name="background_music">Música de fons</string>
     <string name="enable_background_music">Activar música de fons a l\'aplicació</string>
     <string name="music_volume">Volum de la música</string>
+    <string name="audio_control_description">Controla la música de fons de l\'aplicació</string>
 
     <!-- Aparença -->
     <string name="appearance">Aparença</string>

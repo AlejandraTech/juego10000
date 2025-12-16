@@ -29,6 +29,12 @@ class UserSelectionViewModel @Inject constructor(
     val language: StateFlow<String> = userPreferencesManager.language
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UserPreferencesManager.LANGUAGE_SYSTEM)
 
+    val musicEnabled: StateFlow<Boolean> = userPreferencesManager.musicEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
+    val musicVolume: StateFlow<Float> = userPreferencesManager.musicVolume
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.5f)
+
     init {
         loadPlayersOnStart()
     }
@@ -90,6 +96,18 @@ class UserSelectionViewModel @Inject constructor(
     fun setLanguage(language: String) {
         viewModelScope.launch {
             userPreferencesManager.setLanguage(language)
+        }
+    }
+
+    fun setMusicEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            userPreferencesManager.setMusicEnabled(enabled)
+        }
+    }
+
+    fun setMusicVolume(volume: Float) {
+        viewModelScope.launch {
+            userPreferencesManager.setMusicVolume(volume)
         }
     }
 }
