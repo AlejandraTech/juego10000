@@ -22,9 +22,9 @@ android {
     defaultConfig {
         applicationId = "com.bigotitech.rokub10000"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 35
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "com.bigotitech.rokub10000.HiltTestRunner"
 
