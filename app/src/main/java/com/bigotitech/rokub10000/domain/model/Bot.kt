@@ -4,7 +4,7 @@ import kotlin.random.Random
 
 /**
  * Modelo que representa un bot para el modo de juego individual.
- * 
+ *
  * Esta clase implementa diferentes estrategias de juego según el nivel de dificultad seleccionado,
  * permitiendo simular diferentes estilos de juego para oponentes controlados por la IA.
  *
@@ -41,7 +41,7 @@ class Bot(
 
     /**
      * Decide si el bot debe continuar lanzando dados o guardar su puntuación actual.
-     * 
+     *
      * La decisión se basa en varios factores: la puntuación actual del turno, la puntuación total,
      * la puntuación máxima de los oponentes y el número de dados disponibles para lanzar.
      * La estrategia varía según el nivel de dificultad del bot.
@@ -79,14 +79,14 @@ class Bot(
         if (currentTurnScore >= minScoreToBank) {
             // Cuantos más puntos tenga, menos probable es que siga lanzando
             val baseChance = riskTakingProbability - (currentTurnScore / 2000f)
-            
+
             // Ajuste por dados disponibles: con más dados, más probable es que siga
             val diceBonus = when {
                 availableDice >= 5 -> 0.3f
                 availableDice >= 3 -> 0.2f
                 else -> 0.0f
             }
-            
+
             return Random.nextFloat() < (baseChance + diceBonus).coerceIn(0.1f, 0.9f)
         }
 

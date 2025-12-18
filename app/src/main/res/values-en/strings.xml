@@ -84,8 +84,12 @@
     <string name="select_profile">Select your profile</string>
     <string name="games_count">%1$d games</string>
     <string name="new_player">New player</string>
+    <string name="create_player">Create player</string>
     <string name="no_players_title">No players</string>
     <string name="no_players_hint">Create your first profile to start playing</string>
+    <string name="no_players_yet">No players yet</string>
+    <string name="create_player_hint">Tap the button above to create your first profile</string>
+    <string name="music">Music</string>
 
     <!-- ==================== -->
     <!-- GAME SCREEN          -->
@@ -144,7 +148,7 @@
     <string name="edit_player">Edit player</string>
     <string name="delete_player">Delete player</string>
     <string name="player_name">Player name</string>
-    <string name="no_players">No registered players.\nAdd a player to start.</string>
+    <string name="no_players">No registered players.</string>
     <string name="delete_player_confirmation">Are you sure you want to delete %1$s? This action is permanent and the player will be removed from all records, including statistics and game history.</string>
     <string name="add_players_to_start">Add players to start playing</string>
 
@@ -306,6 +310,9 @@
     <!-- Home messages -->
     <string name="no_user_selected_error">No user selected. Select a profile first.</string>
     <string name="no_other_players_error">No other players available. Create more players first.</string>
+    <string name="no_players_available_title">No players available</string>
+    <string name="no_players_available_description">To play multiplayer mode you need to add more players.</string>
+    <string name="add_players">Add</string>
     <string name="select_at_least_one_opponent">Select at least one opponent</string>
     <string name="max_opponents_allowed">Maximum 5 opponents allowed</string>
 

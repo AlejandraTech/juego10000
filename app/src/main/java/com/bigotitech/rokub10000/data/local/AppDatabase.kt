@@ -16,7 +16,7 @@ import com.bigotitech.rokub10000.util.ListConverter
 
 /**
  * Clase principal de la base de datos Room para la aplicación.
- * 
+ *
  * Define las entidades, versión y convertidores de tipos utilizados en la base de datos.
  * Proporciona acceso a los DAOs para interactuar con las diferentes tablas.
  */
@@ -36,12 +36,12 @@ abstract class AppDatabase : RoomDatabase() {
      * Proporciona acceso al DAO de jugadores.
      */
     abstract fun playerDao(): PlayerDao
-    
+
     /**
      * Proporciona acceso al DAO de juegos.
      */
     abstract fun gameDao(): GameDao
-    
+
     /**
      * Proporciona acceso al DAO de puntuaciones.
      */
@@ -55,9 +55,9 @@ abstract class AppDatabase : RoomDatabase() {
 
         /**
          * Obtiene una instancia de la base de datos, creándola si no existe.
-         * 
+         *
          * Utiliza el patrón Singleton para garantizar una única instancia de la base de datos.
-         * 
+         *
          * @param context Contexto de la aplicación
          * @return Instancia de AppDatabase
          */

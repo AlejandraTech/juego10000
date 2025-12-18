@@ -1,7 +1,9 @@
 package com.bigotitech.rokub10000.di
 
 import android.content.Context
-import com.bigotitech.rokub10000.audio.BackgroundMusicManager
+import com.bigotitech.rokub10000.core.audio.AudioService
+import com.bigotitech.rokub10000.core.audio.BackgroundMusicManager
+import com.bigotitech.rokub10000.core.vibration.VibrationService
 import com.bigotitech.rokub10000.data.preferences.UserPreferencesManager
 import com.google.gson.Gson
 import dagger.Module
@@ -36,6 +38,24 @@ object AppModule {
         userPreferencesManager: UserPreferencesManager
     ): BackgroundMusicManager {
         return BackgroundMusicManager(context, userPreferencesManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAudioService(
+        @ApplicationContext context: Context,
+        userPreferencesManager: UserPreferencesManager
+    ): AudioService {
+        return AudioService(context, userPreferencesManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideVibrationService(
+        @ApplicationContext context: Context,
+        userPreferencesManager: UserPreferencesManager
+    ): VibrationService {
+        return VibrationService(context, userPreferencesManager)
     }
 
     @Provides

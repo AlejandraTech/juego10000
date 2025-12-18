@@ -3,7 +3,10 @@ package com.bigotitech.rokub10000.di
 import com.bigotitech.rokub10000.domain.repository.GameRepository
 import com.bigotitech.rokub10000.domain.repository.PlayerRepository
 import com.bigotitech.rokub10000.domain.repository.ScoreRepository
-import com.bigotitech.rokub10000.domain.usecase.*
+import com.bigotitech.rokub10000.domain.usecase.game.*
+import com.bigotitech.rokub10000.domain.usecase.history.GetGameHistoryUseCase
+import com.bigotitech.rokub10000.domain.usecase.player.GetPlayersUseCase
+import com.bigotitech.rokub10000.domain.usecase.player.ManagePlayersUseCase
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

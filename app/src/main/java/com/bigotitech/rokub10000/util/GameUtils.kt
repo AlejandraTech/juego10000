@@ -4,14 +4,14 @@ import com.bigotitech.rokub10000.domain.model.Dice
 
 /**
  * Utilidad para operaciones relacionadas con el juego 10000.
- * 
+ *
  * Este objeto proporciona funcionalidades para manipular dados, calcular puntuaciones
  * y verificar combinaciones válidas.
  */
 object GameUtils {
     /**
      * Genera valores aleatorios para los dados no bloqueados.
-     * 
+     *
      * @param diceList Lista de dados a procesar
      * @return Lista de dados con nuevos valores aleatorios para los no bloqueados
      */
@@ -27,7 +27,7 @@ object GameUtils {
 
     /**
      * Calcula la puntuación basada en los dados seleccionados.
-     * 
+     *
      * @param selectedDice Lista de dados seleccionados para calcular la puntuación
      * @return Puntuación total calculada según las reglas del juego
      */
@@ -40,7 +40,7 @@ object GameUtils {
 
     /**
      * Calcula la puntuación basada en los valores de los dados.
-     * 
+     *
      * @param diceValues Lista de valores de los dados (del 1 al 6)
      * @return Puntuación total calculada según las reglas del juego
      */
@@ -112,7 +112,7 @@ object GameUtils {
 
     /**
      * Verifica si hay alguna combinación válida en los dados no bloqueados.
-     * 
+     *
      * @param diceList Lista de dados a verificar
      * @return true si existe al menos una combinación válida, false en caso contrario
      */
@@ -126,7 +126,7 @@ object GameUtils {
 
     /**
      * Verifica si hay alguna combinación válida en los valores de dados proporcionados.
-     * 
+     *
      * @param diceValues Lista de valores de dados a verificar
      * @return true si existe al menos una combinación válida, false en caso contrario
      */
@@ -154,7 +154,7 @@ object GameUtils {
 
     /**
      * Verifica si la puntuación es suficiente para entrar en juego.
-     * 
+     *
      * @param score Puntuación a verificar
      * @return true si la puntuación es igual o mayor a 500 puntos, false en caso contrario
      */

@@ -26,7 +26,7 @@ data class Player(
 ) {
     /**
      * Porcentaje de victorias del jugador.
-     * 
+     *
      * @return Proporción de partidas ganadas respecto a las jugadas, o 0 si no ha jugado ninguna
      */
     val winRate: Float

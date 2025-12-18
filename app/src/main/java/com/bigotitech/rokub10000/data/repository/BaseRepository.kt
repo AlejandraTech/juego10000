@@ -12,7 +12,7 @@ import com.bigotitech.rokub10000.domain.model.Score
  * Centraliza la lógica de conversión entre entidades y modelos de dominio.
  */
 abstract class BaseRepository {
-    
+
     /**
      * Convierte una entidad GameEntity a un modelo de dominio Game.
      */

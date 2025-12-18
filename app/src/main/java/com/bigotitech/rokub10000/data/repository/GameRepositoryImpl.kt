@@ -23,7 +23,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Crea una nueva partida con los jugadores, puntuación objetivo y modo de juego especificados.
-     * 
+     *
      * @param playerIds Lista de IDs de los jugadores participantes
      * @param targetScore Puntuación objetivo para ganar la partida
      * @param gameMode Modo de juego (MULTIPLAYER, SINGLE_PLAYER, etc.)
@@ -47,24 +47,24 @@ class GameRepositoryImpl @Inject constructor(
 
         return gameDao.insertGame(gameEntity)
     }
-    
+
     /**
      * Prepara el estado inicial del juego basado en el modo y datos adicionales.
-     * 
+     *
      * @param gameMode Modo de juego
      * @param additionalData Datos adicionales para la partida
      * @param playerIds Lista de IDs de los jugadores participantes
      * @return Estado del juego serializado como cadena, o null si no hay datos adicionales
      */
     private fun prepareGameState(
-        gameMode: String, 
+        gameMode: String,
         additionalData: Map<String, Any>,
         playerIds: List<Long>
     ): String? {
         if (additionalData.isEmpty()) {
             return null
         }
-        
+
         val initialState = mutableMapOf<String, Any>()
 
         if (gameMode == "SINGLE_PLAYER" && additionalData.containsKey("botName")) {
@@ -82,7 +82,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene una partida por su ID.
-     * 
+     *
      * @param gameId ID de la partida a obtener
      * @return La partida si existe, o null si no se encuentra
      */
@@ -93,7 +93,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene una partida por su ID como un flujo observable.
-     * 
+     *
      * @param gameId ID de la partida a obtener
      * @return Flujo que emite la partida si existe, o null si no se encuentra
      */
@@ -103,7 +103,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene todas las partidas activas (no completadas).
-     * 
+     *
      * @return Flujo que emite la lista de partidas activas
      */
     override fun getActiveGames(): Flow<List<Game>> {
@@ -112,7 +112,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene las partidas completadas más recientes.
-     * 
+     *
      * @return Flujo que emite la lista de partidas completadas recientemente
      */
     override fun getRecentCompletedGames(): Flow<List<Game>> {
@@ -121,7 +121,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene todas las partidas en las que ha participado un jugador.
-     * 
+     *
      * @param playerId ID del jugador
      * @return Flujo que emite la lista de partidas del jugador
      */
@@ -131,7 +131,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Actualiza el estado de una partida.
-     * 
+     *
      * @param gameId ID de la partida a actualizar
      * @param currentPlayerIndex Índice del jugador actual
      * @param currentRound Número de ronda actual
@@ -148,7 +148,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Completa una partida y actualiza las estadísticas de los jugadores.
-     * 
+     *
      * @param gameId ID de la partida a completar
      * @param winnerPlayerId ID del jugador ganador
      */
@@ -159,10 +159,10 @@ class GameRepositoryImpl @Inject constructor(
 
         updatePlayerStats(winnerPlayerId, game.playerIds)
     }
-    
+
     /**
      * Actualiza las estadísticas de los jugadores después de completar una partida.
-     * 
+     *
      * @param winnerPlayerId ID del jugador ganador
      * @param allPlayerIds Lista de IDs de todos los jugadores en la partida
      */
@@ -177,7 +177,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Guarda la puntuación de un turno y actualiza las estadísticas del jugador.
-     * 
+     *
      * @param gameId ID de la partida
      * @param playerId ID del jugador
      * @param round Número de ronda
@@ -207,13 +207,13 @@ class GameRepositoryImpl @Inject constructor(
 
         playerDao.updateHighestScore(playerId, totalScore)
         playerDao.updateTotalScore(playerId, turnScore)
-        
+
         return scoreId
     }
 
     /**
      * Elimina una partida de la base de datos.
-     * 
+     *
      * @param gameId ID de la partida a eliminar
      */
     override suspend fun deleteGame(gameId: Long) {

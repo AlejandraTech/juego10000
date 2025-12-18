@@ -17,7 +17,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene todas las puntuaciones de una partida.
-     * 
+     *
      * @param gameId ID de la partida
      * @return Flujo que emite la lista de puntuaciones de la partida
      */
@@ -27,7 +27,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene todas las puntuaciones de un jugador.
-     * 
+     *
      * @param playerId ID del jugador
      * @return Flujo que emite la lista de puntuaciones del jugador
      */
@@ -38,7 +38,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene las puntuaciones de un jugador en una partida específica.
-     * 
+     *
      * @param gameId ID de la partida
      * @param playerId ID del jugador
      * @return Flujo que emite la lista de puntuaciones del jugador en la partida
@@ -50,7 +50,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene la puntuación total de un jugador en una partida.
-     * 
+     *
      * @param gameId ID de la partida
      * @param playerId ID del jugador
      * @return Puntuación total del jugador en la partida
@@ -61,7 +61,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene la puntuación más alta de un jugador.
-     * 
+     *
      * @param playerId ID del jugador
      * @return Puntuación más alta del jugador
      */
@@ -71,7 +71,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene la puntuación media de un jugador.
-     * 
+     *
      * @param playerId ID del jugador
      * @return Puntuación media del jugador
      */
@@ -81,7 +81,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     /**
      * Obtiene el mejor turno de un jugador.
-     * 
+     *
      * @param playerId ID del jugador
      * @return Objeto Score con la información del mejor turno, o null si no hay turnos
      */
@@ -92,7 +92,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     /**
      * Elimina todas las puntuaciones de una partida.
-     * 
+     *
      * @param gameId ID de la partida
      */
     override suspend fun deleteGameScores(gameId: Long) {

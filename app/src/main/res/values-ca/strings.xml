@@ -84,8 +84,12 @@
     <string name="select_profile">Selecciona el teu perfil</string>
     <string name="games_count">%1$d partides</string>
     <string name="new_player">Nou jugador</string>
+    <string name="create_player">Crear jugador</string>
     <string name="no_players_title">No hi ha jugadors</string>
     <string name="no_players_hint">Crea el teu primer perfil per començar a jugar</string>
+    <string name="no_players_yet">Encara no hi ha jugadors</string>
+    <string name="create_player_hint">Prem el botó de dalt per crear el teu primer perfil</string>
+    <string name="music">Música</string>
 
     <!-- ==================== -->
     <!-- PANTALLA DE JOC      -->
@@ -144,7 +148,7 @@
     <string name="edit_player">Editar jugador</string>
     <string name="delete_player">Eliminar jugador</string>
     <string name="player_name">Nom del jugador</string>
-    <string name="no_players">No hi ha jugadors registrats.\nAfegeix un jugador per començar.</string>
+    <string name="no_players">No hi ha jugadors registrats.</string>
     <string name="delete_player_confirmation">Estàs segur que vols eliminar a %1$s? Aquesta acció és permanent i el jugador s\'eliminarà de tots els registres, incloent estadístiques i historial de partides.</string>
     <string name="add_players_to_start">Afegeix jugadors per començar a jugar</string>
 
@@ -306,6 +310,9 @@
     <!-- Missatges de Home -->
     <string name="no_user_selected_error">No hi ha usuari seleccionat. Selecciona un perfil primer.</string>
     <string name="no_other_players_error">No hi ha altres jugadors disponibles. Crea més jugadors primer.</string>
+    <string name="no_players_available_title">Sense jugadors disponibles</string>
+    <string name="no_players_available_description">Per jugar en mode multijugador necessites afegir més jugadors.</string>
+    <string name="add_players">Afegir</string>
     <string name="select_at_least_one_opponent">Selecciona almenys un oponent</string>
     <string name="max_opponents_allowed">Màxim 5 oponents permesos</string>
 

@@ -32,7 +32,7 @@ data class Game(
 ) {
     /**
      * Número total de jugadores en la partida.
-     * 
+     *
      * @return Cantidad de jugadores participantes
      */
     val playerCount: Int

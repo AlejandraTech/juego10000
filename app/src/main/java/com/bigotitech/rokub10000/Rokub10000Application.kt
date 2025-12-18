@@ -1,7 +1,7 @@
 package com.bigotitech.rokub10000
 
 import android.app.Application
-import com.bigotitech.rokub10000.ads.AdManager
+import com.bigotitech.rokub10000.core.ads.AdManager
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

@@ -84,8 +84,12 @@
     <string name="select_profile">Selecciona tu perfil</string>
     <string name="games_count">%1$d partidas</string>
     <string name="new_player">Nuevo jugador</string>
+    <string name="create_player">Crear jugador</string>
     <string name="no_players_title">No hay jugadores</string>
     <string name="no_players_hint">Crea tu primer perfil para comenzar a jugar</string>
+    <string name="no_players_yet">Aún no hay jugadores</string>
+    <string name="create_player_hint">Pulsa el botón de arriba para crear tu primer perfil</string>
+    <string name="music">Música</string>
 
     <!-- ==================== -->
     <!-- PANTALLA DE JUEGO    -->
@@ -144,7 +148,7 @@
     <string name="edit_player">Editar jugador</string>
     <string name="delete_player">Eliminar jugador</string>
     <string name="player_name">Nombre del jugador</string>
-    <string name="no_players">No hay jugadores registrados.\nAñade un jugador para comenzar.</string>
+    <string name="no_players">No hay jugadores registrados.</string>
     <string name="delete_player_confirmation">¿Estás seguro de que quieres eliminar a %1$s? Esta acción es permanente y el jugador se eliminará de todos los registros, incluidas estadísticas e historial de partidas.</string>
     <string name="add_players_to_start">Añade jugadores para comenzar a jugar</string>
 
@@ -306,6 +310,9 @@
     <!-- Mensajes de Home -->
     <string name="no_user_selected_error">No hay usuario seleccionado. Selecciona un perfil primero.</string>
     <string name="no_other_players_error">No hay otros jugadores disponibles. Crea más jugadores primero.</string>
+    <string name="no_players_available_title">Sin jugadores disponibles</string>
+    <string name="no_players_available_description">Para jugar en modo multijugador necesitas añadir más jugadores.</string>
+    <string name="add_players">Añadir</string>
     <string name="select_at_least_one_opponent">Selecciona al menos un oponente</string>
     <string name="max_opponents_allowed">Máximo 5 oponentes permitidos</string>
 

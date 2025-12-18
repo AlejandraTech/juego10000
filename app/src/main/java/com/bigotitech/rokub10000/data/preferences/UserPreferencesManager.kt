@@ -109,7 +109,7 @@ class UserPreferencesManager @Inject constructor(
     }
 
     // Métodos públicos para establecer preferencias
-    suspend fun setSoundEnabled(enabled: Boolean) = 
+    suspend fun setSoundEnabled(enabled: Boolean) =
         setPreference(PreferencesKeys.SOUND_ENABLED, enabled)
 
     suspend fun setVibrationEnabled(enabled: Boolean) =
@@ -121,12 +121,12 @@ class UserPreferencesManager @Inject constructor(
     suspend fun setMusicVolume(volume: Float) =
         setPreference(PreferencesKeys.MUSIC_VOLUME, volume.coerceIn(0f, 1f))
 
-    suspend fun setDarkMode(enabled: Boolean) = 
+    suspend fun setDarkMode(enabled: Boolean) =
         setPreference(PreferencesKeys.DARK_MODE, enabled)
 
-    suspend fun setLastActiveGame(gameId: Long) = 
+    suspend fun setLastActiveGame(gameId: Long) =
         setPreference(PreferencesKeys.LAST_ACTIVE_GAME, gameId)
-    
+
     suspend fun setBotDifficulty(difficulty: String) =
         setPreference(PreferencesKeys.BOT_DIFFICULTY, difficulty)
 

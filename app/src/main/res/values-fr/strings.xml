@@ -84,8 +84,12 @@
     <string name="select_profile">Sélectionnez votre profil</string>
     <string name="games_count">%1$d parties</string>
     <string name="new_player">Nouveau joueur</string>
+    <string name="create_player">Créer un joueur</string>
     <string name="no_players_title">Aucun joueur</string>
     <string name="no_players_hint">Créez votre premier profil pour commencer à jouer</string>
+    <string name="no_players_yet">Pas encore de joueurs</string>
+    <string name="create_player_hint">Appuyez sur le bouton ci-dessus pour créer votre premier profil</string>
+    <string name="music">Musique</string>
 
     <!-- ==================== -->
     <!-- ÉCRAN DE JEU         -->
@@ -144,7 +148,7 @@
     <string name="edit_player">Modifier le joueur</string>
     <string name="delete_player">Supprimer le joueur</string>
     <string name="player_name">Nom du joueur</string>
-    <string name="no_players">Aucun joueur enregistré.\nAjoutez un joueur pour commencer.</string>
+    <string name="no_players">Aucun joueur enregistré.</string>
     <string name="delete_player_confirmation">Êtes-vous sûr de vouloir supprimer %1$s ? Cette action est permanente et le joueur sera supprimé de tous les registres, y compris les statistiques et l\'historique des parties.</string>
     <string name="add_players_to_start">Ajoutez des joueurs pour commencer à jouer</string>
 
@@ -306,6 +310,9 @@
     <!-- Messages d'accueil -->
     <string name="no_user_selected_error">Aucun utilisateur sélectionné. Sélectionnez d\'abord un profil.</string>
     <string name="no_other_players_error">Aucun autre joueur disponible. Créez d\'abord plus de joueurs.</string>
+    <string name="no_players_available_title">Aucun joueur disponible</string>
+    <string name="no_players_available_description">Pour jouer en mode multijoueur, vous devez ajouter plus de joueurs.</string>
+    <string name="add_players">Ajouter</string>
     <string name="select_at_least_one_opponent">Sélectionnez au moins un adversaire</string>
     <string name="max_opponents_allowed">Maximum 5 adversaires autorisés</string>
 
