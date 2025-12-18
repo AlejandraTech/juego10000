@@ -66,6 +66,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bigotitech.rokub10000.R
+import com.bigotitech.rokub10000.core.ads.AdConstants
+import com.bigotitech.rokub10000.presentation.common.components.ads.BannerAd
 import com.bigotitech.rokub10000.domain.model.Player
 import com.bigotitech.rokub10000.presentation.common.components.backgrounds.AnimatedBackground
 import com.bigotitech.rokub10000.presentation.common.components.backgrounds.BackgroundConfig
@@ -109,47 +111,54 @@ fun UserSelectionScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        AnimatedBackground(config = BackgroundConfig.splashConfig)
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.weight(1f)) {
+            AnimatedBackground(config = BackgroundConfig.splashConfig)
 
-        when {
-            uiState.isLoading -> LoadingState()
-            else -> UserSelectionContent(
-                players = uiState.players,
-                showCreatePlayerHint = uiState.showCreatePlayerHint,
-                onPlayerSelected = { viewModel.selectUser(it) },
-                onCreatePlayer = onNavigateToPlayers
-            )
-        }
-
-        // Botones de control en la esquina superior derecha
-        Row(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(dimensions.spaceMedium)
-        ) {
-            IconButton(
-                onClick = { showAudioDialog = true }
-            ) {
-                Icon(
-                    imageVector = if (musicEnabled) Icons.Default.MusicNote else Icons.Default.MusicOff,
-                    contentDescription = stringResource(R.string.music),
-                    tint = Primary
+            when {
+                uiState.isLoading -> LoadingState()
+                else -> UserSelectionContent(
+                    players = uiState.players,
+                    showCreatePlayerHint = uiState.showCreatePlayerHint,
+                    onPlayerSelected = { viewModel.selectUser(it) },
+                    onCreatePlayer = onNavigateToPlayers
                 )
             }
 
-            Spacer(modifier = Modifier.width(dimensions.spaceSmall))
-
-            IconButton(
-                onClick = { showLanguageDialog = true }
+            // Botones de control en la esquina superior derecha
+            Row(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(dimensions.spaceMedium)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Translate,
-                    contentDescription = stringResource(R.string.language),
-                    tint = Primary
-                )
+                IconButton(
+                    onClick = { showAudioDialog = true }
+                ) {
+                    Icon(
+                        imageVector = if (musicEnabled) Icons.Default.MusicNote else Icons.Default.MusicOff,
+                        contentDescription = stringResource(R.string.music),
+                        tint = Primary
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(dimensions.spaceSmall))
+
+                IconButton(
+                    onClick = { showLanguageDialog = true }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Translate,
+                        contentDescription = stringResource(R.string.language),
+                        tint = Primary
+                    )
+                }
             }
         }
+
+        BannerAd(
+            adUnitId = AdConstants.BANNER_HOME,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 
     // Diálogos

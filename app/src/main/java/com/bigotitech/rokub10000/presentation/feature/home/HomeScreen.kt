@@ -85,6 +85,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bigotitech.rokub10000.R
+import com.bigotitech.rokub10000.core.ads.AdConstants
+import com.bigotitech.rokub10000.presentation.common.components.ads.BannerAd
 import com.bigotitech.rokub10000.domain.model.BotDifficulty
 import com.bigotitech.rokub10000.domain.model.Player
 import com.bigotitech.rokub10000.presentation.common.components.backgrounds.AnimatedBackground
@@ -161,35 +163,42 @@ fun HomeScreen(
                 )
             }
         ) { paddingValues ->
-            Box(modifier = Modifier.fillMaxSize()) {
-                AnimatedBackground()
+            Column(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier.weight(1f)) {
+                    AnimatedBackground()
 
-                AnimatedVisibility(
-                    visible = showContent,
-                    enter = fadeIn(animationSpec = tween(500)) +
-                            slideInVertically(
-                                initialOffsetY = { 50 },
-                                animationSpec = spring(
-                                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                                    stiffness = Spring.StiffnessLow
+                    this@Column.AnimatedVisibility(
+                        visible = showContent,
+                        enter = fadeIn(animationSpec = tween(500)) +
+                                slideInVertically(
+                                    initialOffsetY = { 50 },
+                                    animationSpec = spring(
+                                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                                        stiffness = Spring.StiffnessLow
+                                    )
                                 )
-                            )
-                ) {
-                    HomeContent(
-                        userName = uiState.currentUser?.name ?: "",
-                        gamesPlayed = uiState.userStats.totalGamesPlayed,
-                        wins = uiState.userStats.totalWins,
-                        winRate = uiState.userStats.winRate.toInt(),
-                        onPlayClick = { viewModel.onNewGameClick() },
-                        onStatsClick = onNavigateToStats,
-                        onRulesClick = onNavigateToRules,
-                        onPlayersClick = onNavigateToPlayers,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                            .padding(horizontal = dimensions.screenPaddingHorizontal)
-                    )
+                    ) {
+                        HomeContent(
+                            userName = uiState.currentUser?.name ?: "",
+                            gamesPlayed = uiState.userStats.totalGamesPlayed,
+                            wins = uiState.userStats.totalWins,
+                            winRate = uiState.userStats.winRate.toInt(),
+                            onPlayClick = { viewModel.onNewGameClick() },
+                            onStatsClick = onNavigateToStats,
+                            onRulesClick = onNavigateToRules,
+                            onPlayersClick = onNavigateToPlayers,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(paddingValues)
+                                .padding(horizontal = dimensions.screenPaddingHorizontal)
+                        )
+                    }
                 }
+
+                BannerAd(
+                    adUnitId = AdConstants.BANNER_HOME,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }

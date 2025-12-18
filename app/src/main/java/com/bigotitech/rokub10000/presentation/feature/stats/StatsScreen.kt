@@ -60,6 +60,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bigotitech.rokub10000.R
+import com.bigotitech.rokub10000.core.ads.AdConstants
+import com.bigotitech.rokub10000.presentation.common.components.ads.BannerAd
 import com.bigotitech.rokub10000.presentation.common.theme.AmberColor
 import com.bigotitech.rokub10000.presentation.common.theme.LocalDimensions
 import com.bigotitech.rokub10000.presentation.common.theme.Primary
@@ -132,6 +134,11 @@ fun StatsScreen(
                     2 -> TopScoresTab(topScores = topScores)
                 }
             }
+
+            BannerAd(
+                adUnitId = AdConstants.BANNER_STATS,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

@@ -43,6 +43,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bigotitech.rokub10000.R
+import com.bigotitech.rokub10000.core.ads.AdConstants
+import com.bigotitech.rokub10000.presentation.common.components.ads.BannerAd
 import com.bigotitech.rokub10000.data.preferences.UserPreferencesManager
 import com.bigotitech.rokub10000.presentation.common.theme.LocalDimensions
 import com.bigotitech.rokub10000.presentation.feature.settings.state.SettingItem
@@ -70,24 +72,33 @@ fun SettingsScreen(
     Scaffold(
         topBar = { SettingsTopAppBar(onBackClick = onNavigateBack) }
     ) { paddingValues ->
-        SettingsContent(
-            soundEnabled = soundEnabled,
-            vibrationEnabled = vibrationEnabled,
-            musicEnabled = musicEnabled,
-            musicVolume = musicVolume,
-            darkMode = darkMode,
-            language = language,
-            onSoundEnabledChange = { viewModel.setSoundEnabled(it) },
-            onVibrationEnabledChange = { viewModel.setVibrationEnabled(it) },
-            onMusicEnabledChange = { viewModel.setMusicEnabled(it) },
-            onMusicVolumeChange = { viewModel.setMusicVolume(it) },
-            onDarkModeChange = { viewModel.setDarkMode(it) },
-            onLanguageChange = { viewModel.setLanguage(it) },
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(dimensions.spaceMedium)
-        )
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            SettingsContent(
+                soundEnabled = soundEnabled,
+                vibrationEnabled = vibrationEnabled,
+                musicEnabled = musicEnabled,
+                musicVolume = musicVolume,
+                darkMode = darkMode,
+                language = language,
+                onSoundEnabledChange = { viewModel.setSoundEnabled(it) },
+                onVibrationEnabledChange = { viewModel.setVibrationEnabled(it) },
+                onMusicEnabledChange = { viewModel.setMusicEnabled(it) },
+                onMusicVolumeChange = { viewModel.setMusicVolume(it) },
+                onDarkModeChange = { viewModel.setDarkMode(it) },
+                onLanguageChange = { viewModel.setLanguage(it) },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(paddingValues)
+                    .padding(dimensions.spaceMedium)
+            )
+
+            BannerAd(
+                adUnitId = AdConstants.BANNER_SETTINGS,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 

@@ -47,6 +47,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bigotitech.rokub10000.R
+import com.bigotitech.rokub10000.core.ads.AdConstants
+import com.bigotitech.rokub10000.presentation.common.components.ads.BannerAd
 import com.bigotitech.rokub10000.presentation.common.theme.LocalDimensions
 import com.bigotitech.rokub10000.presentation.common.theme.Primary
 import com.bigotitech.rokub10000.presentation.common.theme.Secondary
@@ -96,6 +98,11 @@ private fun RulesScreenContent(
             RulesContentColumn(
                 uiState = uiState,
                 modifier = Modifier.weight(1f)
+            )
+
+            BannerAd(
+                adUnitId = AdConstants.BANNER_RULES,
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
