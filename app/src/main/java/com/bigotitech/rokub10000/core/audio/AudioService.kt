@@ -176,6 +176,28 @@ class AudioService @Inject constructor(
     }
 
     /**
+     * Detiene todos los sonidos que se estén reproduciendo
+     */
+    fun stopAllSounds() {
+        try {
+            diceRollSound?.let { player ->
+                if (player.isPlaying) {
+                    player.pause()
+                    player.seekTo(0)
+                }
+            }
+            winSound?.let { player ->
+                if (player.isPlaying) {
+                    player.pause()
+                    player.seekTo(0)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error al detener sonidos: ${e.message}")
+        }
+    }
+
+    /**
      * Libera los recursos de los MediaPlayers
      * Debe llamarse cuando el servicio ya no se necesita
      */

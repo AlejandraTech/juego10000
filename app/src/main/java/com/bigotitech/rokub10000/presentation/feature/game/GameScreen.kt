@@ -108,6 +108,10 @@ import com.bigotitech.rokub10000.presentation.common.theme.Secondary
 import com.bigotitech.rokub10000.presentation.common.util.getDiceDrawable
 import com.bigotitech.rokub10000.presentation.feature.game.state.GameUiState
 import com.bigotitech.rokub10000.presentation.feature.winner.GameVictoryScreen
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -175,6 +179,22 @@ fun GameScreen(
 
     BackHandler {
         showExitConfirmationDialog = true
+    }
+
+    // Manejar ciclo de vida para pausar/reanudar el juego
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_PAUSE -> viewModel.pauseGame()
+                Lifecycle.Event.ON_RESUME -> viewModel.resumeGame()
+                else -> {}
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     if (showExitConfirmationDialog) {

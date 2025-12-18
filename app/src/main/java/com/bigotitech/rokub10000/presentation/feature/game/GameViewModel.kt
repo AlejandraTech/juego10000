@@ -67,6 +67,12 @@ class GameViewModel @Inject constructor(
     private val _botActionInProgress = MutableStateFlow(false)
     val botActionInProgress: StateFlow<Boolean> = _botActionInProgress.asStateFlow()
 
+    // Estado de pausa del juego
+    private val _isGamePaused = MutableStateFlow(false)
+    val isGamePaused: StateFlow<Boolean> = _isGamePaused.asStateFlow()
+    private var pendingBotTurn = false
+    private var botTurnJob: kotlinx.coroutines.Job? = null
+
     // Estados de los dados y puntuación
     private val _dice = MutableStateFlow<List<Dice>>(emptyList())
     private val _selectedDice = MutableStateFlow<List<Dice>>(emptyList())
@@ -242,9 +248,19 @@ class GameViewModel @Inject constructor(
 
     private fun executeBotTurn() {
         val bot = _bot.value ?: return
+
+        // Si el juego está pausado, marcar como pendiente
+        if (_isGamePaused.value) {
+            pendingBotTurn = true
+            return
+        }
+
         Log.d("GameViewModel", "Ejecutando turno del Bot: dificultad=${bot.difficulty}")
 
-        viewModelScope.launch {
+        // Cancelar job anterior si existe
+        botTurnJob?.cancel()
+
+        botTurnJob = viewModelScope.launch {
             try {
                 _botActionInProgress.value = true
 
@@ -256,7 +272,7 @@ class GameViewModel @Inject constructor(
                 val botScore = botPlayer?.let { _playerScores.value[it.id] } ?: 0
                 Log.d("GameViewModel", "Bot va a jugar: botPlayer=$botPlayer, botScore=$botScore, humanScore=$humanPlayerScore")
 
-                viewModelScope.launch {
+                launch {
                     _message.value = null
                     _gameStarted.value = true
 
@@ -885,6 +901,42 @@ class GameViewModel @Inject constructor(
 
     fun setScoreExceeded(exceeded: Boolean) {
         _gameState.update { it.copy(scoreExceeded = exceeded, canRoll = if (exceeded) false else it.canRoll) }
+    }
+
+    /**
+     * Pausa el juego cuando la app va al segundo plano.
+     * Detiene los sonidos y cancela el turno del bot si estaba en progreso.
+     */
+    fun pauseGame() {
+        _isGamePaused.value = true
+        audioService.stopAllSounds()
+
+        // Si el bot estaba jugando, cancelar y marcar como pendiente
+        if (_botActionInProgress.value) {
+            botTurnJob?.cancel()
+            botTurnJob = null
+            pendingBotTurn = true
+            _botActionInProgress.value = false
+        }
+    }
+
+    /**
+     * Reanuda el juego cuando la app vuelve al primer plano.
+     * Retoma el turno del bot si estaba pendiente.
+     */
+    fun resumeGame() {
+        _isGamePaused.value = false
+
+        // Si había un turno del bot pendiente, reanudarlo
+        if (pendingBotTurn && _isBotTurn.value) {
+            pendingBotTurn = false
+            viewModelScope.launch {
+                delay(500)
+                if (!_isGamePaused.value) {
+                    executeBotTurn()
+                }
+            }
+        }
     }
 
     fun showScoreExceededMessage() {
