@@ -39,9 +39,9 @@ fun AppNavigation(
             val isGameScreen = currentRoute?.startsWith(Screen.Game.route) == true
 
             if (isGameScreen) {
-                musicManager.pauseMusic()
+                musicManager.pauseForGame()
             } else if (currentRoute != null && currentRoute != Screen.Splash.route) {
-                musicManager.resumeMusic()
+                musicManager.resumeFromGame()
             }
         }
     }

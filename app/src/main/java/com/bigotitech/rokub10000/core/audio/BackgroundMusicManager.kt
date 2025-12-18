@@ -30,6 +30,7 @@ class BackgroundMusicManager @Inject constructor(
     private var currentVolume = 0.5f
     private var shouldPlayMusic = false
     private var isPaused = false
+    private var isInGameMode = false
 
     init {
         observePreferences()
@@ -111,7 +112,7 @@ class BackgroundMusicManager @Inject constructor(
     }
 
     /**
-     * Pausa la música temporalmente (para pantallas de juego)
+     * Pausa la música temporalmente (para ciclo de vida de la app)
      */
     fun pauseMusic() {
         isPaused = true
@@ -127,9 +128,32 @@ class BackgroundMusicManager @Inject constructor(
     }
 
     /**
-     * Reanuda la música si estaba reproduciéndose
+     * Pausa la música para la pantalla de juego.
+     * La música no se reanudará hasta llamar a resumeFromGame().
+     */
+    fun pauseForGame() {
+        isInGameMode = true
+        pauseMusic()
+    }
+
+    /**
+     * Reanuda la música al salir de la pantalla de juego.
+     */
+    fun resumeFromGame() {
+        isInGameMode = false
+        resumeMusic()
+    }
+
+    /**
+     * Reanuda la música si estaba reproduciéndose.
+     * No reanuda si estamos en modo juego.
      */
     fun resumeMusic() {
+        // No reanudar si estamos en modo juego
+        if (isInGameMode) {
+            return
+        }
+
         isPaused = false
         if (isMusicEnabled && shouldPlayMusic) {
             mediaPlayer?.let {
