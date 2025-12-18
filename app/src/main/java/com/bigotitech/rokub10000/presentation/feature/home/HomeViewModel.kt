@@ -19,7 +19,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,18 +51,28 @@ class HomeViewModel @Inject constructor(
         loadPlayers()
     }
 
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     private fun loadCurrentUser() {
         viewModelScope.launch {
             try {
-                val selectedUserId = userPreferencesManager.selectedUserId.first()
-                if (selectedUserId > 0) {
-                    val player = playerRepository.getPlayerById(selectedUserId)
-                    if (player != null) {
-                        _uiState.update { it.copy(currentUser = player) }
-                        loadUserStats(player)
-                        loadLastGame(player)
+                userPreferencesManager.selectedUserId
+                    .distinctUntilChanged()
+                    .flatMapLatest { userId ->
+                        if (userId > 0) {
+                            playerRepository.getPlayerByIdFlow(userId)
+                        } else {
+                            kotlinx.coroutines.flow.flowOf(null)
+                        }
                     }
-                }
+                    .collectLatest { player ->
+                        if (player != null) {
+                            _uiState.update { it.copy(currentUser = player) }
+                            loadUserStats(player)
+                            loadLastGame(player)
+                        } else {
+                            _uiState.update { it.copy(currentUser = null) }
+                        }
+                    }
             } catch (e: Exception) {
                 // Silently fail
             }
