@@ -1,9 +1,5 @@
 package com.bigotitech.rokub10000.presentation.feature.player
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +35,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -74,7 +69,6 @@ import com.bigotitech.rokub10000.presentation.common.theme.LocalDimensions
 import com.bigotitech.rokub10000.presentation.feature.player.state.PlayerDialogState
 import com.bigotitech.rokub10000.presentation.feature.player.state.PlayerUiState
 import com.bigotitech.rokub10000.presentation.feature.player.state.PlayerWithBestTurn
-import kotlinx.coroutines.delay
 
 @Composable
 fun PlayerScreen(
@@ -252,15 +246,7 @@ private fun PlayersList(
             items = playersWithBestTurn,
             key = { _, playerWithBestTurn -> playerWithBestTurn.player.id }
         ) { index, playerWithBestTurn ->
-            var visible by remember { mutableStateOf(false) }
-
-            LaunchedEffect(Unit) {
-                delay(100L * index)
-                visible = true
-            }
-
-            AnimatedPlayerCard(
-                visible = visible,
+            PlayerCard(
                 player = playerWithBestTurn.player,
                 bestTurnScore = playerWithBestTurn.bestTurnScore,
                 onEditPlayer = { onEditPlayer(playerWithBestTurn.player) },
@@ -271,31 +257,6 @@ private fun PlayersList(
         item {
             Spacer(modifier = Modifier.height(dimensions.headerIconSize))
         }
-    }
-}
-
-@Composable
-private fun AnimatedPlayerCard(
-    visible: Boolean,
-    player: Player,
-    bestTurnScore: Int,
-    onEditPlayer: () -> Unit,
-    onDeletePlayer: () -> Unit
-) {
-    AnimatedVisibility(
-        visible = visible,
-        enter = fadeIn(animationSpec = tween(500)) +
-                slideInVertically(
-                    initialOffsetY = { it / 3 },
-                    animationSpec = tween(durationMillis = 500)
-                )
-    ) {
-        PlayerCard(
-            player = player,
-            bestTurnScore = bestTurnScore,
-            onEditPlayer = onEditPlayer,
-            onDeletePlayer = onDeletePlayer
-        )
     }
 }
 
