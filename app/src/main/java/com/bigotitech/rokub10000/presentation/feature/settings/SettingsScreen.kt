@@ -45,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bigotitech.rokub10000.R
 import com.bigotitech.rokub10000.core.ads.AdConstants
 import com.bigotitech.rokub10000.presentation.common.components.ads.BannerAd
+import com.bigotitech.rokub10000.presentation.common.components.dialog.LanguageSelectionDialog
 import com.bigotitech.rokub10000.data.preferences.UserPreferencesManager
 import com.bigotitech.rokub10000.presentation.common.theme.LocalDimensions
 import com.bigotitech.rokub10000.presentation.feature.settings.state.SettingItem
@@ -506,65 +507,9 @@ private fun LanguageCard(
             onDismiss = { showDialog = false },
             onLanguageSelected = { language ->
                 onLanguageChange(language)
-                showDialog = false
             }
         )
     }
-}
-
-// ==================== Language Selection Dialog ====================
-
-@Composable
-private fun LanguageSelectionDialog(
-    currentLanguage: String,
-    onDismiss: () -> Unit,
-    onLanguageSelected: (String) -> Unit
-) {
-    val languages = listOf(
-        UserPreferencesManager.LANGUAGE_SYSTEM to stringResource(R.string.language_system),
-        UserPreferencesManager.LANGUAGE_SPANISH to stringResource(R.string.language_spanish),
-        UserPreferencesManager.LANGUAGE_ENGLISH to stringResource(R.string.language_english),
-        UserPreferencesManager.LANGUAGE_CATALAN to stringResource(R.string.language_catalan),
-        UserPreferencesManager.LANGUAGE_FRENCH to stringResource(R.string.language_french)
-    )
-
-    androidx.compose.material3.AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(R.string.select_language),
-                style = MaterialTheme.typography.titleLarge
-            )
-        },
-        text = {
-            Column {
-                languages.forEach { (code, name) ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onLanguageSelected(code) }
-                            .padding(vertical = LocalDimensions.current.spaceSmall),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        androidx.compose.material3.RadioButton(
-                            selected = currentLanguage == code,
-                            onClick = { onLanguageSelected(code) }
-                        )
-                        Text(
-                            text = name,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = LocalDimensions.current.spaceSmall)
-                        )
-                    }
-                }
-            }
-        },
-        confirmButton = {
-            androidx.compose.material3.TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
-            }
-        }
-    )
 }
 
 // ==================== Privacy Policy Card ====================
