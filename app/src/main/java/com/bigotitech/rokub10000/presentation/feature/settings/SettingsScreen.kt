@@ -51,8 +51,6 @@ import com.bigotitech.rokub10000.presentation.common.theme.LocalDimensions
 import com.bigotitech.rokub10000.presentation.feature.settings.state.SettingItem
 import com.bigotitech.rokub10000.presentation.feature.settings.state.SoundAttribution
 
-private const val PRIVACY_POLICY_URL = "https://your-privacy-policy-url.com"
-
 /**
  * Pantalla de configuraciones de la aplicación.
  * Permite al usuario modificar preferencias como sonido, vibración, música y modo oscuro.
@@ -206,7 +204,7 @@ private fun SettingsContent(
 
         PrivacyPolicyCard(
             onClick = {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY_URL))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(AdConstants.PRIVACY_POLICY_URL))
                 context.startActivity(intent)
             }
         )
