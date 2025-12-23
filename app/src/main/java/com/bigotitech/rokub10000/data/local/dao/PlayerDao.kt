@@ -23,7 +23,7 @@ interface PlayerDao {
     @Delete
     suspend fun deletePlayer(player: PlayerEntity)
 
-    @Query("SELECT * FROM players WHERE isActive = 1 ORDER BY name ASC")
+    @Query("SELECT * FROM players WHERE isActive = 1 AND isBot = 0 ORDER BY name ASC")
     fun getAllActivePlayers(): Flow<List<PlayerEntity>>
 
     @Query("SELECT * FROM players ORDER BY name ASC")
@@ -46,4 +46,7 @@ interface PlayerDao {
 
     @Query("UPDATE players SET totalScore = totalScore + :score WHERE playerId = :playerId")
     suspend fun updateTotalScore(playerId: Long, score: Int)
+
+    @Query("SELECT * FROM players WHERE isBot = 1 AND botDifficulty = :difficulty LIMIT 1")
+    suspend fun getBotByDifficulty(difficulty: String): PlayerEntity?
 }

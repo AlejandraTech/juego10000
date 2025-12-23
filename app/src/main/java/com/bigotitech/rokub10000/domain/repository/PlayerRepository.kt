@@ -12,9 +12,10 @@ interface PlayerRepository {
      *
      * @param name Nombre del jugador
      * @param avatarResourceId ID del recurso de avatar del jugador
+     * @param isBot Indica si el jugador es un bot (no aparece en estadísticas)
      * @return ID del jugador creado
      */
-    suspend fun createPlayer(name: String, avatarResourceId: Int = 0): Long
+    suspend fun createPlayer(name: String, avatarResourceId: Int = 0, isBot: Boolean = false): Long
 
     /**
      * Actualiza los datos de un jugador existente.
@@ -82,4 +83,15 @@ interface PlayerRepository {
      * @return Puntuación más alta de un turno
      */
     suspend fun getPlayerBestTurnScore(playerId: Long): Int
+
+    /**
+     * Obtiene o crea un bot para la dificultad especificada.
+     * Si ya existe un bot para esa dificultad, lo devuelve.
+     * Si no existe, lo crea y lo devuelve.
+     *
+     * @param difficulty Nivel de dificultad del bot
+     * @param botName Nombre del bot
+     * @return ID del bot
+     */
+    suspend fun getOrCreateBot(difficulty: String, botName: String): Long
 }

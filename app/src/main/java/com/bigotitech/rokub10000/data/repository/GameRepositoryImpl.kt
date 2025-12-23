@@ -182,14 +182,21 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Actualiza las estadísticas de los jugadores después de completar una partida.
+     * Los bots no se incluyen en las estadísticas.
      *
      * @param winnerPlayerId ID del jugador ganador
      * @param allPlayerIds Lista de IDs de todos los jugadores en la partida
      */
     private suspend fun updatePlayerStats(winnerPlayerId: Long, allPlayerIds: List<Long>) {
-        playerDao.incrementGamesWon(winnerPlayerId)
+        val winnerPlayer = playerDao.getPlayerById(winnerPlayerId)
+        if (winnerPlayer != null && !winnerPlayer.isBot) {
+            playerDao.incrementGamesWon(winnerPlayerId)
+        }
 
-        val realPlayerIds = allPlayerIds.filter { it > 0 }
+        val realPlayerIds = allPlayerIds.filter { playerId ->
+            val player = playerDao.getPlayerById(playerId)
+            player != null && !player.isBot
+        }
         if (realPlayerIds.isNotEmpty()) {
             playerDao.incrementGamesPlayed(realPlayerIds)
         }
@@ -197,6 +204,7 @@ class GameRepositoryImpl @Inject constructor(
 
     /**
      * Guarda la puntuación de un turno y actualiza las estadísticas del jugador.
+     * Las estadísticas de los bots no se actualizan.
      *
      * @param gameId ID de la partida
      * @param playerId ID del jugador
@@ -225,8 +233,11 @@ class GameRepositoryImpl @Inject constructor(
 
         val scoreId = scoreDao.insertScore(scoreEntity)
 
-        playerDao.updateHighestScore(playerId, totalScore)
-        playerDao.updateTotalScore(playerId, turnScore)
+        val player = playerDao.getPlayerById(playerId)
+        if (player != null && !player.isBot) {
+            playerDao.updateHighestScore(playerId, totalScore)
+            playerDao.updateTotalScore(playerId, turnScore)
+        }
 
         return scoreId
     }

@@ -23,12 +23,14 @@ class PlayerRepositoryImpl @Inject constructor(
      *
      * @param name Nombre del jugador
      * @param avatarResourceId ID del recurso de avatar del jugador
+     * @param isBot Indica si el jugador es un bot (no aparece en estadísticas)
      * @return ID del jugador creado
      */
-    override suspend fun createPlayer(name: String, avatarResourceId: Int): Long {
+    override suspend fun createPlayer(name: String, avatarResourceId: Int, isBot: Boolean): Long {
         val playerEntity = PlayerEntity(
             name = name,
-            avatarResourceId = avatarResourceId
+            avatarResourceId = avatarResourceId,
+            isBot = isBot
         )
         return playerDao.insertPlayer(playerEntity)
     }
@@ -120,5 +122,29 @@ class PlayerRepositoryImpl @Inject constructor(
     override suspend fun getPlayerBestTurnScore(playerId: Long): Int {
         val bestTurn = scoreDao.getPlayerBestTurn(playerId)
         return bestTurn?.turnScore ?: 0
+    }
+
+    /**
+     * Obtiene o crea un bot para la dificultad especificada.
+     * Si ya existe un bot para esa dificultad, lo devuelve.
+     * Si no existe, lo crea y lo devuelve.
+     *
+     * @param difficulty Nivel de dificultad del bot
+     * @param botName Nombre del bot
+     * @return ID del bot
+     */
+    override suspend fun getOrCreateBot(difficulty: String, botName: String): Long {
+        val existingBot = playerDao.getBotByDifficulty(difficulty)
+        if (existingBot != null) {
+            return existingBot.playerId
+        }
+
+        val botEntity = PlayerEntity(
+            name = botName,
+            avatarResourceId = 0,
+            isBot = true,
+            botDifficulty = difficulty
+        )
+        return playerDao.insertPlayer(botEntity)
     }
 }

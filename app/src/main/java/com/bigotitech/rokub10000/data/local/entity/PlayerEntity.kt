@@ -17,5 +17,7 @@ data class PlayerEntity(
     val highestScore: Int = 0,
     val totalScore: Long = 0,
     val isActive: Boolean = true,
+    val isBot: Boolean = false,
+    val botDifficulty: String? = null,
     val createdAt: Long = System.currentTimeMillis()
 )

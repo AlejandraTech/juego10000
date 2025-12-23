@@ -267,7 +267,8 @@ class HomeViewModel @Inject constructor(
                         targetScore = CreateGameUseCase.DEFAULT_TARGET_SCORE,
                         gameMode = gameMode,
                         includeBotPlayer = true,
-                        botName = application.getString(R.string.bot_name)
+                        botName = application.getString(R.string.bot_name),
+                        botDifficulty = currentState.botDifficulty?.toString() ?: "INTERMEDIATE"
                     )
                 } else {
                     createGameUseCase(

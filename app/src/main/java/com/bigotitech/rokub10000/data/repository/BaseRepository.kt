@@ -42,6 +42,8 @@ abstract class BaseRepository {
         highestScore = this.highestScore,
         totalScore = this.totalScore,
         isActive = this.isActive,
+        isBot = this.isBot,
+        botDifficulty = this.botDifficulty,
         createdAt = this.createdAt
     )
 
@@ -71,6 +73,8 @@ abstract class BaseRepository {
         highestScore = this.highestScore,
         totalScore = this.totalScore,
         isActive = this.isActive,
+        isBot = this.isBot,
+        botDifficulty = this.botDifficulty,
         createdAt = this.createdAt
     )
 }

@@ -26,7 +26,7 @@ import com.bigotitech.rokub10000.util.ListConverter
         GameEntity::class,
         ScoreEntity::class
     ],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class, ListConverter::class)
@@ -57,6 +57,7 @@ abstract class AppDatabase : RoomDatabase() {
          * Obtiene una instancia de la base de datos, creándola si no existe.
          *
          * Utiliza el patrón Singleton para garantizar una única instancia de la base de datos.
+         * Las migraciones se aplican automáticamente para preservar los datos del usuario.
          *
          * @param context Contexto de la aplicación
          * @return Instancia de AppDatabase
@@ -68,7 +69,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     DATABASE_NAME
                 )
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(*DatabaseMigrations.ALL_MIGRATIONS)
                     .build()
                 INSTANCE = instance
                 instance

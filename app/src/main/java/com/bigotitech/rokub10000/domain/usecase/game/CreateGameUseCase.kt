@@ -25,6 +25,7 @@ class CreateGameUseCase @Inject constructor(
      * @param gameMode Modo de juego (MULTIPLAYER, SINGLE_PLAYER)
      * @param includeBotPlayer Si es true, añade un jugador Bot a la partida (para modo individual)
      * @param botName Nombre del Bot (por defecto "Bot")
+     * @param botDifficulty Dificultad del bot (BEGINNER, INTERMEDIATE, EXPERT)
      * @return ID de la partida creada
      */
     suspend operator fun invoke(
@@ -32,14 +33,15 @@ class CreateGameUseCase @Inject constructor(
         targetScore: Int = DEFAULT_TARGET_SCORE,
         gameMode: String = MODE_MULTIPLAYER,
         includeBotPlayer: Boolean = false,
-        botName: String = "Bot"
+        botName: String = "Bot",
+        botDifficulty: String = "INTERMEDIATE"
     ): Result<Long> {
         return try {
             if (playerIds.isEmpty()) {
                 return Result.failure(IllegalArgumentException("Se requiere al menos un jugador"))
             }
 
-            val finalPlayerIds = prepareFinalPlayerList(playerIds, gameMode, includeBotPlayer, botName)
+            val finalPlayerIds = prepareFinalPlayerList(playerIds, gameMode, includeBotPlayer, botName, botDifficulty)
 
             val gameId = gameRepository.createGame(
                 playerIds = finalPlayerIds,
@@ -48,7 +50,7 @@ class CreateGameUseCase @Inject constructor(
                 additionalData = if (includeBotPlayer) {
                     mapOf(
                         "botName" to botName,
-                        "isBot" to true
+                        "botDifficulty" to botDifficulty
                     )
                 } else emptyMap()
             )
@@ -61,24 +63,20 @@ class CreateGameUseCase @Inject constructor(
     }
 
     /**
-     * Prepara la lista final de jugadores, añadiendo un bot si es necesario
+     * Prepara la lista final de jugadores, reutilizando un bot existente si es necesario
      */
     private suspend fun prepareFinalPlayerList(
         playerIds: List<Long>,
         gameMode: String,
         includeBotPlayer: Boolean,
-        botName: String
+        botName: String,
+        botDifficulty: String
     ): List<Long> {
         if (includeBotPlayer && gameMode == MODE_SINGLE_PLAYER) {
-            Log.d("CreateGameUseCase", "Creando juego con Bot")
-
-            val botPlayerId = playerRepository.createPlayer(
-                name = botName,
-                avatarResourceId = 0
+            val botPlayerId = playerRepository.getOrCreateBot(
+                difficulty = botDifficulty,
+                botName = botName
             )
-
-            Log.d("CreateGameUseCase", "Bot creado con ID: $botPlayerId")
-
             return playerIds + botPlayerId
         }
 
