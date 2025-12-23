@@ -355,31 +355,53 @@ private fun GameHistoryTab(
 
     val currentHistory = if (selectedHistoryType == 0) botGameHistory else multiplayerGameHistory
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        HistoryTypeSelector(
-            options = historyTypes,
-            selectedIndex = selectedHistoryType,
-            onOptionSelected = { selectedHistoryType = it }
+    if (currentHistory.isEmpty() && botGameHistory.isEmpty() && multiplayerGameHistory.isEmpty()) {
+        EmptyStateMessage(
+            message = stringResource(R.string.no_registered_games),
+            iconResId = R.drawable.ic_dice
         )
+    } else {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                start = dimensions.spaceMedium,
+                end = dimensions.spaceMedium,
+                top = dimensions.spaceMedium,
+                bottom = dimensions.spaceMedium
+            ),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spaceMedium)
+        ) {
+            item {
+                TabHeader(
+                    title = stringResource(R.string.game_history),
+                    subtitle = stringResource(R.string.games_count, currentHistory.size)
+                )
+            }
 
-        if (currentHistory.isEmpty()) {
-            EmptyStateMessage(
-                message = stringResource(R.string.no_registered_games),
-                iconResId = R.drawable.ic_dice
-            )
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(dimensions.spaceMedium),
-                verticalArrangement = Arrangement.spacedBy(dimensions.spaceMedium)
-            ) {
+            item {
+                HistoryTypeSelector(
+                    options = historyTypes,
+                    selectedIndex = selectedHistoryType,
+                    onOptionSelected = { selectedHistoryType = it }
+                )
+            }
+
+            if (currentHistory.isEmpty()) {
                 item {
-                    TabHeader(
-                        title = stringResource(R.string.game_history),
-                        subtitle = stringResource(R.string.games_count, currentHistory.size)
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.no_registered_games),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                        )
+                    }
                 }
-
+            } else {
                 items(currentHistory) { gameWithWinner ->
                     GameHistoryCard(
                         gameWithWinner = gameWithWinner
@@ -401,8 +423,7 @@ private fun HistoryTypeSelector(
 
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(dimensions.spaceMedium)
     ) {
         options.forEachIndexed { index, option ->
