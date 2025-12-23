@@ -30,7 +30,7 @@ fun LanguageSelectionDialog(
     onLanguageSelected: (String) -> Unit
 ) {
     val dimensions = LocalDimensions.current
-    var selectedLanguage by remember { mutableStateOf(currentLanguage) }
+    var selectedLanguage by remember(currentLanguage) { mutableStateOf(currentLanguage) }
 
     val languageOptions = listOf(
         LanguageOption(
