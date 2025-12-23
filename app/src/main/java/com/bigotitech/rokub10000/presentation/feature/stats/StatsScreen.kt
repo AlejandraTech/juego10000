@@ -1,10 +1,16 @@
 package com.bigotitech.rokub10000.presentation.feature.stats
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,9 +20,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -36,10 +44,6 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -184,6 +188,11 @@ private fun StatsTopAppBar(onBackClick: () -> Unit) {
 
 // ==================== Tab Row ====================
 
+private data class StatsTab(
+    val title: String,
+    val icon: Int
+)
+
 @Composable
 private fun StatsTabRow(
     tabs: List<String>,
@@ -191,31 +200,78 @@ private fun StatsTabRow(
     onTabSelected: (Int) -> Unit
 ) {
     val dimensions = LocalDimensions.current
-    TabRow(
-        selectedTabIndex = selectedTab,
-        containerColor = Primary,
-        contentColor = Color.White,
-        indicator = { tabPositions ->
-            SecondaryIndicator(
-                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
-                height = dimensions.spaceExtraSmall - 1.dp,
-                color = Color.White
-            )
-        }
+
+    val tabsWithIcons = listOf(
+        StatsTab(tabs.getOrElse(0) { "" }, R.drawable.ic_add_player),
+        StatsTab(tabs.getOrElse(1) { "" }, R.drawable.ic_history),
+        StatsTab(tabs.getOrElse(2) { "" }, R.drawable.ic_trophy)
+    )
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
     ) {
-        tabs.forEachIndexed { index, title ->
-            Tab(
-                selected = selectedTab == index,
-                onClick = { onTabSelected(index) },
-                text = {
+        tabsWithIcons.forEachIndexed { index, tab ->
+            val isSelected = selectedTab == index
+
+            val borderColor by animateColorAsState(
+                targetValue = if (isSelected) Primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                animationSpec = tween(200),
+                label = "tab_border_color"
+            )
+
+            val contentColor by animateColorAsState(
+                targetValue = if (isSelected) Primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                animationSpec = tween(200),
+                label = "tab_content_color"
+            )
+
+            val borderWidth by animateDpAsState(
+                targetValue = if (isSelected) 2.dp else 1.dp,
+                animationSpec = tween(200),
+                label = "tab_border_width"
+            )
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(44.dp)
+                    .clip(RoundedCornerShape(dimensions.spaceSmall + dimensions.spaceExtraSmall))
+                    .border(
+                        width = borderWidth,
+                        color = borderColor,
+                        shape = RoundedCornerShape(dimensions.spaceSmall + dimensions.spaceExtraSmall)
+                    )
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { onTabSelected(index) },
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = tab.icon),
+                        contentDescription = null,
+                        modifier = Modifier.size(dimensions.iconSizeSmall),
+                        tint = contentColor
+                    )
+
+                    Spacer(modifier = Modifier.width(dimensions.spaceExtraSmall))
+
                     Text(
-                        text = title,
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
-                        )
+                        text = tab.title,
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+                        color = contentColor,
+                        maxLines = 1
                     )
                 }
-            )
+            }
         }
     }
 }
@@ -341,32 +397,70 @@ private fun HistoryTypeSelector(
     onOptionSelected: (Int) -> Unit
 ) {
     val dimensions = LocalDimensions.current
+    val icons = listOf(R.drawable.ic_robot, R.drawable.ic_people)
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
-        horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spaceMedium)
     ) {
         options.forEachIndexed { index, option ->
             val isSelected = index == selectedIndex
-            Surface(
+
+            val borderColor by animateColorAsState(
+                targetValue = if (isSelected) Primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.25f),
+                animationSpec = tween(200),
+                label = "selector_border"
+            )
+
+            val contentColor by animateColorAsState(
+                targetValue = if (isSelected) Primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                animationSpec = tween(200),
+                label = "selector_content"
+            )
+
+            val borderWidth by animateDpAsState(
+                targetValue = if (isSelected) 1.5.dp else 1.dp,
+                animationSpec = tween(200),
+                label = "selector_border_width"
+            )
+
+            Box(
                 modifier = Modifier
                     .weight(1f)
-                    .height(40.dp),
-                shape = RoundedCornerShape(dimensions.spaceSmall),
-                color = if (isSelected) Primary else MaterialTheme.colorScheme.surfaceVariant,
-                onClick = { onOptionSelected(index) }
+                    .height(46.dp)
+                    .clip(RoundedCornerShape(dimensions.spaceMedium))
+                    .border(
+                        width = borderWidth,
+                        color = borderColor,
+                        shape = RoundedCornerShape(dimensions.spaceMedium)
+                    )
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { onOptionSelected(index) },
+                contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Icon(
+                        painter = painterResource(id = icons.getOrElse(index) { R.drawable.ic_dice }),
+                        contentDescription = null,
+                        modifier = Modifier.size(dimensions.iconSizeSmall + 2.dp),
+                        tint = contentColor
+                    )
+
+                    Spacer(modifier = Modifier.width(dimensions.spaceSmall))
+
                     Text(
                         text = option,
                         style = MaterialTheme.typography.labelLarge,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                        color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+                        fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+                        color = contentColor,
+                        maxLines = 1
                     )
                 }
             }
