@@ -62,6 +62,22 @@ interface GameRepository {
     fun getPlayerGames(playerId: Long): Flow<List<Game>>
 
     /**
+     * Obtiene las partidas contra el bot de un jugador.
+     *
+     * @param playerId ID del jugador
+     * @return Flujo que emite la lista de partidas contra el bot
+     */
+    fun getPlayerBotGames(playerId: Long): Flow<List<Game>>
+
+    /**
+     * Obtiene las partidas multijugador de un jugador.
+     *
+     * @param playerId ID del jugador
+     * @return Flujo que emite la lista de partidas multijugador
+     */
+    fun getPlayerMultiplayerGames(playerId: Long): Flow<List<Game>>
+
+    /**
      * Actualiza el estado de una partida.
      *
      * @param gameId ID de la partida

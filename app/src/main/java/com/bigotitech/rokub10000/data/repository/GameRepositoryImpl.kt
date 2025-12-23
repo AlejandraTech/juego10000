@@ -130,6 +130,26 @@ class GameRepositoryImpl @Inject constructor(
     }
 
     /**
+     * Obtiene las partidas contra el bot de un jugador.
+     *
+     * @param playerId ID del jugador
+     * @return Flujo que emite la lista de partidas contra el bot
+     */
+    override fun getPlayerBotGames(playerId: Long): Flow<List<Game>> {
+        return gameDao.getPlayerBotGames(playerId).map { list -> list.map { it.toDomainModel() } }
+    }
+
+    /**
+     * Obtiene las partidas multijugador de un jugador.
+     *
+     * @param playerId ID del jugador
+     * @return Flujo que emite la lista de partidas multijugador
+     */
+    override fun getPlayerMultiplayerGames(playerId: Long): Flow<List<Game>> {
+        return gameDao.getPlayerMultiplayerGames(playerId).map { list -> list.map { it.toDomainModel() } }
+    }
+
+    /**
      * Actualiza el estado de una partida.
      *
      * @param gameId ID de la partida a actualizar

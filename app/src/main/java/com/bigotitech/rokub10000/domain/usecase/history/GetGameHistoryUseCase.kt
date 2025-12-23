@@ -53,4 +53,22 @@ class GetGameHistoryUseCase @Inject constructor(
                 }
             }
     }
+
+    /**
+     * Obtiene el historial de partidas contra el bot de un jugador específico
+     * @param playerId ID del jugador
+     * @return Flow con lista de partidas contra el bot del jugador
+     */
+    fun getPlayerBotGameHistory(playerId: Long): Flow<List<Game>> {
+        return gameRepository.getPlayerBotGames(playerId)
+    }
+
+    /**
+     * Obtiene el historial de partidas multijugador de un jugador específico
+     * @param playerId ID del jugador
+     * @return Flow con lista de partidas multijugador del jugador
+     */
+    fun getPlayerMultiplayerGameHistory(playerId: Long): Flow<List<Game>> {
+        return gameRepository.getPlayerMultiplayerGames(playerId)
+    }
 }

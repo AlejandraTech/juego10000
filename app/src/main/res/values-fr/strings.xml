@@ -225,6 +225,8 @@
     <string name="round_number">Manche %1$d</string>
     <string name="victory_result">Victoire</string>
     <string name="defeat_result">Défaite</string>
+    <string name="history_vs_bot">vs Bot</string>
+    <string name="history_multiplayer">Multijoueur</string>
 
     <!-- ============================ -->
     <!-- ÉCRAN DE CONFIGURATION       -->

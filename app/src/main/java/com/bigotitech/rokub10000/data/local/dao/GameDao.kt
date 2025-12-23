@@ -39,4 +39,10 @@ interface GameDao {
 
     @Query("DELETE FROM games WHERE gameId = :gameId")
     suspend fun deleteGame(gameId: Long)
+
+    @Query("SELECT * FROM games WHERE isCompleted = 1 AND gameMode = 'SINGLE_PLAYER' AND :playerId IN (SELECT playerId FROM scores WHERE gameId = games.gameId) ORDER BY completedAt DESC")
+    fun getPlayerBotGames(playerId: Long): Flow<List<GameEntity>>
+
+    @Query("SELECT * FROM games WHERE isCompleted = 1 AND gameMode = 'MULTIPLAYER' AND :playerId IN (SELECT playerId FROM scores WHERE gameId = games.gameId) ORDER BY completedAt DESC")
+    fun getPlayerMultiplayerGames(playerId: Long): Flow<List<GameEntity>>
 }

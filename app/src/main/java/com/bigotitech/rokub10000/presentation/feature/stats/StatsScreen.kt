@@ -46,7 +46,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -86,6 +89,8 @@ fun StatsScreen(
 ) {
     val playerStats by viewModel.playerStats.collectAsState()
     val gameHistory by viewModel.gameHistory.collectAsState()
+    val botGameHistory by viewModel.botGameHistory.collectAsState()
+    val multiplayerGameHistory by viewModel.multiplayerGameHistory.collectAsState()
     val topScores by viewModel.topScores.collectAsState()
 
     val tabs = listOf(
@@ -130,7 +135,10 @@ fun StatsScreen(
             ) { page ->
                 when (page) {
                     0 -> PlayerStatsTab(players = playerStats)
-                    1 -> GameHistoryTab(gameHistory = gameHistory)
+                    1 -> GameHistoryTab(
+                        botGameHistory = botGameHistory,
+                        multiplayerGameHistory = multiplayerGameHistory
+                    )
                     2 -> TopScoresTab(topScores = topScores)
                 }
             }
@@ -277,31 +285,90 @@ private fun PlayerStatsTab(players: List<PlayerStats>) {
 // ==================== Game History Tab ====================
 
 @Composable
-private fun GameHistoryTab(gameHistory: List<GameWithWinner>) {
+private fun GameHistoryTab(
+    botGameHistory: List<GameWithWinner>,
+    multiplayerGameHistory: List<GameWithWinner>
+) {
+    val dimensions = LocalDimensions.current
+    var selectedHistoryType by remember { mutableIntStateOf(0) }
+
+    val historyTypes = listOf(
+        stringResource(R.string.history_vs_bot),
+        stringResource(R.string.history_multiplayer)
+    )
+
+    val currentHistory = if (selectedHistoryType == 0) botGameHistory else multiplayerGameHistory
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        HistoryTypeSelector(
+            options = historyTypes,
+            selectedIndex = selectedHistoryType,
+            onOptionSelected = { selectedHistoryType = it }
+        )
+
+        if (currentHistory.isEmpty()) {
+            EmptyStateMessage(
+                message = stringResource(R.string.no_registered_games),
+                iconResId = R.drawable.ic_dice
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(dimensions.spaceMedium),
+                verticalArrangement = Arrangement.spacedBy(dimensions.spaceMedium)
+            ) {
+                item {
+                    TabHeader(
+                        title = stringResource(R.string.game_history),
+                        subtitle = stringResource(R.string.games_count, currentHistory.size)
+                    )
+                }
+
+                items(currentHistory) { gameWithWinner ->
+                    GameHistoryCard(
+                        gameWithWinner = gameWithWinner
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HistoryTypeSelector(
+    options: List<String>,
+    selectedIndex: Int,
+    onOptionSelected: (Int) -> Unit
+) {
     val dimensions = LocalDimensions.current
 
-    if (gameHistory.isEmpty()) {
-        EmptyStateMessage(
-            message = stringResource(R.string.no_registered_games),
-            iconResId = R.drawable.ic_dice
-        )
-    } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(dimensions.spaceMedium),
-            verticalArrangement = Arrangement.spacedBy(dimensions.spaceMedium)
-        ) {
-            item {
-                TabHeader(
-                    title = stringResource(R.string.game_history),
-                    subtitle = stringResource(R.string.games_count, gameHistory.size)
-                )
-            }
-
-            items(gameHistory) { gameWithWinner ->
-                GameHistoryCard(
-                    gameWithWinner = gameWithWinner
-                )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = dimensions.spaceMedium, vertical = dimensions.spaceSmall),
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spaceSmall)
+    ) {
+        options.forEachIndexed { index, option ->
+            val isSelected = index == selectedIndex
+            Surface(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(40.dp),
+                shape = RoundedCornerShape(dimensions.spaceSmall),
+                color = if (isSelected) Primary else MaterialTheme.colorScheme.surfaceVariant,
+                onClick = { onOptionSelected(index) }
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = option,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                        color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }

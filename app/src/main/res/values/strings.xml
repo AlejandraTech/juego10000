@@ -225,6 +225,8 @@
     <string name="round_number">Ronda %1$d</string>
     <string name="victory_result">Victoria</string>
     <string name="defeat_result">Derrota</string>
+    <string name="history_vs_bot">vs Bot</string>
+    <string name="history_multiplayer">Multijugador</string>
 
     <!-- ============================ -->
     <!-- PANTALLA DE CONFIGURACIÓN    -->

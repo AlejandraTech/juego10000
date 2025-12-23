@@ -42,12 +42,20 @@ class StatsViewModel @Inject constructor(
     private val _gameHistory = MutableStateFlow<List<GameWithWinner>>(emptyList())
     val gameHistory: StateFlow<List<GameWithWinner>> = _gameHistory
 
+    private val _botGameHistory = MutableStateFlow<List<GameWithWinner>>(emptyList())
+    val botGameHistory: StateFlow<List<GameWithWinner>> = _botGameHistory
+
+    private val _multiplayerGameHistory = MutableStateFlow<List<GameWithWinner>>(emptyList())
+    val multiplayerGameHistory: StateFlow<List<GameWithWinner>> = _multiplayerGameHistory
+
     private val _topScores = MutableStateFlow<List<ScoreWithPlayer>>(emptyList())
     val topScores: StateFlow<List<ScoreWithPlayer>> = _topScores
 
     init {
         loadPlayerStats()
         loadGameHistory()
+        loadBotGameHistory()
+        loadMultiplayerGameHistory()
         loadTopScores()
     }
 
@@ -96,6 +104,66 @@ class StatsViewModel @Inject constructor(
                 }
             }.collect { history ->
                 _gameHistory.value = history
+            }
+        }
+    }
+
+    /**
+     * Carga el historial de partidas contra el bot del usuario seleccionado.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun loadBotGameHistory() {
+        viewModelScope.launch {
+            val playersFlow = playerRepository.getAllActivePlayers()
+            val currentUserIdFlow = userPreferencesManager.selectedUserId
+
+            combine(currentUserIdFlow, playersFlow) { currentUserId, players ->
+                Pair(currentUserId, players)
+            }.flatMapLatest { (currentUserId, players) ->
+                if (currentUserId > 0) {
+                    getGameHistoryUseCase.getPlayerBotGameHistory(currentUserId).map { games ->
+                        games.map { game ->
+                            val winner = game.winnerPlayerId?.let { winnerId ->
+                                players.find { it.id == winnerId }
+                            }
+                            GameWithWinner(game = game, winner = winner)
+                        }
+                    }
+                } else {
+                    flowOf(emptyList())
+                }
+            }.collect { history ->
+                _botGameHistory.value = history
+            }
+        }
+    }
+
+    /**
+     * Carga el historial de partidas multijugador del usuario seleccionado.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun loadMultiplayerGameHistory() {
+        viewModelScope.launch {
+            val playersFlow = playerRepository.getAllActivePlayers()
+            val currentUserIdFlow = userPreferencesManager.selectedUserId
+
+            combine(currentUserIdFlow, playersFlow) { currentUserId, players ->
+                Pair(currentUserId, players)
+            }.flatMapLatest { (currentUserId, players) ->
+                if (currentUserId > 0) {
+                    getGameHistoryUseCase.getPlayerMultiplayerGameHistory(currentUserId).map { games ->
+                        games.map { game ->
+                            val winner = game.winnerPlayerId?.let { winnerId ->
+                                players.find { it.id == winnerId }
+                            }
+                            GameWithWinner(game = game, winner = winner)
+                        }
+                    }
+                } else {
+                    flowOf(emptyList())
+                }
+            }.collect { history ->
+                _multiplayerGameHistory.value = history
             }
         }
     }
