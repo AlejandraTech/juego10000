@@ -229,6 +229,12 @@
     <string name="history_multiplayer">Multiplayer</string>
 
     <!-- ============================ -->
+    <!-- IN-GAME SETTINGS             -->
+    <!-- ============================ -->
+    <string name="in_game_settings">Quick settings</string>
+    <string name="in_game_settings_description">Configure sound and appearance</string>
+
+    <!-- ============================ -->
     <!-- SETTINGS SCREEN              -->
     <!-- ============================ -->
 

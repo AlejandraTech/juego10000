@@ -229,6 +229,12 @@
     <string name="history_multiplayer">Multijugador</string>
 
     <!-- ============================ -->
+    <!-- CONFIGURACIÓ EN JOC          -->
+    <!-- ============================ -->
+    <string name="in_game_settings">Ajustos ràpids</string>
+    <string name="in_game_settings_description">Configura el so i l\'aparença</string>
+
+    <!-- ============================ -->
     <!-- PANTALLA DE CONFIGURACIÓ     -->
     <!-- ============================ -->
 

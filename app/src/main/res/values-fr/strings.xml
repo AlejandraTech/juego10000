@@ -229,6 +229,12 @@
     <string name="history_multiplayer">Multijoueur</string>
 
     <!-- ============================ -->
+    <!-- PARAMÈTRES EN JEU            -->
+    <!-- ============================ -->
+    <string name="in_game_settings">Paramètres rapides</string>
+    <string name="in_game_settings_description">Configurer le son et l\'apparence</string>
+
+    <!-- ============================ -->
     <!-- ÉCRAN DE CONFIGURATION       -->
     <!-- ============================ -->
 

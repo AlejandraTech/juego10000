@@ -41,6 +41,10 @@ import androidx.compose.material.icons.automirrored.rounded.ExitToApp
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.VolumeOff
+import androidx.compose.material.icons.outlined.VolumeUp
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -107,6 +111,7 @@ import com.bigotitech.rokub10000.presentation.common.theme.ScreenOrientation
 import com.bigotitech.rokub10000.presentation.common.theme.Secondary
 import com.bigotitech.rokub10000.presentation.common.util.getDiceDrawable
 import com.bigotitech.rokub10000.presentation.feature.game.state.GameUiState
+import com.bigotitech.rokub10000.presentation.feature.settings.SettingsViewModel
 import com.bigotitech.rokub10000.presentation.feature.winner.GameVictoryScreen
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -123,7 +128,8 @@ private val AccentColor = Color(0xFFFFD700)
 fun GameScreen(
     navController: NavController,
     gameId: Long,
-    viewModel: GameViewModel = hiltViewModel()
+    viewModel: GameViewModel = hiltViewModel(),
+    settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
     val dimensions = LocalDimensions.current
     val windowInfo = LocalWindowInfo.current
@@ -138,6 +144,9 @@ fun GameScreen(
     var showPointsSavedIndicator by remember { mutableStateOf(false) }
     var showScoreExceededIndicator by remember { mutableStateOf(false) }
     var showExitConfirmationDialog by remember { mutableStateOf(false) }
+
+    val soundEnabled by settingsViewModel.soundEnabled.collectAsState()
+    val darkMode by settingsViewModel.darkMode.collectAsState()
 
     val contentVisible = remember { MutableTransitionState(false) }
     LaunchedEffect(Unit) { contentVisible.targetState = true }
@@ -212,7 +221,11 @@ fun GameScreen(
         topBar = {
             GameTopAppBar(
                 title = stringResource(R.string.app_name),
-                onBackClick = { showExitConfirmationDialog = true }
+                onBackClick = { showExitConfirmationDialog = true },
+                soundEnabled = soundEnabled,
+                darkMode = darkMode,
+                onSoundToggle = { settingsViewModel.setSoundEnabled(!soundEnabled) },
+                onThemeToggle = { settingsViewModel.setDarkMode(!darkMode) }
             )
         }
     ) { paddingValues ->
@@ -412,7 +425,11 @@ private fun GameContent(
 @Composable
 private fun GameTopAppBar(
     title: String,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    soundEnabled: Boolean,
+    darkMode: Boolean,
+    onSoundToggle: () -> Unit,
+    onThemeToggle: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -427,6 +444,24 @@ private fun GameTopAppBar(
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,
                     contentDescription = stringResource(R.string.back),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        },
+        actions = {
+            // Sound toggle
+            IconButton(onClick = onSoundToggle) {
+                Icon(
+                    imageVector = if (soundEnabled) Icons.Outlined.VolumeUp else Icons.Outlined.VolumeOff,
+                    contentDescription = stringResource(R.string.sound_effects),
+                    tint = if (soundEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            // Theme toggle
+            IconButton(onClick = onThemeToggle) {
+                Icon(
+                    imageVector = if (darkMode) Icons.Outlined.DarkMode else Icons.Outlined.LightMode,
+                    contentDescription = stringResource(R.string.dark_mode),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
@@ -1423,3 +1458,4 @@ private fun ExitConfirmationDialog(
         )
     }
 }
+
